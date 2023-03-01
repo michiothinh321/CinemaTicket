@@ -1,0 +1,25 @@
+.footer_content{
+    color: white;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    align-items: center;
+    i{
+        background-color: white;
+        color: black;
+    }
+
+}
+
+.footer{
+    border-top: 2px white solid;
+    background-color: #333;
+    color: white;
+    height: 60px;
+    text-align: center;
+}
+.footer_width{
+    width: 100%;
+    background-color: #333;
+}

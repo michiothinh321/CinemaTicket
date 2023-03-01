@@ -1,0 +1,23 @@
+.history_content{
+    h1{
+        text-align: center;
+        color: red;
+    }
+    table,th,td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        margin: 0 auto;
+        background-color: #111;
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+        text-align: left;
+        padding: 10px 20px;
+    
+    }
+    table{
+        width: 90%;
+        margin-top: 50px;
+    }
+}
+

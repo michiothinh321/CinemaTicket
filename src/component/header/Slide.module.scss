@@ -1,0 +1,23 @@
+.slide_img{
+    width: 100%;
+    object-fit: fill;
+    height: 700px;
+}
+
+.slide_icon{
+    display: flex;
+    justify-content:space-between;
+    font-size: 50px;
+    align-items: center;
+    position: relative;
+    bottom: 300px;
+    color: white;
+}
+i{
+    position: relative;
+    background-color: black;
+    color: white;
+    padding: 5px 15px;
+    text-align: center;
+    border-radius: 50%;
+}
