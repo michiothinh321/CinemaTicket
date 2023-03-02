@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./PageAdmin.module.scss";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
-export default function MenuLeft() {
+export default function Sidebar() {
   return (
     <>
       <div className={clsx(styles.admin_left)}>

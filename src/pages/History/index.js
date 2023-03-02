@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./History.module.scss";
 import clsx from "clsx";
-import Header from "../header/Header";
 
 export default function History() {
   const [historyTicket, setHitoryTicket] = useState([]);
@@ -46,7 +45,6 @@ export default function History() {
 
   return (
     <>
-      <Header />
       <div className={clsx(styles.history_content)}>
         <h1>LỊCH SỬ ĐẶT VÉ</h1>
         <table>
