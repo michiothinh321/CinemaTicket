@@ -26,9 +26,11 @@ function Header() {
           Quản lý
         </button>
       </Link>
-      <button className={clsx(styles.header_menu, styles.btn_header)}>
-        Đăng xuất
-      </button>
+      <Link to="/login">
+        <button className={clsx(styles.header_menu, styles.btn_header)}>
+          Đăng nhập
+        </button>
+      </Link>
     </div>
   );
 }

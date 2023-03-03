@@ -1,0 +1,49 @@
+.loginPage{
+    margin: 100px auto;
+    display: flex;
+    justify-content: center;
+}
+.loginPage_right{
+    width: 455px;
+    height: 255px;
+    padding: 15px;
+    .formControl{
+        display: flex;
+        margin-bottom: 20px;
+        label{
+            width: 150px;
+            position: relative;
+            top: 0;
+            left: 0;
+            line-height: 30px;
+        }
+        input{
+            width: 255px;
+        }
+    }
+}
+
+.loginPage_left{
+    width: 455px;
+    height: 255px;
+    padding: 15px;
+    .formControl{
+        display: flex;
+        margin-bottom: 20px;
+        label{
+            width: 150px;
+            position: relative;
+            top: 0;
+            left: 0;
+            line-height: 30px;
+        }
+        input{
+            width: 255px;
+        }   
+    }
+}
+.form_left,.form_right{
+    background-color: #333333;
+    padding: 32px 25px;
+    border-radius: 20px ;
+}
