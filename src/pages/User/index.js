@@ -1,40 +1,53 @@
 import React, { useState, useEffect } from "react";
-import styles from "./PageAdmin.module.scss";
 import clsx from "clsx";
+import {useSelector} from 'react-redux'
+import {notification} from 'antd'
+
+import styles from "./PageAdmin.module.scss";
+import {user as userAPI} from '../../API'
 
 export default function User() {
+  const [api, contextHolder] = notification.useNotification();
+  const user = useSelector(state=>state.user)
   const [userList, setUserList] = useState([]);
 
   useEffect(() => {
-    setUserList([
-      {
-        id: 1,
-        email: "member1@gmail.com",
-        nameUser: "Thịnh",
-        phone: "0123123123",
-        dateOfBirth: "05/05/2001",
-        sex: "Nam",
-      },
-      {
-        id: 2,
-        email: "member2@gmail.com",
-        nameUser: "Nghĩa",
-        phone: "0456456456",
-        dateOfBirth: "17/01/2001",
-        sex: "Nam",
-      },
-      {
-        id: 3,
-        email: "member3@gmail.com",
-        nameUser: "Thi",
-        phone: "0789789789",
-        dateOfBirth: "04/04/2001",
-        sex: "Nam",
-      },
-    ]);
+    (async()=>{
+      await getUserList()
+    })()
   }, []);
+
+  const getUserList =async ()=>{
+    try {
+      const result = await userAPI.getUserList({token:user.accessToken})
+      setUserList(result.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleDeleteUser =async (email)=>{
+   try {
+    const result = await userAPI.deleteUser({email,token:user.accessToken})
+    if(result.status===200){
+      await getUserList()
+      api.open({
+        type:'success',
+        message:'Delete user successfully.'
+      })
+    }
+   } catch (error) {
+    api.open({
+      type:'error',
+      message:"Delete user failure."
+    })
+    console.log(error)
+   }
+  }
+
   return (
     <>
+    {contextHolder}
       <div className={clsx(styles.admin_right)}>
         <h1>Quản lý người dùng</h1>
         <table>
@@ -44,20 +57,20 @@ export default function User() {
             <th>Họ Tên</th>
             <th>SĐT</th>
             <th>Ngày sinh</th>
-            <th>Giới Tính</th>
             <th>Hành động</th>
           </tr>
-          {userList.map((user) => {
+          {userList.map((user,index) => {
             return (
-              <tr key={user.id}>
-                <td>{user.id}</td>
+              <tr key={user.email}>
+                <td>{index+1}</td>
                 <td>{user.email}</td>
-                <td>{user.nameUser}</td>
+                <td>{user.name}</td>
                 <td>{user.phone}</td>
-                <td>{user.dateOfBirth}</td>
-                <td>{user.sex}</td>
+                <td>{user.dateOfBirth.slice(0,10).split('-').reverse().join('-')}</td>
                 <td>
-                  <button>Xóa</button>
+                  <button onClick={()=>{
+                    handleDeleteUser(user.email)
+                  }}>Xóa</button>
                   <button>Sửa</button>
                 </td>
               </tr>

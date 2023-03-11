@@ -7,3 +7,4 @@ export { default as User } from "./User";
 export { default as Film } from "./Film";
 export { default as History } from "./History";
 export { default as Theater } from "./Theater";
+export { default as Login } from "./Login";

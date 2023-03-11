@@ -10,6 +10,7 @@ import {
   Film,
   History,
   Theater,
+  Login,
 } from "../pages";
 import { DefaultLayout, AdminLayout } from "../layouts";
 
@@ -67,6 +68,11 @@ const publicRoutes = [
     path: "/theater",
     layout: AdminLayout,
     component: Theater,
+  },
+  {
+    path: "/login",
+    layout: DefaultLayout,
+    component: Login,
   },
 ];
 
