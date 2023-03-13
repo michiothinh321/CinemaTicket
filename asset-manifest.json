@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/CinemaTicket/static/css/main.6ab8d1ba.css",
+    "main.js": "/CinemaTicket/static/js/main.3b32538e.js",
+    "static/js/787.fa79b8c8.chunk.js": "/CinemaTicket/static/js/787.fa79b8c8.chunk.js",
+    "static/media/one-piece.jpg": "/CinemaTicket/static/media/one-piece.5a1847ee3e511360c557.jpg",
+    "static/media/culture.png": "/CinemaTicket/static/media/culture.c99ba902a53c3791f03b.png",
+    "static/media/we.png": "/CinemaTicket/static/media/we.ee9ec567126c62dcfc9e.png",
+    "static/media/u22.jpg": "/CinemaTicket/static/media/u22.5fcdd934c501d8281f35.jpg",
+    "static/media/event.png": "/CinemaTicket/static/media/event.160312b45449ae8dba65.png",
+    "static/media/jujutsu-kaisen-chu-thuat-hoi-chien.png": "/CinemaTicket/static/media/jujutsu-kaisen-chu-thuat-hoi-chien.413b79b5811b822dfe5f.png",
+    "index.html": "/CinemaTicket/index.html",
+    "main.6ab8d1ba.css.map": "/CinemaTicket/static/css/main.6ab8d1ba.css.map",
+    "main.3b32538e.js.map": "/CinemaTicket/static/js/main.3b32538e.js.map",
+    "787.fa79b8c8.chunk.js.map": "/CinemaTicket/static/js/787.fa79b8c8.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6ab8d1ba.css",
+    "static/js/main.3b32538e.js"
+  ]
+}
