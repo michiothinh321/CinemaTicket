@@ -11,19 +11,19 @@ const Content = () => {
       {
         id: 1,
         thumb:
-          "http://localhost:3000/static/media/jujutsu-kaisen-chu-thuat-hoi-chien.413b79b5811b822dfe5f.png",
+          "http://localhost:3001/static/media/jujutsu-kaisen-chu-thuat-hoi-chien.413b79b5811b822dfe5f.png",
         name: "A",
       },
       {
         id: 2,
         thumb:
-          "http://localhost:3000/static/media/jujutsu-kaisen-chu-thuat-hoi-chien.413b79b5811b822dfe5f.png",
+          "http://localhost:3001/static/media/jujutsu-kaisen-chu-thuat-hoi-chien.413b79b5811b822dfe5f.png",
         name: "B",
       },
       {
         id: 3,
         thumb:
-          "http://localhost:3000/static/media/jujutsu-kaisen-chu-thuat-hoi-chien.413b79b5811b822dfe5f.png",
+          "http://localhost:3001/static/media/jujutsu-kaisen-chu-thuat-hoi-chien.413b79b5811b822dfe5f.png",
         name: "C",
       },
     ]);
@@ -32,8 +32,12 @@ const Content = () => {
     <>
       <div className={clsx(styles.content_body)}>
         <div className={clsx(styles.content)}>
-          <a href="/">PHIM ĐANG CHIẾU</a>
-          <a href="/">PHIM SẮP CHIẾU</a>
+          <p>
+            <a href="/">PHIM ĐANG CHIẾU</a>
+          </p>
+          <p>
+            <a href="/">PHIM SẮP CHIẾU</a>
+          </p>
         </div>
         <div className={clsx(styles.content_img)}>
           {listFilm.map((film) => {

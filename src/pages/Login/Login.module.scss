@@ -4,7 +4,7 @@
   justify-content: center;
 }
 .loginPage_right {
-  width: 455px;
+  width: 500px;
   // height: 255px;
   padding: 15px;
   .formControl {
@@ -24,7 +24,7 @@
 }
 
 .loginPage_left {
-  width: 455px;
+  width: 500px;
   // height: 255px;
   padding: 15px;
   .formControl {
@@ -45,6 +45,21 @@
 .form_left,
 .form_right {
   background-color: #333333;
-  padding: 32px 25px;
+  opacity: 0.8;
+  color: yellow;
+  padding: 20px 30px;
   border-radius: 20px;
+}
+
+.btn_log {
+  background: white;
+  color: red;
+  font-size: 18px;
+  padding: 10px;
+  font-weight: bold;
+}
+.btn_log:hover {
+  cursor: pointer;
+  background-color: black;
+  color: white;
 }

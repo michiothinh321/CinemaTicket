@@ -5,8 +5,9 @@ function AdminLayout({ children }) {
       style={{
         backgroundColor: "white",
         width: "100%",
-        height: "100vh",
+        minHeight: "100vh",
         display: "flex",
+        overflow: "scroll-y",
       }}
     >
       <Sidebar />

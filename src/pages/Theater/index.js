@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./PageAdmin.module.scss";
 import clsx from "clsx";
-import Sidebar from "../../component/admin/Sidebar";
 export default function Theater() {
   const [filmList, setFilmList] = useState([]);
 
@@ -9,63 +8,42 @@ export default function Theater() {
     setFilmList([
       {
         id: 1,
-        nameFilm: "Lật Mặt - 48h",
-        thumb:
-          "http://localhost:3000/static/media/jujutsu-kaisen-chu-thuat-hoi-chien.413b79b5811b822dfe5f.png",
-        releaseDate: "01/03/2023",
-        time: 120,
-        genre: "Hành Động",
+        nameTheater: "Cinema Sư Vạn Hạnh",
+        regional: "Hồ Chí Minh",
       },
       {
         id: 2,
-        nameFilm: "Hello",
-        thumb:
-          "http://localhost:3000/static/media/jujutsu-kaisen-chu-thuat-hoi-chien.413b79b5811b822dfe5f.png",
-        releaseDate: "01/03/2023",
-        time: 120,
-        genre: "Phiêu lưu",
+        nameTheater: "Cinema Quận 7",
+        regional: "Hồ Chí Minh",
       },
       {
         id: 3,
-        nameFilm: "Hi",
-        thumb:
-          "http://localhost:3000/static/media/jujutsu-kaisen-chu-thuat-hoi-chien.413b79b5811b822dfe5f.png",
-        releaseDate: "01/03/2023",
-        time: 100,
-        genre: "Tình cảm",
+        nameTheater: "Cgv Hồ Gươm",
+        regional: "Hà Nội",
       },
     ]);
   }, []);
   return (
     <>
       <div className={clsx(styles.admin_right)}>
-        <h1>Quản lý phim</h1>
+        <h1>Quản lý rạp</h1>
 
         <table>
           <tr>
             <th>Id</th>
-            <th>Tên Phim</th>
-            <th>Hình Ảnh</th>
-            <th>Ngày công chiếu</th>
-            <th>Thời lượng</th>
-            <th>Thể loại</th>
+            <th>Khu vực</th>
+            <th>Tên rạp</th>
             <th>Hành động</th>
           </tr>
           {filmList.map((film) => {
             return (
               <tr key={film.id}>
                 <td>{film.id}</td>
-                <td>{film.nameFilm}</td>
+                <td>{film.regional}</td>
+                <td>{film.nameTheater}</td>
                 <td>
-                  <img src={film.thumb} alt="" />
-                </td>
-                <td>{film.releaseDate}</td>
-                <td>{film.time}</td>
-                <td>{film.genre}</td>
-                <td>
-                  <button>Sửa phim</button>
-                  <button>Xóa phim</button>
-                  <button>Thêm xuất chiếu</button>
+                  <button className={clsx(styles.btn_theater)}>Sửa rạp</button>
+                  <button className={clsx(styles.btn_theater)}>Xóa rạp</button>
                 </td>
               </tr>
             );

@@ -11,6 +11,7 @@ import {
   History,
   Theater,
   Login,
+  AddFilm,
 } from "../pages";
 import { DefaultLayout, AdminLayout } from "../layouts";
 
@@ -19,7 +20,6 @@ const PrivateRoutes = ({ children }) => {
   if (true) {
     return children;
   } else {
-    return <Navigate to={"/login"} />;
   }
 };
 
@@ -73,6 +73,11 @@ const publicRoutes = [
     path: "/login",
     layout: DefaultLayout,
     component: Login,
+  },
+  {
+    path: "/addfilm",
+    layout: AdminLayout,
+    component: AddFilm,
   },
 ];
 

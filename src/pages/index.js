@@ -8,3 +8,4 @@ export { default as Film } from "./Film";
 export { default as History } from "./History";
 export { default as Theater } from "./Theater";
 export { default as Login } from "./Login";
+export { default as AddFilm } from "./AddFilm";

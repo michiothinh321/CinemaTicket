@@ -14,16 +14,77 @@ const Order = () => {
           <div className={clsx(styles.order_choice)}>
             <ul>
               <div className={clsx(styles.width)}>
-                <li>I</li>
+                <li>O</li>
                 <li>1</li>
                 <li>2</li>
                 <li>3</li>
                 <li>4</li>
+                <li>5</li>
+                <li>6</li>
+                <li>7</li>
+                <li>8</li>
+                <li>9</li>
+                <li>O</li>
+              </div>
+            </ul>
+            <ul>
+              <div className={clsx(styles.width)}>
+                <li>N</li>
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
                 <li>4</li>
+                <li>5</li>
+                <li>6</li>
+                <li>7</li>
+                <li>8</li>
+                <li>9</li>
+                <li>N</li>
+              </div>
+            </ul>
+            <ul>
+              <div className={clsx(styles.width)}>
+                <li>M</li>
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
                 <li>4</li>
+                <li>5</li>
+                <li>6</li>
+                <li>7</li>
+                <li>8</li>
+                <li>9</li>
+                <li>M</li>
+              </div>
+            </ul>
+            <ul>
+              <div className={clsx(styles.width)}>
+                <li>L</li>
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
                 <li>4</li>
+                <li>5</li>
+                <li>6</li>
+                <li>7</li>
+                <li>8</li>
+                <li>9</li>
+                <li>L</li>
+              </div>
+            </ul>
+            <ul>
+              <div className={clsx(styles.width)}>
+                <li>K</li>
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
                 <li>4</li>
-                <li>I</li>
+                <li>5</li>
+                <li>6</li>
+                <li>7</li>
+                <li>8</li>
+                <li>9</li>
+                <li>K</li>
               </div>
             </ul>
             <ul>
@@ -33,52 +94,11 @@ const Order = () => {
                 <li>2</li>
                 <li>3</li>
                 <li>4</li>
-                <li>4</li>
-                <li>4</li>
-                <li>4</li>
-                <li>4</li>
-                <li>I</li>
-              </div>
-            </ul>
-            <ul>
-              <div className={clsx(styles.width)}>
-                <li>I</li>
-                <li>1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>4</li>
-                <li>4</li>
-                <li>4</li>
-                <li>4</li>
-                <li>I</li>
-              </div>
-            </ul>
-            <ul>
-              <div className={clsx(styles.width)}>
-                <li>I</li>
-                <li>1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>4</li>
-                <li>4</li>
-                <li>4</li>
-                <li>4</li>
-                <li>I</li>
-              </div>
-            </ul>
-            <ul>
-              <div className={clsx(styles.width)}>
-                <li>I</li>
-                <li>1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>4</li>
-                <li>4</li>
-                <li>4</li>
-                <li>4</li>
+                <li>5</li>
+                <li>6</li>
+                <li>7</li>
+                <li>8</li>
+                <li>9</li>
                 <li>I</li>
               </div>
             </ul>
@@ -106,10 +126,12 @@ const Order = () => {
             <h2>Tổng: 90.000 VNĐ</h2>
           </div>
           <div className={clsx(styles.order_right_button)}>
-            <button>QUAY LẠI</button>
-            <button>
-              <Link to="/payment">TIẾP TỤC</Link>
-            </button>
+            <Link to="/ticket">
+              <button className={clsx(styles.order_btn_main)}>QUAY LẠI</button>
+            </Link>
+            <Link to="/payment">
+              <button className={clsx(styles.order_btn_main)}>TIẾP TỤC</button>
+            </Link>
           </div>
         </div>
       </div>

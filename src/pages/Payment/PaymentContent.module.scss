@@ -1,71 +1,76 @@
-.payment{
+.payment {
+  display: flex;
+  justify-content: space-around;
+  margin: 50px;
+  color: white;
+}
+
+.payment_left {
+  background-color: rgba(#b6d4ae, 0.3);
+  box-sizing: border-box;
+  padding: 0 20px;
+  width: 70%;
+  display: inline-block;
+  h2 {
+    color: yellow;
+  }
+  .payment_left_info {
     display: flex;
-    justify-content: space-around;
-    margin: 50px;
-    color: black;
+    justify-content: center;
+    .payment_left_text {
+      margin-right: 50px;
+      p {
+        font-size: 18px;
+      }
+    }
+    .payment_left_input {
+      margin-left: 50px;
+      select {
+        width: 100%;
+        font-size: 18px;
+      }
+      input {
+        font-size: 18px;
+        width: 100%;
+      }
+      .payment_btn_main {
+        .pay_btn_main {
+          display: flex;
+          justify-content: space-around;
+          margin: 20px 50px 0 0;
+          padding: 10px;
+          font-size: 16px;
+          font-weight: bold;
+          background-color: gray;
+          color: yellow;
+          &:hover {
+            cursor: pointer;
+            background-color: white;
+            color: black;
+          }
+        }
+      }
+    }
+  }
 }
 
-.payment_left{
-    background-color: orangered;
-    box-sizing: border-box;
-    padding: 10px;
-    width: 60%;
-    display: inline-block;
-    h2{
-        color: white;
+.payment_right {
+  width: 25%;
+  padding: 20px;
+  background-color: rgba(#b6d4ae, 0.3);
+  opacity: 0.9;
+  .payment_right_img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    img {
+      display: flex;
+      width: 60%;
+      height: 250px;
     }
-    .payment_left_info{
-        background-color: white;
-        margin: 30px 0;
-        padding: 50px;
-        display: flex;
-        justify-content: space-around;
-        .payment_left_text{
-            p{
-                font-size: 20px;
-            }
-        }
-        .payment_left_input{
-            select{
-                width: 100%;
-                font-size: 20px;
-            }
-            input{
-                font-size: 20px;
-            }
-            p{
-                margin-bottom: 22px;
-            }
-        }
-        .payment_left_pay{
-            .payment_left_button{
-                .payment_left_button1{
-                    width: 100%;
-                }
-                .payment_left_button2{
-                    width: 50%;
-                }
-            }
-        }
-    }
-}
-
-.payment_right{
-    width: 30%;
-    padding: 20px;
-    background-color: rgb(238, 234, 234);
-    .payment_right_img{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        img{
-            display: flex;
-            width: 50%;
-            height: 200px;
-        }
-    }
-    p{
-        font-size: 20px;
-    }
+  }
+  p {
+    font-size: 18px;
+  }
 }

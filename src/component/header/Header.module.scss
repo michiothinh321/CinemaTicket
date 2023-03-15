@@ -1,24 +1,27 @@
-.header{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    width: 100%;
-    z-index: 1000;
-
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: yellow;
+  width: 100%;
+  z-index: 1000;
 }
-.header_menu{
-    margin: 10px 30px;
-    .header_home{
-        color: white;
-    }
+.header_menu {
+  margin: 10px 30px;
+  .header_home {
+    color: yellow;
+    text-decoration: none;
+  }
 }
-.btn_header{
-    padding: 10px 30px;
-    font-weight: bold;
-    background-color: blue;
-    color: white;
-    &:hover{
-        cursor: pointer;
-    }
+.btn_header {
+  font-size: 16px;
+  padding: 10px 30px;
+  font-weight: bold;
+  background-color: gray;
+  color: yellow;
+  &:hover {
+    cursor: pointer;
+    background-color: white;
+    color: black;
+  }
 }

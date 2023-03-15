@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./PageAdmin.module.scss";
 import clsx from "clsx";
+import { Link } from "react-router-dom";
 export default function Film() {
   const [filmList, setFilmList] = useState([]);
 
@@ -39,7 +40,9 @@ export default function Film() {
     <>
       <div className={clsx(styles.admin_right)}>
         <h1>Quản lý phim</h1>
-
+        <Link to="/addfilm">
+          <button className={clsx(styles.btn_film)}>Thêm phim</button>
+        </Link>
         <table>
           <tr>
             <th>Id</th>
@@ -62,9 +65,11 @@ export default function Film() {
                 <td>{film.time}</td>
                 <td>{film.genre}</td>
                 <td>
-                  <button>Sửa phim</button>
-                  <button>Xóa phim</button>
-                  <button>Thêm xuất chiếu</button>
+                  <button className={clsx(styles.btn_film)}>Sửa phim</button>
+                  <button className={clsx(styles.btn_film)}>Xóa phim</button>
+                  <button className={clsx(styles.btn_film)}>
+                    Thêm xuất chiếu
+                  </button>
                 </td>
               </tr>
             );

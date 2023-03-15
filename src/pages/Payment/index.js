@@ -1,6 +1,7 @@
 import React from "react";
 import logo from "../../component/image/jujutsu-kaisen-chu-thuat-hoi-chien.png";
 import clsx from "clsx";
+import { Link } from "react-router-dom";
 import styles from "./PaymentContent.module.scss";
 const PaymentContent = () => {
   return (
@@ -37,9 +38,18 @@ const PaymentContent = () => {
                 <p>
                   <input type="tel"></input>
                 </p>
-                <button>ÁP DỤNG</button>
-                <button>QUAY LẠI</button>
-                <button>THANH TOÁN</button>
+                <div className={clsx(styles.payment_btn_main)}>
+                  <Link to="/order">
+                    <button className={clsx(styles.pay_btn_main)}>
+                      QUAY LẠI
+                    </button>
+                  </Link>
+                  <Link to="/">
+                    <button className={clsx(styles.pay_btn_main)}>
+                      THANH TOÁN
+                    </button>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

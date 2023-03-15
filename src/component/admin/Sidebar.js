@@ -10,7 +10,9 @@ export default function Sidebar() {
           <li>
             <Link to="/">Trang chủ</Link>
           </li>
-          <li>Thống Kê</li>
+          <li>
+            <Link to="/admin">Thống kê</Link>
+          </li>
           <li>
             <Link to="/user">Người Dùng</Link>
           </li>
@@ -20,7 +22,6 @@ export default function Sidebar() {
           <li>
             <Link to="/theater">Rạp</Link>
           </li>
-          <li>Logout</li>
         </ul>
       </div>
     </>

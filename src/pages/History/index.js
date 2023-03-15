@@ -40,6 +40,28 @@ export default function History() {
         nameChair: ["B1", "B2"],
         priceTicket: 100000,
       },
+      {
+        id: 4,
+        nameTheater: "BHD",
+        nameFilm: "Thám tử lừng danh",
+        nameRoom: "Phòng 1",
+        bookingDate: "27/02/2023",
+        showDate: "23/02/2023",
+        showTimes: "09:00",
+        nameChair: ["B1", "-", "B2"],
+        priceTicket: 200000,
+      },
+      {
+        id: 5,
+        nameTheater: "BHD",
+        nameFilm: "Naruto",
+        nameRoom: "Phòng 4",
+        bookingDate: "27/02/2023",
+        showDate: "23/02/2023",
+        showTimes: "06:00",
+        nameChair: ["B1", "-", "B2"],
+        priceTicket: 150000,
+      },
     ]);
   }, []);
 

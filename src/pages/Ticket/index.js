@@ -14,7 +14,7 @@ const Ticket = () => {
     setTicket({
       id: 1,
       thumb:
-        "http://localhost:3000/static/media/jujutsu-kaisen-chu-thuat-hoi-chien.413b79b5811b822dfe5f.png",
+        "http://localhost:3001/static/media/jujutsu-kaisen-chu-thuat-hoi-chien.413b79b5811b822dfe5f.png",
       name: "A",
       time: 120,
       directors: ["Tony", "Nami"],
@@ -125,18 +125,30 @@ const Ticket = () => {
                 <h4>2D</h4>
               </div>
               <div className={clsx(styles.ticket_time_button)}>
-                <button>
-                  <Link to="/order" className={clsx(styles.button_order)}>
-                    09:30
-                  </Link>
-                </button>
-                <button>10:30</button>
-                <button>11:30</button>
-                <button>12:30</button>
-                <button>13:30</button>
-                <button>14:30</button>
-                <button>15:30</button>
-                <button>16:30</button>
+                <Link to="/order">
+                  <button className={clsx(styles.button_order)}>09:00</button>
+                </Link>
+                <Link to="/order">
+                  <button className={clsx(styles.button_order)}>10:00</button>
+                </Link>
+                <Link to="/order">
+                  <button className={clsx(styles.button_order)}>11:00</button>
+                </Link>
+                <Link to="/order">
+                  <button className={clsx(styles.button_order)}>12:00</button>
+                </Link>
+                <Link to="/order">
+                  <button className={clsx(styles.button_order)}>13:00</button>
+                </Link>
+                <Link to="/order">
+                  <button className={clsx(styles.button_order)}>14:00</button>
+                </Link>
+                <Link to="/order">
+                  <button className={clsx(styles.button_order)}>15:00</button>
+                </Link>
+                <Link to="/order">
+                  <button className={clsx(styles.button_order)}>16:00</button>
+                </Link>
               </div>
             </div>
           </div>

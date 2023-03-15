@@ -1,3 +1,21 @@
+.admin_page {
+  background-color: white;
+  width: 100%;
+  display: flex;
+}
+.admin_left {
+  width: 15%;
+  background-color: #333;
+  ul {
+    li {
+      list-style-type: none;
+      margin-bottom: 20px;
+    }
+    li:first-child {
+      margin: 50px 0;
+    }
+  }
+}
 .admin_right {
   padding: 50px 100px;
   width: 85%;
@@ -15,21 +33,24 @@
     border: 1px solid black;
     border-collapse: collapse;
     margin: 0 auto;
-    font-size: 18px;
+    font-size: 20px;
     text-align: left;
     padding: 10px 20px;
   }
   table {
-    width: 100%;
+    width: 90%;
     margin-top: 50px;
   }
-  .btn_user {
-    margin: 2px;
-    padding: 5px 10px;
+  .form_addfilm {
+    background-color: #68910a;
+    padding: 20px;
+  }
+  .btn_film {
+    margin: 10px;
     background-color: black;
     color: white;
   }
-  .btn_user:hover {
+  .btn_film:hover {
     background-color: gray;
     color: yellow;
     cursor: pointer;
