@@ -17,10 +17,13 @@ export default function Sidebar() {
             <Link to="/user">Người Dùng</Link>
           </li>
           <li>
-            <Link to="/film">Phim</Link>
+            <Link to="/movie">Phim</Link>
           </li>
           <li>
             <Link to="/theater">Rạp</Link>
+          </li>
+          <li>
+            <Link to="/category">Thể Loại</Link>
           </li>
         </ul>
       </div>

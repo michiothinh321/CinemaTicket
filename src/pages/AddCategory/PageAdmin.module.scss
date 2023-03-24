@@ -22,7 +22,7 @@
   color: black;
   table {
     img {
-      width: 150px;
+      width: 100px;
       height: 200px;
       object-fit: cover;
     }
@@ -33,17 +33,20 @@
     border: 1px solid black;
     border-collapse: collapse;
     margin: 0 auto;
-    font-size: 18px;
+    font-size: 20px;
     text-align: left;
     padding: 10px 20px;
   }
   table {
-    width: 100%;
+    width: 90%;
     margin-top: 50px;
   }
+  .form_addfilm {
+    background-color: #68910a;
+    padding: 20px;
+  }
   .btn_film {
-    margin: 2px;
-    padding: 5px 10px;
+    margin: 10px;
     background-color: black;
     color: white;
   }

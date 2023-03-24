@@ -3,6 +3,7 @@ import { clsx } from "clsx";
 import { notification } from "antd";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { isEmpty, isEmail } from "validator";
 
 import styles from "./Login.module.scss";
 import { user as userAPI } from "../../API/index";
@@ -20,6 +21,7 @@ export default function Login() {
   const [retypePassword, setRetypePassword] = useState("");
   const [phone, setPhone] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
+  const [validation, setValidation] = useState("");
 
   const [loginInfo, setLoginInfo] = useState({});
 
@@ -41,34 +43,67 @@ export default function Login() {
   const handleDateOfBirthChange = (e) => {
     setDateOfBirth(e.target.value);
   };
+
+  const validateAll = () => {
+    const msg = {};
+    if (isEmpty(fullName)) {
+      msg.fullName = "Vui lòng nhập tên";
+    }
+    if (isEmpty(email)) {
+      msg.email = "Vui lòng nhập email";
+    } else if (!isEmail(email)) {
+      msg.email = "Email không hợp lệ";
+    }
+    if (isEmpty(password)) {
+      msg.password = "Vui lòng nhập mật khẩu";
+    }
+    if (isEmpty(retypePassword)) {
+      msg.retypePassword = "Vui lòng nhập lại mật khẩu";
+    }
+    if (isEmpty(phone)) {
+      msg.phone = "Vui lòng nhập số điện thoại";
+    }
+    if (isEmpty(dateOfBirth)) {
+      msg.dateOfBirth = "Vui lòng chọn ngày sinh";
+    }
+
+    setValidation(msg);
+    if (Object.keys(msg).length > 0) return false;
+    return true;
+  };
+
   const register = async (e) => {
     e.preventDefault();
 
-    try {
-      const result = await userAPI.register({
-        name: fullName,
-        email,
-        password,
-        phone,
-        dateOfBirth,
-      });
-      if (result.status === 200) {
-        api.open({
-          type: "success",
-          message: "Register successfully.",
+    const isValid = validateAll();
+    if (!isValid) return;
+    else {
+      try {
+        const result = await userAPI.register({
+          name: fullName,
+          email,
+          password,
+          phone,
+          dateOfBirth,
         });
-        setFullName("");
-        setEmail("");
-        setPassword("");
-        setRetypePassword("");
-        setPhone("");
-        setDateOfBirth("");
+        if (result.status === 200) {
+          api.open({
+            type: "success",
+            message: "Đăng ký thành công.",
+          });
+          setFullName("");
+          setEmail("");
+          setPassword("");
+          setRetypePassword("");
+          setPhone("");
+          setDateOfBirth("");
+        }
+      } catch (error) {
+        api.open({
+          type: "error",
+          message: "Email đã tồn tại.",
+        });
       }
-    } catch (error) {
-      api.open({
-        type: "error",
-        message: "Email exsist.",
-      });
     }
   };
 
@@ -82,7 +117,7 @@ export default function Login() {
     } catch (error) {
       api.open({
         type: "error",
-        message: "Email or password incorrect.",
+        message: "Email hoặc mật khẩu không chính xác.",
       });
     }
   };
@@ -148,6 +183,7 @@ export default function Login() {
                   onChange={handleFullNameChange}
                 />
               </div>
+              <p>{validation.fullName}</p>
               <div className={clsx(styles.formControl)}>
                 <label htmlFor="email">Email(*)</label>
                 <input
@@ -158,6 +194,7 @@ export default function Login() {
                   onChange={handleEmailChange}
                 />
               </div>
+              <p>{validation.email}</p>
               <div className={clsx(styles.formControl)}>
                 <label htmlFor="password">Mật khẩu(*)</label>
                 <input
@@ -168,6 +205,7 @@ export default function Login() {
                   onChange={handlePasswordChange}
                 />
               </div>
+              <p>{validation.password}</p>
               <div className={clsx(styles.formControl)}>
                 <label htmlFor="confirmPassword">Nhập lại mật khẩu(*)</label>
                 <input
@@ -178,6 +216,7 @@ export default function Login() {
                   onChange={handleRetypePasswordChange}
                 />
               </div>
+              <p>{validation.retypePassword}</p>
               <div className={clsx(styles.formControl)}>
                 <label htmlFor="phone">Số điện thoại(*)</label>
                 <input
@@ -188,6 +227,7 @@ export default function Login() {
                   onChange={handlePhoneChange}
                 />
               </div>
+              <p>{validation.phone}</p>
               <div className={clsx(styles.formControl)}>
                 <label htmlFor="birthday">Ngày sinh(*)</label>
                 <input
@@ -198,6 +238,7 @@ export default function Login() {
                   onChange={handleDateOfBirthChange}
                 />
               </div>
+              <p>{validation.dateOfBirth}</p>
               <button className={clsx(styles.btn_log)} onClick={register}>
                 Đăng ký
               </button>

@@ -25,7 +25,6 @@ export default function User() {
       console.log(error);
     }
   };
-
   const handleDeleteUser = async (email) => {
     try {
       const result = await userAPI.deleteUser({

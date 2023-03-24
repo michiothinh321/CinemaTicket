@@ -6,9 +6,13 @@ const movie = {
     const url = API_BASE_URL + "/movie/addfilm";
     return await axios.post(url, data);
   },
-  getList: async () => {
+  getMovieList: async () => {
     const url = API_BASE_URL + "/movie/getList";
     return await axios.get(url);
+  },
+  deleteMovie: async ({ index }) => {
+    const url = API_BASE_URL + `/movie/delete/${index}`;
+    return await axios.delete(url);
   },
 };
 

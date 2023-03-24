@@ -9,3 +9,7 @@ export { default as History } from "./History";
 export { default as Theater } from "./Theater";
 export { default as Login } from "./Login";
 export { default as AddFilm } from "./AddFilm";
+export { default as EditFilm } from "./EditFilm";
+export { default as AddTheater } from "./AddTheater";
+export { default as Category } from "./Category";
+export { default as AddCategory } from "./AddCategory";

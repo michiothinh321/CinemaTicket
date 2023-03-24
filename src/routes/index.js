@@ -12,9 +12,12 @@ import {
   Theater,
   Login,
   AddFilm,
+  EditFilm,
+  AddTheater,
+  Category,
+  AddCategory,
 } from "../pages";
 import { DefaultLayout, AdminLayout } from "../layouts";
-
 const PrivateRoutes = ({ children }) => {
   // const isLogin = useSelector(getUser);
   if (true) {
@@ -60,7 +63,7 @@ const publicRoutes = [
     component: User,
   },
   {
-    path: "/film",
+    path: "/movie",
     layout: AdminLayout,
     component: Film,
   },
@@ -78,6 +81,26 @@ const publicRoutes = [
     path: "/addfilm",
     layout: AdminLayout,
     component: AddFilm,
+  },
+  {
+    path: "/editfilm",
+    layout: AdminLayout,
+    component: EditFilm,
+  },
+  {
+    path: "/addtheater",
+    layout: AdminLayout,
+    component: AddTheater,
+  },
+  {
+    path: "/category",
+    layout: AdminLayout,
+    component: Category,
+  },
+  {
+    path: "/addcategory",
+    layout: AdminLayout,
+    component: AddCategory,
   },
 ];
 
