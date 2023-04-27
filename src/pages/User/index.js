@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import { useSelector } from "react-redux";
-import { notification } from "antd";
+import { notification, Button } from "antd";
 
 import styles from "./PageAdmin.module.scss";
 import { user as userAPI } from "../../API";
@@ -72,15 +72,19 @@ export default function User() {
                   {user.dateOfBirth.slice(0, 10).split("-").reverse().join("-")}
                 </td>
                 <td>
-                  <button
-                    className={clsx(styles.btn_user)}
+                  <Button
+                    type="primary"
+                    danger
+                    htmlType="submit"
                     onClick={() => {
                       handleDeleteUser(user.email);
                     }}
                   >
                     Xóa
-                  </button>
-                  <button className={clsx(styles.btn_user)}>Sửa</button>
+                  </Button>
+                  <Button type="primary" htmlType="submit">
+                    Sửa
+                  </Button>
                 </td>
               </tr>
             );

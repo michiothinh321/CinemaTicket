@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import styles from "./PageAdmin.module.scss";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
-import { notification } from "antd";
+import { notification, Button } from "antd";
 import { movie as movieAPI } from "../../API";
+
 export default function Film() {
   const [film, setFilm] = useState([]);
   const [api, contextHolder] = notification.useNotification();
@@ -48,7 +49,9 @@ export default function Film() {
       <div className={clsx(styles.admin_right)}>
         <h1>Quản lý phim</h1>
         <Link to="/addfilm">
-          <button className={clsx(styles.btn_film)}>Thêm phim</button>
+          <Button type="primary" htmlType="submit">
+            Thêm phim
+          </Button>
         </Link>
         <table>
           <thead>
@@ -72,27 +75,29 @@ export default function Film() {
                     <img src={film.picture} alt="" />
                   </td>
                   <td>
-                    {film.date.slice(0, 10).split("-").reverse().join("-")}
+                    {film.date?.slice(0, 10).split("-").reverse().join("-")}
                   </td>
                   <td>{film.time}</td>
                   <td>{film.genres}</td>
                   <td>
                     <Link to="/editfilm">
-                      <button className={clsx(styles.btn_film)}>
+                      <Button type="primary" htmlType="submit">
                         Sửa phim
-                      </button>
+                      </Button>
                     </Link>
-                    <button
-                      className={clsx(styles.btn_film)}
+                    <Button
+                      type="primary"
+                      danger
+                      htmlType="submit"
                       onClick={() => {
                         handleDeleteMovie(film.nameFilm);
                       }}
                     >
                       Xóa phim
-                    </button>
-                    <button className={clsx(styles.btn_film)}>
+                    </Button>
+                    <Button type="primary" htmlType="submit">
                       Thêm xuất chiếu
-                    </button>
+                    </Button>
                   </td>
                 </tr>
               );

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./PageAdmin.module.scss";
 import clsx from "clsx";
-import { notification } from "antd";
+import { notification, Button } from "antd";
 import { category as categoryAPI } from "../../API";
 import { Link } from "react-router-dom";
 export default function Category() {
@@ -48,7 +48,9 @@ export default function Category() {
       <div className={clsx(styles.admin_right)}>
         <h1>Quản lý rạp</h1>
         <Link to="/addCategory">
-          <button className={clsx(styles.btn_film)}>Thêm Thể Loại</button>
+          <Button type="primary" htmlType="submit">
+            Thêm Thể Loại
+          </Button>
         </Link>
         <table>
           <thead>

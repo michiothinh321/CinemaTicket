@@ -1,7 +1,7 @@
 .header {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   color: yellow;
   width: 100%;
   z-index: 1000;
@@ -24,4 +24,9 @@
     background-color: white;
     color: black;
   }
+}
+.header_menu_right{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

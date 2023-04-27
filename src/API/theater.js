@@ -10,6 +10,10 @@ const theater = {
     const url = API_BASE_URL + "/theater/getList";
     return await axios.get(url);
   },
+  getId: async ({ idArea }) => {
+    const url = API_BASE_URL + `/theater/get?idArea=${idArea}`;
+    return await axios.get(url);
+  },
   deleteTheater: async ({ index }) => {
     const url = API_BASE_URL + `/theater/delete/${index}`;
     return await axios.delete(url);

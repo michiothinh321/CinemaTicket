@@ -20,7 +20,7 @@ export default function Sidebar() {
             <Link to="/movie">Phim</Link>
           </li>
           <li>
-            <Link to="/theater">Rạp</Link>
+            <Link to="/area">Rạp</Link>
           </li>
           <li>
             <Link to="/category">Thể Loại</Link>

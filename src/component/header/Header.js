@@ -20,46 +20,59 @@ function Header() {
 
   return (
     <div className={clsx(styles.header)}>
-      <h1 className={clsx(styles.header_menu)}>
-        <Link to="/" className={clsx(styles.header_home)}>
-          CINEMA STU
-        </Link>
-      </h1>
-      <input
-        className={clsx(styles.header_menu)}
-        placeholder="Bạn cần tìm phim...?"
-      />
-      {user && (
-        <>
-          <Link to="/history" className={clsx(styles.header_home)}>
-            <button className={clsx(styles.header_menu, styles.btn_header)}>
-              Lịch sử
-            </button>
+      <div>
+        {" "}
+        <h1 className={clsx(styles.header_menu)}>
+          <Link to="/" className={clsx(styles.header_home)}>
+            CINEMA STU
           </Link>
-          <Link to="/admin">
-            <button className={clsx(styles.header_menu, styles.btn_header)}>
-              Quản lý
+        </h1>
+      </div>
+      <div className={clsx(styles.header_menu_right)}>
+        {user && (
+          <>
+            <h3 className={clsx(styles.header_menu)}>
+              <Link to="/infouser" className={clsx(styles.header_home)}>
+                Xin chào: {user.name}
+              </Link>
+            </h3>
+            <Link to="/history" className={clsx(styles.header_home)}>
+              <button className={clsx(styles.header_menu, styles.btn_header)}>
+                Lịch sử
+              </button>
+            </Link>
+            <Link to="/admin">
+              <button className={clsx(styles.header_menu, styles.btn_header)}>
+                Quản lý
+              </button>
+            </Link>
+          </>
+        )}
+
+        {user ? (
+          <>
+            <button
+              className={clsx(styles.header_menu, styles.btn_header)}
+              onClick={handleLogout}
+            >
+              Đăng xuất
             </button>
-          </Link>
-        </>
-      )}
-      {user ? (
-        <>
-          <button
-            className={clsx(styles.header_menu, styles.btn_header)}
-            onClick={handleLogout}
-          >
-            Đăng xuất
-          </button>
-          <h3 className={clsx(styles.header_menu)}>Xin chào: {user.name}</h3>
-        </>
-      ) : (
-        <Link to={"/login"}>
-          <button className={clsx(styles.header_menu, styles.btn_header)}>
-            Đăng nhập
-          </button>
-        </Link>
-      )}
+          </>
+        ) : (
+          <>
+            <Link to={"/login"}>
+              <button className={clsx(styles.header_menu, styles.btn_header)}>
+                Đăng nhập
+              </button>
+            </Link>
+            <Link to={"/"}>
+              <button className={clsx(styles.header_menu, styles.btn_header)}>
+                Trang chủ
+              </button>
+            </Link>
+          </>
+        )}
+      </div>
     </div>
   );
 }

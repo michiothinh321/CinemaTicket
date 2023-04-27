@@ -26,19 +26,14 @@
       li {
         background-color: #1a4fb1;
         display: inline-block;
-        width: 24px;
-        height: 24px;
-        font-size: 20px;
+        width: 30px;
+        height: 30px;
+        font-size: 15px;
         text-align: center;
         line-height: 22px;
         margin: 5px 2px;
         cursor: pointer;
-      }
-      li:first-child,
-      li:last-child {
-        margin: 0 40px;
-        background-color: white;
-        border: 1px solid black;
+        padding: 6px;
       }
     }
   }
@@ -52,7 +47,6 @@
   width: 60%;
   border-bottom: 3px solid black;
   margin-bottom: 50px;
-  margin-top: 40px;
   font-weight: bold;
 }
 

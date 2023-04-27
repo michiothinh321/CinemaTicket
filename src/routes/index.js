@@ -1,5 +1,3 @@
-// import { useSelector } from 'react-redux';
-import { Navigate } from "react-router-dom";
 import {
   Home,
   Ticket,
@@ -9,13 +7,14 @@ import {
   User,
   Film,
   History,
-  Theater,
+  Area,
   Login,
   AddFilm,
   EditFilm,
-  AddTheater,
   Category,
+  Theater,
   AddCategory,
+  InfoUser,
 } from "../pages";
 import { DefaultLayout, AdminLayout } from "../layouts";
 const PrivateRoutes = ({ children }) => {
@@ -68,6 +67,11 @@ const publicRoutes = [
     component: Film,
   },
   {
+    path: "/area",
+    layout: AdminLayout,
+    component: Area,
+  },
+  {
     path: "/theater",
     layout: AdminLayout,
     component: Theater,
@@ -88,11 +92,6 @@ const publicRoutes = [
     component: EditFilm,
   },
   {
-    path: "/addtheater",
-    layout: AdminLayout,
-    component: AddTheater,
-  },
-  {
     path: "/category",
     layout: AdminLayout,
     component: Category,
@@ -101,6 +100,11 @@ const publicRoutes = [
     path: "/addcategory",
     layout: AdminLayout,
     component: AddCategory,
+  },
+  {
+    path: "/infouser",
+    layout: DefaultLayout,
+    component: InfoUser,
   },
 ];
 

@@ -9,7 +9,7 @@ const PaymentContent = () => {
       <div className={clsx(styles.payment)}>
         <div className={clsx(styles.payment_left)}>
           <div>
-            <h2>VUI LÒNG THANH TOÁN</h2>
+            <h2>THANH TOÁN</h2>
           </div>
           <div className={clsx(styles.payment_left_info)}>
             <div className={clsx(styles.payment_left_text)}>
@@ -24,9 +24,7 @@ const PaymentContent = () => {
                   <select>
                     <option>Chọn loại thẻ</option>
                     <option>Ví MoMo</option>
-                    <option>ZaloPay</option>
-                    <option>VNPAY</option>
-                    <option>ShopeePay</option>
+                    <option>Tiền Mặt</option>
                   </select>
                 </p>
                 <p>

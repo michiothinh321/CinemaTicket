@@ -10,8 +10,8 @@ const movie = {
     const url = API_BASE_URL + "/movie/getList";
     return await axios.get(url);
   },
-  deleteMovie: async ({ index }) => {
-    const url = API_BASE_URL + `/movie/delete/${index}`;
+  deleteMovie: async ({ nameFilm }) => {
+    const url = API_BASE_URL + `/movie/delete/${nameFilm}`;
     return await axios.delete(url);
   },
 };

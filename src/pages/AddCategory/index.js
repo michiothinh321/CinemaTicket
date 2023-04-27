@@ -13,7 +13,6 @@ export default function AddCategory() {
   };
 
   const handleAddCategory = async (e) => {
-    console.log("Hello");
     e.preventDefault();
     try {
       const result = await categoryAPI.addCategory({

@@ -8,103 +8,38 @@ const Order = () => {
     <>
       <div className={clsx(styles.order)}>
         <div className={clsx(styles.order_left)}>
-          <div>
-            <h2>CHỌN GHẾ:</h2>
-          </div>
           <div className={clsx(styles.order_choice)}>
-            <ul>
-              <div className={clsx(styles.width)}>
-                <li>O</li>
-                <li>1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
-                <li>6</li>
-                <li>7</li>
-                <li>8</li>
-                <li>9</li>
-                <li>O</li>
-              </div>
-            </ul>
-            <ul>
-              <div className={clsx(styles.width)}>
-                <li>N</li>
-                <li>1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
-                <li>6</li>
-                <li>7</li>
-                <li>8</li>
-                <li>9</li>
-                <li>N</li>
-              </div>
-            </ul>
-            <ul>
-              <div className={clsx(styles.width)}>
-                <li>M</li>
-                <li>1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
-                <li>6</li>
-                <li>7</li>
-                <li>8</li>
-                <li>9</li>
-                <li>M</li>
-              </div>
-            </ul>
-            <ul>
-              <div className={clsx(styles.width)}>
-                <li>L</li>
-                <li>1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
-                <li>6</li>
-                <li>7</li>
-                <li>8</li>
-                <li>9</li>
-                <li>L</li>
-              </div>
-            </ul>
-            <ul>
-              <div className={clsx(styles.width)}>
-                <li>K</li>
-                <li>1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
-                <li>6</li>
-                <li>7</li>
-                <li>8</li>
-                <li>9</li>
-                <li>K</li>
-              </div>
-            </ul>
-            <ul>
-              <div className={clsx(styles.width)}>
-                <li>I</li>
-                <li>1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
-                <li>6</li>
-                <li>7</li>
-                <li>8</li>
-                <li>9</li>
-                <li>I</li>
-              </div>
-            </ul>
             <div className={clsx(styles.order_screen)}>
               <p>Màn hình</p>
             </div>
+            <ul>
+              <div className={clsx(styles.width)}>
+                <ul>
+                  <li>A0</li>
+                  <li>A1</li>
+                  <li>A2</li>
+                  <li>A3</li>
+                  <li>A4</li>
+                  <li>A5</li>
+                  <li>A6</li>
+                  <li>A7</li>
+                  <li>A8</li>
+                  <li>A9</li>
+                </ul>
+                <ul>
+                  <li>A0</li>
+                  <li>A1</li>
+                  <li>A2</li>
+                  <li>A3</li>
+                  <li>A4</li>
+                  <li>A5</li>
+                  <li>A6</li>
+                  <li>A7</li>
+                  <li>A8</li>
+                  <li>A9</li>
+                </ul>
+              </div>
+            </ul>
             <div className={clsx(styles.order_note)}>
               <span>Ghế đã chọn</span>
               <span>Ghế đã bán</span>
