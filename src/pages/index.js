@@ -14,3 +14,4 @@ export { default as Category } from "./Category";
 export { default as AddCategory } from "./AddCategory";
 export { default as InfoUser } from "./InfoUser";
 export { default as Theater } from "./Theater";
+export { default as EditUser } from "./EditUser";

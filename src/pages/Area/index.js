@@ -103,7 +103,7 @@ export default function Area() {
       <div className="admin_right">
         <h1>Quản Lý Khu Vực</h1>
         <Button type="primary" onClick={showModal}>
-          Open Modal
+          Thêm Khu Vực
         </Button>
         <Modal
           title="Basic Modal"
@@ -137,7 +137,7 @@ export default function Area() {
                   <td>{area.nameArea}</td>
                   <td>
                     <Button type="primary" htmlType="submit">
-                      Sửa rạp
+                      Sửa Khu Vực
                     </Button>
                     <Button
                       type="primary"
@@ -147,11 +147,11 @@ export default function Area() {
                         handleDeleteArea(area.nameArea);
                       }}
                     >
-                      Xóa rạp
+                      Xóa Khu Vực
                     </Button>
                     <Link to={`/theater?idArea=${area._id}`}>
                       <Button type="primary" htmlType="submit">
-                        Quản lý rạp
+                        Quản Lý Rạp
                       </Button>
                     </Link>
                   </td>

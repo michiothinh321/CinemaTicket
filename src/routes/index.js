@@ -15,6 +15,7 @@ import {
   Theater,
   AddCategory,
   InfoUser,
+  EditUser,
 } from "../pages";
 import { DefaultLayout, AdminLayout } from "../layouts";
 const PrivateRoutes = ({ children }) => {
@@ -90,6 +91,11 @@ const publicRoutes = [
     path: "/editfilm",
     layout: AdminLayout,
     component: EditFilm,
+  },
+  {
+    path: "/edituser",
+    layout: AdminLayout,
+    component: EditUser,
   },
   {
     path: "/category",

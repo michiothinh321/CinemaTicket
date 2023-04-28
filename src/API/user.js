@@ -23,6 +23,10 @@ const user = {
       },
     });
   },
+  getUser: async ({ email }) => {
+    const url = API_BASE_URL + `/user/getUser/${email}`;
+    return await axios.get(url);
+  },
   deleteUser: async ({ email, token }) => {
     const url = API_BASE_URL + `/user/delete/${email}`;
     return await axios.delete(url, {

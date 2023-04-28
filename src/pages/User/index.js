@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { useSelector } from "react-redux";
 import { notification, Button } from "antd";
 
+import { Link } from "react-router-dom";
 import styles from "./PageAdmin.module.scss";
 import { user as userAPI } from "../../API";
 
@@ -53,42 +54,52 @@ export default function User() {
       <div className={clsx(styles.admin_right)}>
         <h1>Quản lý người dùng</h1>
         <table>
-          <tr>
-            <th>Id</th>
-            <th>Email</th>
-            <th>Họ Tên</th>
-            <th>SĐT</th>
-            <th>Ngày sinh</th>
-            <th>Hành động</th>
-          </tr>
-          {userList.map((user, index) => {
-            return (
-              <tr key={user.email}>
-                <td>{index + 1}</td>
-                <td>{user.email}</td>
-                <td>{user.name}</td>
-                <td>{user.phone}</td>
-                <td>
-                  {user.dateOfBirth.slice(0, 10).split("-").reverse().join("-")}
-                </td>
-                <td>
-                  <Button
-                    type="primary"
-                    danger
-                    htmlType="submit"
-                    onClick={() => {
-                      handleDeleteUser(user.email);
-                    }}
-                  >
-                    Xóa
-                  </Button>
-                  <Button type="primary" htmlType="submit">
-                    Sửa
-                  </Button>
-                </td>
-              </tr>
-            );
-          })}
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Email</th>
+              <th>Họ Tên</th>
+              <th>SĐT</th>
+              <th>Ngày sinh</th>
+              <th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody>
+            {userList.map((user, index) => {
+              return (
+                <tr key={user.email}>
+                  <td>{index + 1}</td>
+                  <td>{user.email}</td>
+                  <td>{user.name}</td>
+                  <td>{user.phone}</td>
+                  <td>
+                    {user.dateOfBirth
+                      .slice(0, 10)
+                      .split("-")
+                      .reverse()
+                      .join("-")}
+                  </td>
+                  <td>
+                    <Button
+                      type="primary"
+                      danger
+                      htmlType="submit"
+                      onClick={() => {
+                        handleDeleteUser(user.email);
+                      }}
+                    >
+                      Xóa
+                    </Button>
+                    <Link to={`/edituser?email=${user.email}`}>
+                      <Button type="primary" htmlType="submit">
+                        Sửa
+                      </Button>
+                    </Link>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
       </div>
     </>
