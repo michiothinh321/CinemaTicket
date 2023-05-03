@@ -3,3 +3,4 @@ export { default as movie } from "./movie";
 export { default as theater } from "./theater";
 export { default as category } from "./category";
 export { default as area } from "./area";
+export { default as room } from "./room";

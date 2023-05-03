@@ -9,11 +9,29 @@ export default function Theater() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [nameTheater, setNameTheater] = useState("");
   const [address, setAddress] = useState("");
+  const [theater, setTheater] = useState([]);
   const [api, contextHolder] = notification.useNotification();
 
   const keyValue = window.location.search;
   const urlParams = new URLSearchParams(keyValue);
   const idArea = urlParams.get("idArea");
+
+  useEffect(() => {
+    (async () => {
+      await getTheaterById();
+    })();
+  }, []);
+
+  const getTheaterById = async () => {
+    try {
+      const result = await theaterAPI.getTheaterById({
+        idArea,
+      });
+      setTheater(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleNameTheater = (e) => {
     setNameTheater(e.target.value);
@@ -33,6 +51,7 @@ export default function Theater() {
 
   const handleCancel = () => {
     setIsModalOpen(false);
+    window.location.reload(true);
   };
 
   const handleAddTheater = async () => {
@@ -60,7 +79,7 @@ export default function Theater() {
     <>
       {contextHolder}
       <div className={clsx(styles.admin_right)}>
-        <h1>Quản lý phim</h1>
+        <h1>Quản Lý Rạp</h1>
         <Link to="/area">
           <Button type="primary" danger htmlType="submit">
             Khu Vực
@@ -118,35 +137,33 @@ export default function Theater() {
             </tr>
           </thead>
           <tbody>
-            {/* {film.map((film, index) => {
+            {theater.map((theater, index) => {
               return (
                 <tr key={index}>
                   <td>{index + 1}</td>
-                  <td>{film.nameFilm}</td>
-                  <td>
-                    <img src={film.picture} alt="" />
-                  </td>
-                  <td>
-                    {film.date?.slice(0, 10).split("-").reverse().join("-")}
-                  </td>
-                  <td>{film.time}</td>
-                  <td>{film.genres}</td>
+                  <td>{theater.nameTheater}</td>
+
+                  <td>{theater.address}</td>
                   <td>
                     <Link to="/editfilm">
                       <Button type="primary" htmlType="submit">
-                        Sửa phim
+                        Sửa Rạp
                       </Button>
                     </Link>
                     <Button type="primary" danger htmlType="submit">
-                      Xóa phim
+                      Xóa Rạp
                     </Button>
-                    <Button type="primary" htmlType="submit">
-                      Thêm xuất chiếu
-                    </Button>
+                    <Link
+                      to={`/room?idArea=${theater.idArea}&idTheater=${theater._id}`}
+                    >
+                      <Button type="primary" htmlType="submit">
+                        Quản Lý Phòng
+                      </Button>
+                    </Link>
                   </td>
                 </tr>
               );
-            })} */}
+            })}
           </tbody>
         </table>
       </div>

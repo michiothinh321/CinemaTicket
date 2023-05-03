@@ -1,37 +1,27 @@
-import clsx from "clsx";
 import React, { useEffect, useState } from "react";
-import styles from "./Content.module.scss";
+import "./Content.scss";
 import { Link } from "react-router-dom";
-
+import { movie as movieAPI } from "../../API";
 const Content = () => {
-  const [listFilm, setListFilm] = useState([]);
-
+  const [film, setFilm] = useState([]);
   useEffect(() => {
-    setListFilm([
-      {
-        id: 1,
-        thumb:
-          "http://localhost:3001/static/media/jujutsu-kaisen-chu-thuat-hoi-chien.413b79b5811b822dfe5f.png",
-        name: "A",
-      },
-      {
-        id: 2,
-        thumb:
-          "http://localhost:3001/static/media/jujutsu-kaisen-chu-thuat-hoi-chien.413b79b5811b822dfe5f.png",
-        name: "B",
-      },
-      {
-        id: 3,
-        thumb:
-          "http://localhost:3001/static/media/jujutsu-kaisen-chu-thuat-hoi-chien.413b79b5811b822dfe5f.png",
-        name: "C",
-      },
-    ]);
-  }, []);
+    (async () => {
+      await getMovieList();
+    })();
+  }, [film.picture]);
+  const getMovieList = async () => {
+    try {
+      const result = await movieAPI.getMovieList();
+      setFilm(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log(film);
   return (
     <>
-      <div className={clsx(styles.content_body)}>
-        <div className={clsx(styles.content)}>
+      <div className="content_body">
+        <div className="content">
           <p>
             <a href="/">PHIM ĐANG CHIẾU</a>
           </p>
@@ -39,15 +29,15 @@ const Content = () => {
             <a href="/">PHIM SẮP CHIẾU</a>
           </p>
         </div>
-        <div className={clsx(styles.content_img)}>
-          {listFilm.map((film) => {
+        <div className="content_img">
+          {film.map((film, index) => {
             return (
-              <div key={film.id} className={clsx(styles.content_card)}>
-                <img src={film.thumb} alt="" />
-                <p>{film.name}</p>
+              <div key={index} className="content_card">
+                <img src={film.picture} alt="" />
+                <p>{film.nameFilm}</p>
 
-                <button className={clsx(styles.btn_header)}>
-                  <Link to={`/ticket?${film.id}`}>Mua Vé</Link>
+                <button className="btn_header">
+                  <Link to={`/ticket?nameFilm=${film.nameFilm}`}>Mua Vé</Link>
                 </button>
               </div>
             );

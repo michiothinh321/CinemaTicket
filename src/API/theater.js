@@ -6,16 +6,13 @@ const theater = {
     const url = API_BASE_URL + "/theater/addTheater";
     return await axios.post(url, data);
   },
-  getTheaterList: async () => {
-    const url = API_BASE_URL + "/theater/getList";
+  getTheaterById: async ({ idArea }) => {
+    const url = API_BASE_URL + `/theater/${idArea}`;
     return await axios.get(url);
   },
-  getId: async ({ idArea }) => {
-    const url = API_BASE_URL + `/theater/get?idArea=${idArea}`;
-    return await axios.get(url);
-  },
+
   deleteTheater: async ({ index }) => {
-    const url = API_BASE_URL + `/theater/delete/${index}`;
+    const url = API_BASE_URL + `/theater/${index}`;
     return await axios.delete(url);
   },
 };

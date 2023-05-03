@@ -10,6 +10,11 @@ const Ticket = () => {
   const [cityList, setCityList] = useState([]);
   const [graphic, setGraphic] = useState([]);
 
+  const keyValue = window.location.search;
+  const urlParams = new URLSearchParams(keyValue);
+  const nameFilm = urlParams.get("nameFilm");
+  console.log(nameFilm);
+
   useEffect(() => {
     setTicket({
       id: 1,

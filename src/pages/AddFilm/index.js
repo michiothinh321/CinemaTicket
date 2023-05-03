@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form, Input, notification } from "antd";
 import { movie as movieAPI } from "../../API/index";
 import styles from "./PageAdmin.module.scss";
@@ -15,32 +15,13 @@ export default function AddFilm() {
   const [date, setDate] = useState("");
   const [content, setContent] = useState("");
   const [picture, setPicture] = useState("");
+  const [trailer, setTrailer] = useState("");
 
-  const handleNameFilm = (e) => {
-    setNameFilm(e.target.value);
-  };
-  const handleGenres = (e) => {
-    setGenres(e.target.value);
-  };
-  const handleDirectors = (e) => {
-    setDirectors(e.target.value);
-  };
-  const handleActors = (e) => {
-    setActors(e.target.value);
-  };
-  const handleTime = (e) => {
-    setTime(e.target.value);
-  };
-  const handleDate = (e) => {
-    setDate(e.target.value);
-  };
-  const handleContent = (e) => {
-    setContent(e.target.value);
-  };
   const handlePicture = (e) => {
-    setPicture(e.target.value);
+    const file = e.target.files[0];
+    file.preview = URL.createObjectURL(file);
+    setPicture(file.preview);
   };
-
   const handleAddFilm = async (e) => {
     e.preventDefault();
 
@@ -54,10 +35,10 @@ export default function AddFilm() {
         time,
         content,
         picture,
+        trailer,
       });
 
       if (result.status === 200) {
-        console.log(result);
         api.open({
           type: "success",
           message: "Add Film successfully.",
@@ -70,7 +51,6 @@ export default function AddFilm() {
       });
     }
   };
-
   return (
     <>
       {contextHolder}
@@ -95,7 +75,7 @@ export default function AddFilm() {
               id="nameFilm"
               name="nameFilm"
               value={nameFilm}
-              onChange={handleNameFilm}
+              onChange={(e) => setNameFilm(e.target.value)}
             />
           </Form.Item>
           <Form.Item label="Thể loại">
@@ -104,7 +84,7 @@ export default function AddFilm() {
               id="genres"
               name="genres"
               value={genres}
-              onChange={handleGenres}
+              onChange={(e) => setGenres(e.target.value)}
             />
           </Form.Item>
           <Form.Item label="Tác giả">
@@ -113,7 +93,7 @@ export default function AddFilm() {
               id="directors"
               name="directors"
               value={directors}
-              onChange={handleDirectors}
+              onChange={(e) => setDirectors(e.target.value)}
             />
           </Form.Item>
           <Form.Item label="Diễn viên">
@@ -122,7 +102,7 @@ export default function AddFilm() {
               id="actors"
               name="actors"
               value={actors}
-              onChange={handleActors}
+              onChange={(e) => setActors(e.target.value)}
             />
           </Form.Item>
           <Form.Item label="Ngày chiếu">
@@ -131,7 +111,7 @@ export default function AddFilm() {
               id="date"
               name="date"
               value={date}
-              onChange={handleDate}
+              onChange={(e) => setDate(e.target.value)}
             />
           </Form.Item>
           <Form.Item label="Thời lượng">
@@ -140,7 +120,7 @@ export default function AddFilm() {
               id="time"
               name="time"
               value={time}
-              onChange={handleTime}
+              onChange={(e) => setTime(e.target.value)}
             />
           </Form.Item>
           <Form.Item label="Nội dung">
@@ -149,16 +129,19 @@ export default function AddFilm() {
               id="content"
               name="content"
               value={content}
-              onChange={handleContent}
+              onChange={(e) => setContent(e.target.value)}
             />
           </Form.Item>
-          <input
-            type="file"
-            id="picture"
-            name="picture"
-            value={picture}
-            onChange={handlePicture}
-          />
+          <Form.Item label="Trailer">
+            <Input
+              placeholder="Trailer"
+              id="trailer"
+              name="trailer"
+              value={trailer}
+              onChange={(e) => setTrailer(e.target.value)}
+            />
+          </Form.Item>
+          <input type="file" id="file" name="file" onChange={handlePicture} />
           <Form.Item>
             <Button
               className={clsx(styles.btn_film)}

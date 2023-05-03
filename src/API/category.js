@@ -11,7 +11,7 @@ const category = {
     return await axios.get(url);
   },
   deleteCategory: async ({ index }) => {
-    const url = API_BASE_URL + `/category/delete/${index}`;
+    const url = API_BASE_URL + `/category/${index}`;
     return await axios.delete(url);
   },
 };

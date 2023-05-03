@@ -90,7 +90,7 @@ export default function User() {
                     >
                       Xóa
                     </Button>
-                    <Link to={`/edituser?email=${user.email}`}>
+                    <Link to={`/edituser?idUser=${user._id}`}>
                       <Button type="primary" htmlType="submit">
                         Sửa
                       </Button>

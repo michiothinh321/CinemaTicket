@@ -23,12 +23,16 @@ const user = {
       },
     });
   },
-  getUser: async ({ email }) => {
-    const url = API_BASE_URL + `/user/getUser/${email}`;
+  getUser: async ({ idUser }) => {
+    const url = API_BASE_URL + `/user/getUser/${idUser}`;
     return await axios.get(url);
   },
+  editUser: async (user) => {
+    const url = API_BASE_URL + `/user/${user._id}`;
+    return await axios.put(url, user);
+  },
   deleteUser: async ({ email, token }) => {
-    const url = API_BASE_URL + `/user/delete/${email}`;
+    const url = API_BASE_URL + `/user/${email}`;
     return await axios.delete(url, {
       headers: {
         Authorization: `Bearer ${token}`,

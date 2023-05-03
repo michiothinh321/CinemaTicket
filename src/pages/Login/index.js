@@ -140,7 +140,7 @@ export default function Login() {
                 <label htmlFor="email">Email(*)</label>
                 <input
                   type="text"
-                  id="email"
+                  id="emailLogin"
                   name="email"
                   onChange={(e) => {
                     handleLoginInfoChange("email", e.target.value);
@@ -150,8 +150,8 @@ export default function Login() {
               <div className={clsx(styles.formControl)}>
                 <label htmlFor="password">Mật khẩu(*)</label>
                 <input
-                  type="text"
-                  id="password"
+                  type="password"
+                  id="passwordLogin"
                   name="password"
                   onChange={(e) => {
                     e.preventDefault();
@@ -188,7 +188,7 @@ export default function Login() {
                 <label htmlFor="email">Email(*)</label>
                 <input
                   type="text"
-                  id="email"
+                  id="emailRegister"
                   name="email"
                   value={email}
                   onChange={handleEmailChange}
@@ -198,8 +198,8 @@ export default function Login() {
               <div className={clsx(styles.formControl)}>
                 <label htmlFor="password">Mật khẩu(*)</label>
                 <input
-                  type="text"
-                  id="password"
+                  type="password"
+                  id="passwordRegister"
                   name="password"
                   value={password}
                   onChange={handlePasswordChange}
@@ -209,7 +209,7 @@ export default function Login() {
               <div className={clsx(styles.formControl)}>
                 <label htmlFor="confirmPassword">Nhập lại mật khẩu(*)</label>
                 <input
-                  type="text"
+                  type="password"
                   id="confirmPassword"
                   name="confirmPassword"
                   value={retypePassword}
@@ -235,6 +235,7 @@ export default function Login() {
                   id="birthday"
                   name="birthday"
                   value={dateOfBirth}
+                  max="2012-12-12"
                   onChange={handleDateOfBirthChange}
                 />
               </div>

@@ -1,13 +1,32 @@
 import React, { useState, useEffect } from "react";
-import styles from "./PageAdmin.module.scss";
-import clsx from "clsx";
+import "./PageAdmin.scss";
 import { Link } from "react-router-dom";
-import { notification, Button } from "antd";
+import { notification, Button, Modal } from "antd";
 import { movie as movieAPI } from "../../API";
 
 export default function Film() {
   const [film, setFilm] = useState([]);
   const [api, contextHolder] = notification.useNotification();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  useEffect(() => {
+    return () => {
+      film.nameFilm && URL.revokeObjectURL(film.nameFilm);
+    };
+  }, [film.nameFilm]);
 
   useEffect(() => {
     (async () => {
@@ -46,7 +65,7 @@ export default function Film() {
   return (
     <>
       {contextHolder}
-      <div className={clsx(styles.admin_right)}>
+      <div className="admin_right">
         <h1>Quản lý phim</h1>
         <Link to="/addfilm">
           <Button type="primary" htmlType="submit">
@@ -80,7 +99,7 @@ export default function Film() {
                   <td>{film.time}</td>
                   <td>{film.genres}</td>
                   <td>
-                    <Link to="/editfilm">
+                    <Link to={`/editfilm?idFilm=${film._id}`}>
                       <Button type="primary" htmlType="submit">
                         Sửa phim
                       </Button>
@@ -95,6 +114,7 @@ export default function Film() {
                     >
                       Xóa phim
                     </Button>
+
                     <Button type="primary" htmlType="submit">
                       Thêm xuất chiếu
                     </Button>

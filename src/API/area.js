@@ -15,7 +15,7 @@ const area = {
     return await axios.get(url);
   },
   deleteArea: async ({ nameArea }) => {
-    const url = API_BASE_URL + `/area/delete/${nameArea}`;
+    const url = API_BASE_URL + `/area/${nameArea}`;
     return await axios.delete(url);
   },
 };

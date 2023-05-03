@@ -16,6 +16,7 @@ import {
   AddCategory,
   InfoUser,
   EditUser,
+  Room,
 } from "../pages";
 import { DefaultLayout, AdminLayout } from "../layouts";
 const PrivateRoutes = ({ children }) => {
@@ -106,6 +107,11 @@ const publicRoutes = [
     path: "/addcategory",
     layout: AdminLayout,
     component: AddCategory,
+  },
+  {
+    path: "/room",
+    layout: AdminLayout,
+    component: Room,
   },
   {
     path: "/infouser",
