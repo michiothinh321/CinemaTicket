@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from "./PageAdmin.scss";
+import "./PageAdmin.scss";
 import { notification, Button, Modal } from "antd";
 import { area as areaAPI } from "../../API";
 import { Link } from "react-router-dom";
@@ -9,10 +9,12 @@ export default function Area() {
   const [listArea, setListArea] = useState([]);
   const [api, contextHolder] = notification.useNotification();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const arr = [];
   for (const key in area) {
     arr.push(area[key]);
   }
+
   const handleCityChange = (e) => {
     setNameArea(e.target.value);
   };
@@ -55,6 +57,7 @@ export default function Area() {
       });
     }
   };
+
   const getAreaJson = async () => {
     try {
       const result = await areaAPI.getAreaJson();
