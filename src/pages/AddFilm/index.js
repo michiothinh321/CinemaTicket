@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, Input, notification } from "antd";
-import { movie as movieAPI } from "../../API/index";
+import { Button, Form, Input, Select, notification } from "antd";
+import {
+  movie as movieAPI,
+  animation as animationAPI,
+  category as categoryAPI,
+} from "../../API/index";
+
 import styles from "./PageAdmin.module.scss";
 import clsx from "clsx";
+
 const { TextArea } = Input;
 export default function AddFilm() {
   const [api, contextHolder] = notification.useNotification();
 
   const [nameFilm, setNameFilm] = useState("");
-  const [genres, setGenres] = useState("");
+  const [listGenres, setListGenres] = useState([]);
+  const [genres, setGenres] = useState([]);
   const [directors, setDirectors] = useState("");
   const [actors, setActors] = useState("");
   const [time, setTime] = useState("");
@@ -16,6 +23,8 @@ export default function AddFilm() {
   const [content, setContent] = useState("");
   const [picture, setPicture] = useState("");
   const [trailer, setTrailer] = useState("");
+  const [listAnimation, setListAnimation] = useState([]);
+  const [animation, setAnimation] = useState([]);
 
   const handlePicture = (e) => {
     const file = e.target.files[0];
@@ -33,6 +42,7 @@ export default function AddFilm() {
         actors,
         date,
         time,
+        animation,
         content,
         picture,
         trailer,
@@ -51,6 +61,51 @@ export default function AddFilm() {
       });
     }
   };
+
+  useEffect(() => {
+    (async () => {
+      await getCategoryList();
+    })();
+  }, []);
+
+  const getCategoryList = async () => {
+    try {
+      const result = await categoryAPI.getCategoryList();
+      setListGenres(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    (async () => {
+      await getListAnimation();
+    })();
+  }, []);
+
+  const getListAnimation = async () => {
+    try {
+      const result = await animationAPI.getList();
+      setListAnimation(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const optionsAnimation = [];
+  for (let i = 0; i < listAnimation.length; i++) {
+    optionsAnimation.push({
+      label: listAnimation[i].nameAnimation,
+      value: listAnimation[i].nameAnimation,
+    });
+  }
+
+  const optionsCategory = [];
+  for (let i = 0; i < listGenres.length; i++) {
+    optionsCategory.push({
+      label: listGenres[i].nameCategory,
+      value: listGenres[i].nameCategory,
+    });
+  }
+
   return (
     <>
       {contextHolder}
@@ -79,12 +134,13 @@ export default function AddFilm() {
             />
           </Form.Item>
           <Form.Item label="Thể loại">
-            <Input
-              placeholder="Thể loại"
-              id="genres"
-              name="genres"
-              value={genres}
-              onChange={(e) => setGenres(e.target.value)}
+            <Select
+              mode="multiple"
+              allowClear
+              onChange={(item) => setGenres(item)}
+              style={{ width: "100%" }}
+              placeholder="Please select"
+              options={optionsCategory}
             />
           </Form.Item>
           <Form.Item label="Tác giả">
@@ -103,6 +159,16 @@ export default function AddFilm() {
               name="actors"
               value={actors}
               onChange={(e) => setActors(e.target.value)}
+            />
+          </Form.Item>
+          <Form.Item label="Animation">
+            <Select
+              mode="multiple"
+              allowClear
+              onChange={(item) => setAnimation(item)}
+              style={{ width: "100%" }}
+              placeholder="Please select"
+              options={optionsAnimation}
             />
           </Form.Item>
           <Form.Item label="Ngày chiếu">

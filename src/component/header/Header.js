@@ -9,7 +9,6 @@ import { user as userAPI } from "../../API";
 function Header() {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  console.log(user);
 
   const handleLogout = async () => {
     try {

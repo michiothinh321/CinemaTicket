@@ -145,7 +145,7 @@ export default function Theater() {
 
                   <td>{theater.address}</td>
                   <td>
-                    <Link to="/editfilm">
+                    <Link to={`/edittheater?idTheater=${theater._id}`}>
                       <Button type="primary" htmlType="submit">
                         Sửa Rạp
                       </Button>

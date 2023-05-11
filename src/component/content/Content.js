@@ -8,7 +8,7 @@ const Content = () => {
     (async () => {
       await getMovieList();
     })();
-  }, [film.picture]);
+  }, []);
   const getMovieList = async () => {
     try {
       const result = await movieAPI.getMovieList();
@@ -17,7 +17,7 @@ const Content = () => {
       console.log(error);
     }
   };
-  console.log(film);
+
   return (
     <>
       <div className="content_body">
@@ -37,7 +37,7 @@ const Content = () => {
                 <p>{film.nameFilm}</p>
 
                 <button className="btn_header">
-                  <Link to={`/ticket?nameFilm=${film.nameFilm}`}>Mua Vé</Link>
+                  <Link to={`/ticket?idFilm=${film._id}`}>Mua Vé</Link>
                 </button>
               </div>
             );

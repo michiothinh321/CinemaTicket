@@ -13,10 +13,12 @@ import {
   EditFilm,
   Category,
   Theater,
-  AddCategory,
   InfoUser,
   EditUser,
   Room,
+  EditTheater,
+  Animation,
+  DetailsFilm,
 } from "../pages";
 import { DefaultLayout, AdminLayout } from "../layouts";
 const PrivateRoutes = ({ children }) => {
@@ -74,6 +76,11 @@ const publicRoutes = [
     component: Area,
   },
   {
+    path: "/animation",
+    layout: AdminLayout,
+    component: Animation,
+  },
+  {
     path: "/theater",
     layout: AdminLayout,
     component: Theater,
@@ -94,6 +101,11 @@ const publicRoutes = [
     component: EditFilm,
   },
   {
+    path: "/edittheater",
+    layout: AdminLayout,
+    component: EditTheater,
+  },
+  {
     path: "/edituser",
     layout: AdminLayout,
     component: EditUser,
@@ -104,9 +116,9 @@ const publicRoutes = [
     component: Category,
   },
   {
-    path: "/addcategory",
+    path: "/detailsfilm",
     layout: AdminLayout,
-    component: AddCategory,
+    component: DetailsFilm,
   },
   {
     path: "/room",

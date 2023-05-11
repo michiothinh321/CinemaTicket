@@ -1,158 +1,88 @@
-import clsx from "clsx";
 import React, { useState, useEffect } from "react";
-import styles from "./ticket.module.scss";
+import "./ticket.scss";
 import { Link } from "react-router-dom";
-
+import { movie as movieAPI } from "../../API/index";
 const Ticket = () => {
-  const [ticket, setTicket] = useState({});
-  const [showTime, setShowTime] = useState();
-  const [city, setCity] = useState("");
-  const [cityList, setCityList] = useState([]);
-  const [graphic, setGraphic] = useState([]);
-
   const keyValue = window.location.search;
   const urlParams = new URLSearchParams(keyValue);
-  const nameFilm = urlParams.get("nameFilm");
-  console.log(nameFilm);
+  const idFilm = urlParams.get("idFilm");
+  console.log(idFilm);
+  const [movie, setMovie] = useState({});
 
   useEffect(() => {
-    setTicket({
-      id: 1,
-      thumb:
-        "http://localhost:3001/static/media/jujutsu-kaisen-chu-thuat-hoi-chien.413b79b5811b822dfe5f.png",
-      name: "A",
-      time: 120,
-      directors: ["Tony", "Nami"],
-      genres: ["hanhdong", "tinhcam"],
-      actors: ["Danny", "Hana"],
-      date: "2023-02-14",
-      content: "ABC",
-      graphics: ["2D", "3D", "IMAX"],
-    });
+    (async () => {
+      await getMovie();
+    })();
   }, []);
 
-  useEffect(() => {
-    setCityList([
-      {
-        name: "Tp. Hồ Chí Minh",
-        code: "HCM",
-      },
-      {
-        name: "Đồng Nai",
-        code: "DN",
-      },
-      {
-        name: "Long An",
-        code: "LA",
-      },
-      {
-        name: "Bình Dương",
-        code: "BD",
-      },
-      {
-        name: "Tiền Giang",
-        code: "TG",
-      },
-    ]);
-  }, []);
-
-  useEffect(() => {
-    setCity(cityList[0]);
-  }, [cityList]);
-
-  const handleShowTime = (e) => {
-    setShowTime(e.target.value);
+  const getMovie = async () => {
+    try {
+      const result = await movieAPI.getMovie({
+        idFilm,
+      });
+      setMovie(result.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
-
-  const handleCityChange = (e) => {
-    setCity(e.target.value);
-  };
-
-  const handleGraphicsChange = (e) => {
-    setGraphic(e.target.value);
-  };
-  console.log(graphic);
 
   return (
     <>
-      <div className={clsx(styles.ticket_content)}>
-        <div className={clsx(styles.ticket_left)}>
-          <div className={clsx(styles.ticket_descript1)}>
+      <div className="ticket_content">
+        <div className="ticket_left">
+          <div className="ticket_descript1">
             <div>
-              <img src={ticket.thumb} alt="" />
+              <img src={movie.picture} alt="?" />
             </div>
-            <div className={clsx(styles.ticket_title)}>
-              <h3>{ticket.name}</h3>
+            <div className="ticket_title">
+              <h3>{movie.nameFilm}</h3>
               <p>
-                <span>Time: </span>
-                <span>{ticket.time}'</span>
+                <span>Thời gian: </span>
+                <span>{movie.time} phút</span>
               </p>
-              <p>Đạo diễn: {ticket.directors?.join(", ")}</p>
-              <p>Thể loại: {ticket.genres?.join(", ")}</p>
-              <p>Diễn viên: {ticket.actors?.join(", ")}</p>
-              <p>Ngày công chiếu: {ticket.date}</p>
+              <p>Đạo diễn: {movie.directors}</p>
+              <p>Thể loại: {movie.genres?.join(", ")}</p>
+              <p>Diễn viên: {movie.actors}</p>
+              <p>
+                Ngày công chiếu: {movie.date?.slice(0, 10).split("-").join("-")}
+              </p>
             </div>
           </div>
-          <div className={clsx(styles.ticket_descript2)}>
+          <div className="ticket_descript2">
             <h4>Nội Dung Phim</h4>
-            <p>{ticket.content}</p>
+            <p>{movie.content}</p>
           </div>
         </div>
-        <div className={clsx(styles.ticket_right)}>
+        <div className="ticket_right">
           <h2>LỊCH CHIẾU</h2>
-          <div className={clsx(styles.ticket_select)}>
-            <input
-              value={showTime || ""}
-              type="date"
-              onChange={handleShowTime}
-            ></input>
-            <select onChange={handleCityChange}>
-              {cityList.map((city) => {
+          <div className="ticket_select">
+            <input value={""} type="date"></input>
+            <select>
+              {/* {cityList.map((city) => {
                 return (
                   <option key={city.code} value={city.code}>
                     {city.name}
                   </option>
                 );
-              })}
+              })} */}
             </select>
-            <select onChange={handleGraphicsChange}>
-              {ticket.graphics?.map((graphic) => {
+            <select>
+              {/* {ticket.graphics?.map((graphic) => {
                 return <option key={graphic}>{graphic}</option>;
-              })}
+              })} */}
             </select>
           </div>
-          <div className={clsx(styles.ticket_time)}>
+          <div className="ticket_time">
             <div>
               <h3>Cinema Tân Bình</h3>
             </div>
-            <div className={clsx(styles.flex_center)}>
-              <div className={clsx(styles.ticket_time_title)}>
+            <div className="flex_center">
+              <div className="ticket_time_title">
                 <h4>2D</h4>
               </div>
-              <div className={clsx(styles.ticket_time_button)}>
+              <div className="ticket_time_button">
                 <Link to="/order">
-                  <button className={clsx(styles.button_order)}>09:00</button>
-                </Link>
-                <Link to="/order">
-                  <button className={clsx(styles.button_order)}>10:00</button>
-                </Link>
-                <Link to="/order">
-                  <button className={clsx(styles.button_order)}>11:00</button>
-                </Link>
-                <Link to="/order">
-                  <button className={clsx(styles.button_order)}>12:00</button>
-                </Link>
-                <Link to="/order">
-                  <button className={clsx(styles.button_order)}>13:00</button>
-                </Link>
-                <Link to="/order">
-                  <button className={clsx(styles.button_order)}>14:00</button>
-                </Link>
-                <Link to="/order">
-                  <button className={clsx(styles.button_order)}>15:00</button>
-                </Link>
-                <Link to="/order">
-                  <button className={clsx(styles.button_order)}>16:00</button>
+                  <button className="button_order">09:00</button>
                 </Link>
               </div>
             </div>

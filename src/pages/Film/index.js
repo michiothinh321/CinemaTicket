@@ -1,44 +1,38 @@
 import React, { useState, useEffect } from "react";
 import "./PageAdmin.scss";
 import { Link } from "react-router-dom";
-import {
-  notification,
-  Button,
-  Modal,
-  Form,
-  Input,
-  DatePicker,
-  TimePicker,
-} from "antd";
+import { notification, Button, Modal, Form, Input } from "antd";
 import {
   movie as movieAPI,
   area as areaAPI,
   theater as theaterAPI,
   room as roomAPI,
+  showtime as showtimeAPI,
 } from "../../API";
 
 export default function Film() {
-  const [film, setFilm] = useState([]);
   const [api, contextHolder] = notification.useNotification();
-  const [listArea, setListArea] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [film, setFilm] = useState([]);
+  const [listArea, setListArea] = useState([]);
   const [idArea, setIdArea] = useState("");
   const [idTheater, setIdTheater] = useState("");
+  const [idRoom, setIdRoom] = useState("");
+  const [idAnimation, setIdAnimation] = useState("");
+  const [date, setDate] = useState("");
+  const [timeStart, setTimeStart] = useState("");
+  const [price, setPrice] = useState("");
   const [theater, setTheater] = useState([]);
   const [room, setRoom] = useState([]);
-  const handleGetIdArea = (e) => {
-    setIdArea(e.target.value);
-  };
-  const handleGetIdTheater = (e) => {
-    setIdTheater(e.target.value);
-  };
+  const [idFilm, setIdFilm] = useState("");
   //MODAL
-  const showModal = () => {
+  const showModal = (id) => {
     setIsModalOpen(true);
+    setIdFilm(id);
   };
 
   const handleOk = () => {
-    setIsModalOpen(false);
+    handleAddShowTime();
   };
 
   const handleCancel = () => {
@@ -50,6 +44,34 @@ export default function Film() {
       film.nameFilm && URL.revokeObjectURL(film.nameFilm);
     };
   }, []);
+
+  //THEM SUAT CHIEU
+  const handleAddShowTime = async () => {
+    try {
+      const result = await showtimeAPI.addShowTime({
+        price,
+        timeStart,
+        date,
+        idAnimation,
+        idRoom,
+        idFilm,
+        idTheater,
+        idArea,
+      });
+
+      if (result.status === 200) {
+        api.open({
+          type: "success",
+          message: "Add Film successfully.",
+        });
+      }
+    } catch (error) {
+      api.open({
+        type: "error",
+        message: "Film is exsist.",
+      });
+    }
+  };
 
   //CALL API DS PHIM
   useEffect(() => {
@@ -100,7 +122,6 @@ export default function Film() {
       console.log(error);
     }
   };
-
   useEffect(() => {
     if (idArea) {
       (async () => {
@@ -108,7 +129,6 @@ export default function Film() {
       })();
     }
   }, [idArea]);
-
   const getTheaterById = async () => {
     try {
       const result = await theaterAPI.getTheaterById({
@@ -137,8 +157,8 @@ export default function Film() {
       console.log(error);
     }
   };
-  console.log(listArea[0]);
   //END CALL API KHU VUC - RAP - PHONG -THE LOAI
+
   return (
     <>
       {contextHolder}
@@ -158,6 +178,7 @@ export default function Film() {
               <th>Ngày công chiếu</th>
               <th>Thời lượng</th>
               <th>Thể loại</th>
+              <th>Animation</th>
               <th>Hành động</th>
             </tr>
           </thead>
@@ -175,6 +196,7 @@ export default function Film() {
                   </td>
                   <td>{film.time}</td>
                   <td>{film.genres}</td>
+                  <td>{film.animation.join(" , ")}</td>
                   <td>
                     <Link to={`/editfilm?idFilm=${film._id}`}>
                       <Button type="primary" htmlType="submit">
@@ -195,7 +217,7 @@ export default function Film() {
                     <Button
                       type="primary"
                       htmlType="submit"
-                      onClick={showModal}
+                      onClick={() => showModal(film._id)}
                     >
                       Thêm Suất Chiếu
                     </Button>
@@ -220,9 +242,12 @@ export default function Film() {
                       >
                         <Form.Item label="Khu Vực">
                           <select
-                            onChange={handleGetIdArea}
-                            defaultValue={listArea[0]}
+                            onChange={(e) => {
+                              setIdArea(e.target.value);
+                            }}
+                            value={idArea}
                           >
+                            <option>---SELECT---</option>
                             {listArea.map((area) => {
                               return (
                                 <option key={area._id} value={area._id}>
@@ -233,7 +258,11 @@ export default function Film() {
                           </select>
                         </Form.Item>
                         <Form.Item label="Rạp">
-                          <select onChange={handleGetIdTheater}>
+                          <select
+                            onChange={(e) => setIdTheater(e.target.value)}
+                            value={idTheater}
+                          >
+                            <option>---SELECT---</option>
                             {theater.map((theater) => {
                               return (
                                 <option key={theater._id} value={theater._id}>
@@ -244,7 +273,11 @@ export default function Film() {
                           </select>
                         </Form.Item>
                         <Form.Item label="Phòng">
-                          <select>
+                          <select
+                            onChange={(e) => setIdRoom(e.target.value)}
+                            value={idRoom}
+                          >
+                            <option>---SELECT---</option>
                             {room.map((room) => {
                               return (
                                 <option key={room._id} value={room._id}>
@@ -255,34 +288,49 @@ export default function Film() {
                           </select>
                         </Form.Item>
                         <Form.Item label="Thể loại">
-                          <select>
+                          <select
+                            onChange={(e) => setIdAnimation(e.target.value)}
+                            value={idAnimation}
+                          >
                             <option>A</option>
                             <option>B</option>
                           </select>
                         </Form.Item>
                         <Form.Item label="Ngày Chiếu">
-                          <DatePicker
-                            placeholder="Ngày Chiếu"
-                            id="address"
-                            name="address"
+                          <input
+                            type="date"
+                            id="date"
+                            name="date"
+                            value={date}
+                            onChange={(e) => setDate(e.target.value)}
                           />
                         </Form.Item>
                         <Form.Item label="Giờ Chiếu">
-                          <TimePicker
+                          <input
                             placeholder="Giờ Chiếu"
-                            id="address"
-                            name="address"
+                            id="time"
+                            name="time"
+                            type="time"
+                            onChange={(e) => setTimeStart(e.target.value)}
+                            value={timeStart}
                           />
                         </Form.Item>
                         <Form.Item label="Giá vé">
                           <Input
                             placeholder="Giá vé"
-                            id="address"
-                            name="address"
+                            id="price"
+                            name="price"
+                            onChange={(e) => setPrice(e.target.value)}
+                            value={price}
                           />
                         </Form.Item>
                       </Form>
                     </Modal>
+                    <Link to={`/detailsFilm?idFilm=${film._id}`}>
+                      <Button type="primary" htmlType="submit">
+                        Chi Tiết Phim
+                      </Button>
+                    </Link>
                   </td>
                 </tr>
               );

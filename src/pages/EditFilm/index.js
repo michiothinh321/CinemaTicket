@@ -8,7 +8,7 @@ export default function EditFilm() {
   const keyValue = window.location.search;
   const urlParams = new URLSearchParams(keyValue);
   const idFilm = urlParams.get("idFilm");
-  const [movie, setMovie] = useState([]);
+  const [movie, setMovie] = useState({});
   const [api, contextHolder] = notification.useNotification();
 
   const handleEditMovie = async () => {

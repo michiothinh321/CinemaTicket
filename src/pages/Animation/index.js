@@ -1,66 +1,67 @@
 import React, { useState, useEffect } from "react";
-import { category as categoryAPI } from "../../API";
+import { animation as animationAPI } from "../../API";
 import { notification, Button, Modal, Form, Input } from "antd";
 import { Link } from "react-router-dom";
+import animation from "./../../API/animation";
 
-export default function Category() {
-  const [category, setCategory] = useState([]);
+export default function Animation() {
+  const [animation, setAnimation] = useState([]);
   const [api, contextHolder] = notification.useNotification();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [nameCategory, setNameCategory] = useState("");
+  const [nameAnimation, setNameAnimation] = useState("");
   // OPEN MODAL
   const showModal = () => {
     setIsModalOpen(true);
   };
 
   const handleOk = () => {
-    handleAddCategory();
+    handleAddAnimation();
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
     window.location.reload(true);
   };
-  const handleAddCategory = async () => {
+  const handleAddAnimation = async () => {
     try {
-      const result = await categoryAPI.addCategory({
-        nameCategory,
+      const result = await animationAPI.addAnimation({
+        nameAnimation,
       });
 
       if (result.status === 200) {
         api.open({
           type: "success",
-          message: "Thêm khu vực thành công.",
+          message: "Thêm animation thành công.",
         });
       }
     } catch (error) {
       api.open({
         type: "error",
-        message: "Tên khu vực đã tồn tại.",
+        message: "Tên animation đã tồn tại.",
       });
     }
   };
 
   useEffect(() => {
     (async () => {
-      await getCategoryList();
+      await getAnimationList();
     })();
   }, []);
-  const getCategoryList = async () => {
+  const getAnimationList = async () => {
     try {
-      const result = await categoryAPI.getCategoryList();
-      setCategory(result.data);
+      const result = await animationAPI.getList();
+      setAnimation(result.data);
     } catch (error) {
       console.log(error);
     }
   };
-  const handleDeleteCategory = async (nameCategory) => {
+  const handleDeleteAnimation = async (nameAnimation) => {
     try {
-      const result = await categoryAPI.deleteCategory({
-        nameCategory,
+      const result = await animationAPI.deleteAnimation({
+        nameAnimation,
       });
       if (result.status === 200) {
-        await getCategoryList();
+        await getAnimationList();
         api.open({
           type: "success",
           message: "Xóa thể loại thành công.",
@@ -79,19 +80,20 @@ export default function Category() {
       {contextHolder}
       <div className="admin_right">
         <h1>Quản Lý Thể Loại</h1>
-        <Button type="primary" htmlType="submit" onClick={showModal}>
-          Thêm Thể Loại
-        </Button>
-        <Link to="/animation">
+        <Link to="/category">
           <Button
             type="primary"
             danger
             htmlType="submit"
-            style={{ marginLeft: "20px" }}
+            style={{ marginRight: "20px" }}
           >
-            Animation
+            Thể Loại
           </Button>
         </Link>
+        <Button type="primary" htmlType="submit" onClick={showModal}>
+          Thêm Animation
+        </Button>
+
         <Modal
           title="Thêm Rạp"
           open={isModalOpen}
@@ -111,13 +113,13 @@ export default function Category() {
               minWidth: 600,
             }}
           >
-            <Form.Item label="Thể Loại">
+            <Form.Item label="Animation">
               <Input
-                placeholder="Thể Loại"
-                id="category"
-                name="category"
-                value={nameCategory}
-                onChange={(e) => setNameCategory(e.target.value)}
+                placeholder="Animation"
+                id="animation"
+                name="animation"
+                value={nameAnimation}
+                onChange={(e) => setNameAnimation(e.target.value)}
               />
             </Form.Item>
           </Form>
@@ -125,27 +127,27 @@ export default function Category() {
         <table>
           <thead>
             <tr>
-              <th>Id</th>
-              <th>Tên thể loại</th>
+              <th>STT</th>
+              <th>Tên Animation</th>
               <th>Hành động</th>
             </tr>
           </thead>
           <tbody>
-            {category.map((category, index) => {
+            {animation.map((animation, index) => {
               return (
                 <tr key={index}>
                   <td>{index + 1}</td>
-                  <td>{category.nameCategory}</td>
+                  <td>{animation.nameAnimation}</td>
                   <td>
                     <Button
                       type="primary"
                       danger
                       htmlType="submit"
                       onClick={() =>
-                        handleDeleteCategory(category.nameCategory)
+                        handleDeleteAnimation(animation.nameAnimation)
                       }
                     >
-                      Xóa Thể Loại
+                      Xóa Animation
                     </Button>
                   </td>
                 </tr>

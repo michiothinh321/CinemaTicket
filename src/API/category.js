@@ -10,8 +10,8 @@ const category = {
     const url = API_BASE_URL + "/category/getList";
     return await axios.get(url);
   },
-  deleteCategory: async ({ index }) => {
-    const url = API_BASE_URL + `/category/${index}`;
+  deleteCategory: async ({ nameCategory }) => {
+    const url = API_BASE_URL + `/category/${nameCategory}`;
     return await axios.delete(url);
   },
 };

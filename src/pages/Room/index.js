@@ -176,6 +176,9 @@ export default function Room() {
                   <td>{room.columns}</td>
                   <td>{room.rows}</td>
                   <td>
+                    <Button type="primary" htmlType="submit">
+                      Sửa Phòng
+                    </Button>
                     <Button
                       type="primary"
                       danger
@@ -184,7 +187,7 @@ export default function Room() {
                         handleDeleteRoom(room.nameRoom);
                       }}
                     >
-                      Xóa phim
+                      Xóa Phòng
                     </Button>
                   </td>
                 </tr>

@@ -115,6 +115,7 @@ export default function Area() {
           onCancel={handleCancel}
         >
           <select onChange={handleCityChange}>
+            <option>---SELECT---</option>
             {arr.map((arr) => {
               return (
                 <option key={arr.code} value={arr.name}>
@@ -139,9 +140,6 @@ export default function Area() {
                   <td>{index}</td>
                   <td>{area.nameArea}</td>
                   <td>
-                    <Button type="primary" htmlType="submit">
-                      Sửa Khu Vực
-                    </Button>
                     <Button
                       type="primary"
                       danger
