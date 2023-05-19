@@ -52,11 +52,8 @@ export default function Film() {
         price,
         timeStart,
         date,
-        idAnimation,
         idRoom,
         idFilm,
-        idTheater,
-        idArea,
       });
 
       if (result.status === 200) {

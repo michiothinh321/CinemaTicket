@@ -10,6 +10,10 @@ const room = {
     const url = API_BASE_URL + `/room/${idTheater}`;
     return await axios.get(url);
   },
+  getId: async ({ idRoom }) => {
+    const url = API_BASE_URL + `/room/getId/${idRoom}`;
+    return await axios.get(url);
+  },
   deleteRoom: async ({ nameRoom }) => {
     const url = API_BASE_URL + `/room/${nameRoom}`;
     return await axios.delete(url);

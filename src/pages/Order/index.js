@@ -1,9 +1,80 @@
 import clsx from "clsx";
-import React from "react";
+import { room as roomAPI, showtime as showtimeAPI } from "../../API";
+import React, { useEffect, useState } from "react";
 import styles from "./OrderContent.module.scss";
 import logo from "../../component/image/jujutsu-kaisen-chu-thuat-hoi-chien.png";
 import { Link } from "react-router-dom";
 const Order = () => {
+  const keyValue = window.location.search;
+  const urlParams = new URLSearchParams(keyValue);
+  const idRoom = urlParams.get("idRoom");
+  const idFilm = urlParams.get("idFilm");
+  const [film, setFilm] = useState([]);
+  const [movie, setMovie] = useState({});
+
+  const arrayString = [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+  ];
+
+  useEffect(() => {
+    (async () => {
+      await getMovie();
+    })();
+  }, []);
+  const getMovie = async () => {
+    try {
+      const result = await roomAPI.getId({ idRoom });
+      setMovie(result.data[0]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    (async () => {
+      await getShowtime();
+    })();
+  }, []);
+  const getShowtime = async () => {
+    try {
+      const result = await showtimeAPI.getShowtime({ idFilm });
+      setFilm(result.data[0]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const arr = [];
+
+  for (let i = 0; i < movie.columns; i++) {
+    for (let j = 0; j < movie.rows; j++) {
+      arr.push(`${arrayString[i]}${j}`);
+    }
+  }
+
   return (
     <>
       <div className={clsx(styles.order)}>
@@ -14,30 +85,7 @@ const Order = () => {
             </div>
             <ul>
               <div className={clsx(styles.width)}>
-                <ul>
-                  <li>A0</li>
-                  <li>A1</li>
-                  <li>A2</li>
-                  <li>A3</li>
-                  <li>A4</li>
-                  <li>A5</li>
-                  <li>A6</li>
-                  <li>A7</li>
-                  <li>A8</li>
-                  <li>A9</li>
-                </ul>
-                <ul>
-                  <li>A0</li>
-                  <li>A1</li>
-                  <li>A2</li>
-                  <li>A3</li>
-                  <li>A4</li>
-                  <li>A5</li>
-                  <li>A6</li>
-                  <li>A7</li>
-                  <li>A8</li>
-                  <li>A9</li>
-                </ul>
+                <ul></ul>
               </div>
             </ul>
             <div className={clsx(styles.order_note)}>
@@ -54,11 +102,14 @@ const Order = () => {
             <h2>Chú thuật hồi chiến</h2>
           </div>
           <div>
-            <p>Rạp: Cinema Tân Bình | RAP 1</p>
-            <p>Suất chiếu: 13:30 | Thứ bảy, 18/02/2023</p>
-            <p>Combo: </p>
+            <p>
+              Rạp: {`${film.nameTheater}`} | Phòng: {`${film.nameRoom}`}
+            </p>
+            <p>
+              Suất chiếu: {`${film.timeStart}`} | {`${film.date}`}
+            </p>
             <p>Ghế: </p>
-            <h2>Tổng: 90.000 VNĐ</h2>
+            <h2>Tổng: </h2>
           </div>
           <div className={clsx(styles.order_right_button)}>
             <Link to="/ticket">

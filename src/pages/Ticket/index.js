@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "./ticket.scss";
 import { Link } from "react-router-dom";
-import { movie as movieAPI } from "../../API/index";
+import { movie as movieAPI, showtime as showtimeAPI } from "../../API/index";
 const Ticket = () => {
   const keyValue = window.location.search;
   const urlParams = new URLSearchParams(keyValue);
   const idFilm = urlParams.get("idFilm");
-  console.log(idFilm);
   const [movie, setMovie] = useState({});
+  const [film, setFilm] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -25,7 +25,20 @@ const Ticket = () => {
       console.log(error);
     }
   };
-
+  useEffect(() => {
+    (async () => {
+      await getShowtime();
+    })();
+  }, []);
+  const getShowtime = async () => {
+    try {
+      const result = await showtimeAPI.getShowtime({ idFilm });
+      setFilm(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log(film);
   return (
     <>
       <div className="ticket_content">
@@ -55,38 +68,28 @@ const Ticket = () => {
         </div>
         <div className="ticket_right">
           <h2>LỊCH CHIẾU</h2>
-          <div className="ticket_select">
-            <input value={""} type="date"></input>
-            <select>
-              {/* {cityList.map((city) => {
-                return (
-                  <option key={city.code} value={city.code}>
-                    {city.name}
-                  </option>
-                );
-              })} */}
-            </select>
-            <select>
-              {/* {ticket.graphics?.map((graphic) => {
-                return <option key={graphic}>{graphic}</option>;
-              })} */}
-            </select>
-          </div>
-          <div className="ticket_time">
-            <div>
-              <h3>Cinema Tân Bình</h3>
-            </div>
-            <div className="flex_center">
-              <div className="ticket_time_title">
-                <h4>2D</h4>
+
+          {film.map((film) => {
+            return (
+              <div className="ticket_time" key={film._id}>
+                <div>
+                  <h3>{film.nameTheater}</h3>
+                </div>
+                <div className="flex_center">
+                  <div className="ticket_time_title">
+                    <h4>2D</h4>
+                  </div>
+                  <div className="ticket_time_button">
+                    <Link
+                      to={`/order?idRoom=${film.idRoom}&idFilm=${film.idFilm}`}
+                    >
+                      <button className="button_order">{film.timeStart}</button>
+                    </Link>
+                  </div>
+                </div>
               </div>
-              <div className="ticket_time_button">
-                <Link to="/order">
-                  <button className="button_order">09:00</button>
-                </Link>
-              </div>
-            </div>
-          </div>
+            );
+          })}
         </div>
       </div>
     </>

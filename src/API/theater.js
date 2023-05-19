@@ -10,7 +10,7 @@ const theater = {
     const url = API_BASE_URL + `/theater/${idArea}`;
     return await axios.get(url);
   },
-  getTheater: async ({ idTheater }) => {
+  getTheater: async (idTheater) => {
     const url = API_BASE_URL + `/theater/getId/${idTheater}`;
     return await axios.get(url);
   },
