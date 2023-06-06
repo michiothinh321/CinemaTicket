@@ -5,6 +5,7 @@
   color: black;
 }
 
+  
 .order_left {
   background-color: rgba(#b6d4ae, 0.3);
   clear: both;
@@ -17,6 +18,7 @@
   h2 {
     color: yellow;
   }
+ 
   .order_choice {
     ul {
       display: flex;
@@ -34,6 +36,11 @@
         margin: 5px 2px;
         cursor: pointer;
         padding: 6px;
+        
+      }
+      li:hover{
+        background-color: pink;
+        color: black;
       }
     }
   }

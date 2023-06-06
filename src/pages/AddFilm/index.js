@@ -29,7 +29,12 @@ export default function AddFilm() {
   const handlePicture = (e) => {
     const file = e.target.files[0];
     file.preview = URL.createObjectURL(file);
-    setPicture(file.preview);
+    
+    const reader = new FileReader();
+    reader.readAsDataURL(file.preview);
+    reader.onload = function () {
+      setPicture(reader.result);
+  };
   };
   const handleAddFilm = async (e) => {
     e.preventDefault();

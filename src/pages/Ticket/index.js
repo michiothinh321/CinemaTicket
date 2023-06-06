@@ -8,6 +8,7 @@ const Ticket = () => {
   const idFilm = urlParams.get("idFilm");
   const [movie, setMovie] = useState({});
   const [film, setFilm] = useState([]);
+  const [timeFilm,setTimeFilm] = useState([])
 
   useEffect(() => {
     (async () => {
@@ -38,7 +39,7 @@ const Ticket = () => {
       console.log(error);
     }
   };
-  console.log(film);
+  
   return (
     <>
       <div className="ticket_content">

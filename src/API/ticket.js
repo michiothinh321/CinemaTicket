@@ -1,0 +1,16 @@
+import axios from "axios";
+const API_BASE_URL = process.env.REACT_APP_BACKEND_API;
+
+const ticket = {
+  addTicket: async ({ ...data }) => {
+    const url = API_BASE_URL + "/ticket/addTicket";
+    return await axios.post(url, data);
+  },
+  getTicket: async ({email}) => {
+    const url = API_BASE_URL + `/ticket/${email}`;
+    return await axios.get(url);
+  },
+  
+};
+
+export default ticket;

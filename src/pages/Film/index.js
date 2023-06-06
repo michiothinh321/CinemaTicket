@@ -25,6 +25,7 @@ export default function Film() {
   const [theater, setTheater] = useState([]);
   const [room, setRoom] = useState([]);
   const [idFilm, setIdFilm] = useState("");
+  const [timeFilm,setTimeFilm] = useState("")
   //MODAL
   const showModal = (id) => {
     setIsModalOpen(true);
@@ -46,20 +47,37 @@ export default function Film() {
   }, []);
 
   //THEM SUAT CHIEU
+  const arr = timeStart.split(":")
+  var timeStartNow = {
+  hour:  (parseInt(arr[0], 10) ),
+  minute: (parseInt(arr[1], 10)) 
+  }
+  const timeStartShowTime = {
+  hour: Math.floor(((Number(timeFilm)+15)/60)+timeStartNow.hour),
+  minute:  Math.floor(((Number(timeFilm)+15)%60)+timeStartNow.minute)
+};
   const handleAddShowTime = async () => {
     try {
-      const result = await showtimeAPI.addShowTime({
-        price,
-        timeStart,
-        date,
-        idRoom,
-        idFilm,
-      });
 
-      if (result.status === 200) {
+      if(timeStart.slice(0,2)>=9 && timeStart.slice(0,2) <=23){
+        const result = await showtimeAPI.addShowTime({
+          price,
+          timeStart,
+          date,
+          idRoom,
+          idFilm,
+        });
+  
+        if (result.status === 200) {
+          api.open({
+            type: "success",
+            message: "Add Film successfully.",
+          });
+        }
+      }else{
         api.open({
-          type: "success",
-          message: "Add Film successfully.",
+          type: "error",
+          message: "Có thể tạo suất từ 9h tới 23h.",
         });
       }
     } catch (error) {
@@ -80,6 +98,22 @@ export default function Film() {
     try {
       const result = await movieAPI.getMovieList();
       setFilm(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if(idFilm){
+      (async () => {
+        await getMovie();
+      })();
+    }
+  }, [idFilm]);
+  const getMovie = async () => {
+    try {
+      const result = await movieAPI.getMovie({idFilm});
+      setTimeFilm(result.data.time);
     } catch (error) {
       console.log(error);
     }

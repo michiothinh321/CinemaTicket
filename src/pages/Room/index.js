@@ -12,19 +12,19 @@ export default function Room() {
   const [rows, setRows] = useState("");
   const [room, setRoom] = useState([]);
   const [api, contextHolder] = notification.useNotification();
-
+  const [fistNameRoom,setFirstNameRoom] = useState("")
   const keyValue = window.location.search;
   const urlParams = new URLSearchParams(keyValue);
   const idArea = urlParams.get("idArea");
   const idTheater = urlParams.get("idTheater");
-
+  const name = fistNameRoom +" " +nameRoom;
   const addRoom = async () => {
     try {
       const result = await roomAPI.addRoom({
         idTheater,
         columns,
         rows,
-        nameRoom,
+        nameRoom:name,
       });
       if (result.status === 200) {
         api.open({
@@ -90,6 +90,10 @@ export default function Room() {
     setIsModalOpen(false);
     window.location.reload(true);
   };
+  const handleNameRoom = (e)=>{
+    setFirstNameRoom(e.target.value);
+  }
+  
   return (
     <>
       {contextHolder}
@@ -122,7 +126,13 @@ export default function Room() {
               minWidth: 600,
             }}
           >
-            <Form.Item label="Tên Phòng">
+            <Form.Item label="Tên Phòng" >
+            <select onChange={handleNameRoom} value={fistNameRoom}>
+              <option> </option>
+              <option>Phòng</option>
+              <option>CGV</option>
+              <option>Rạp</option>
+            </select>
               <Input
                 placeholder="Tên Phòng"
                 id="nameRoom"

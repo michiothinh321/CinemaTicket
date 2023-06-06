@@ -1,9 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import logo from "../../component/image/jujutsu-kaisen-chu-thuat-hoi-chien.png";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
+import { room as roomAPI, showtime as showtimeAPI,ticket as ticketAPI,user as userAPI } from "../../API";
 import styles from "./PaymentContent.module.scss";
 const PaymentContent = () => {
+  const [ticket,setTicket] =useState("")
+  const user = useSelector((state) => state.user);
+  useEffect(() => {
+    (async () => {
+      await getTicket();
+    })();
+  }, []);
+  const getTicket = async () => {
+    try {
+      const result = await ticketAPI.getTicket({ email:user.email });
+      setTicket(result.data[0]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log(ticket);
   return (
     <>
       <div className={clsx(styles.payment)}>
@@ -54,15 +72,14 @@ const PaymentContent = () => {
         </div>
         <div className={clsx(styles.payment_right)}>
           <div className={clsx(styles.payment_right_img)}>
-            <img src={logo} alt="" />
-            <h2>Chú thuật hồi chiến</h2>
+            <img src={ticket.picture} alt="" />
+            <h2>{ticket.nameFilm}</h2>
           </div>
           <div>
-            <p>Rạp: Cinema Tân Bình | RAP 1</p>
-            <p>Suất chiếu: 13:30 | Thứ bảy, 18/02/2023</p>
-            <p>Combo: </p>
-            <p>Ghế: F5</p>
-            <h2>Tổng: 90.000 VNĐ</h2>
+            <p>Rạp: {ticket.nameTheater} | {ticket.nameRoom}</p>
+            <p>Suất chiếu: {ticket.timeStart} |{ticket.date}</p> 
+            <p>Ghế: {ticket.chairs?.join(", ")}</p>
+            <h2>Tổng: {Number(ticket.price).toLocaleString('vi', {style : 'currency', currency : 'VND'})}</h2>
           </div>
         </div>
       </div>
