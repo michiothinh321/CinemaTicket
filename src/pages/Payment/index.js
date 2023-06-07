@@ -8,6 +8,7 @@ import styles from "./PaymentContent.module.scss";
 const PaymentContent = () => {
   const [ticket,setTicket] =useState("")
   const user = useSelector((state) => state.user);
+
   useEffect(() => {
     (async () => {
       await getTicket();
@@ -21,13 +22,36 @@ const PaymentContent = () => {
       console.log(error);
     }
   };
-  console.log(ticket);
+  const [seconds, setSeconds] = useState(60);
+  const [minutes, setMinutes] = useState(2);
+
+const timer = () => setSeconds(seconds=>seconds - 1);
+
+useEffect(
+    () => {
+        if (seconds <= 0 && minutes >0) {
+            setMinutes((minutes)=> minutes-1)
+            setSeconds(60)
+        }
+        if(minutes <=0 && seconds<=0){
+          
+          return;
+          }
+        
+        const id = setInterval(timer, 50);
+        return () => clearInterval(id);
+    },
+    [seconds,minutes]
+);
+
+
   return (
     <>
       <div className={clsx(styles.payment)}>
         <div className={clsx(styles.payment_left)}>
-          <div>
+          <div style={{display:'flex',justifyContent:'space-between'}}>
             <h2>THANH TOÁN</h2>
+            <h2>THỜI GIAN: {`${minutes}:${seconds}`}</h2>
           </div>
           <div className={clsx(styles.payment_left_info)}>
             <div className={clsx(styles.payment_left_text)}>
@@ -72,7 +96,7 @@ const PaymentContent = () => {
         </div>
         <div className={clsx(styles.payment_right)}>
           <div className={clsx(styles.payment_right_img)}>
-            <img src={ticket.picture} alt="" />
+            <img src='' alt="" />
             <h2>{ticket.nameFilm}</h2>
           </div>
           <div>

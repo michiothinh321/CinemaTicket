@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./ticket.scss";
 import { Link } from "react-router-dom";
+import logo from "../../component/image/background.jpg"
 import { movie as movieAPI, showtime as showtimeAPI } from "../../API/index";
 const Ticket = () => {
   const keyValue = window.location.search;
@@ -46,7 +47,7 @@ const Ticket = () => {
         <div className="ticket_left">
           <div className="ticket_descript1">
             <div>
-              <img src={movie.picture} alt="?" />
+              <img src={logo} alt="?" />
             </div>
             <div className="ticket_title">
               <h3>{movie.nameFilm}</h3>

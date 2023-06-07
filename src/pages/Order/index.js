@@ -11,8 +11,8 @@ const Order = () => {
   const idFilm = urlParams.get("idFilm");
   const [film, setFilm] = useState([]);
   const [movie, setMovie] = useState({});
+  const [enable, setEnable] = useState([]);
   const [numberChair,setNumberChair] = useState([])
-  const [isActive, setIsActive] = useState(false);
   const [priceFilm,setPriceFilm] = useState(0)
   const [api, contextHolder] = notification.useNotification();
   const [idShowTime,setIdShowTime]= useState("")
@@ -53,15 +53,8 @@ const Order = () => {
       arr[i].push(`${i}${j}`)
     }
   }
-  // const handleBooking=(e)=>{
-  //   e.preventDefault()
-  //   setNumberChair((pre)=>[...pre,e.target.innerHTML]);
-  //   setPrice(pre=>[...pre,pre+film.price])
-  // }
 
   const handleAddTicket=async (e) => {
-    
-
     try {
       const result = await ticketAPI.addTicket({
        price:priceFilm,
@@ -85,15 +78,22 @@ const Order = () => {
   };
  
   const handleSetChair= (e)=>{
-
+    if(!enable.includes(e.target.innerHTML)){
+      setEnable((pre)=>[...pre,e.target.innerHTML])
       e.currentTarget.style.backgroundColor = 'salmon';
       e.currentTarget.style.color = 'white';
       setNumberChair((pre)=>[...pre,e.target.innerHTML]);
-      setPriceFilm(prev=>+film.price+prev)
-      e.currentTarget.status ='true'
-     
-      
+      setPriceFilm(prev=>+film.price+prev);
+    }
+    else{
+      setEnable(enable.filter(item=>!e.target.innerHTML.includes(item)));
+      e.currentTarget.style.backgroundColor = '#1A4FB1';
+      e.currentTarget.style.color = 'black';
+      setNumberChair(enable.filter(item=>!e.target.innerHTML.includes(item)))
+      setPriceFilm(prev=>prev-parseInt(film.price));
+    }
   }
+  console.log(numberChair);
   return (
     <>
       {contextHolder}
@@ -112,10 +112,7 @@ const Order = () => {
                           {chairs.map((chair,index)=>{
                             return (
                               <li key={index} 
-                              onClick={(e)=>handleSetChair(e)}  
-                              style={{  backgroundColor: isActive ? 'salmon' : '',
-                                        color: isActive ? 'white' : '',
-                                    }}>
+                              onClick={(e)=>handleSetChair(e)}>
                               {chair}
                               </li>
                             )
@@ -143,7 +140,7 @@ const Order = () => {
               Rạp: {`${film.nameTheater}`} | Phòng: {`${film.nameRoom}`}
             </p>
             <p>
-              Suất chiếu: {`${film.timeStart}`} | {`${film.date}`}
+              Suất chiếu: {`${film.timeStart}`} | {`${film.date?.slice(0, 10).split("-").reverse().join("-")}`}
             </p>
            
             <p>Ghế:  {numberChair.join(", ")} </p>
