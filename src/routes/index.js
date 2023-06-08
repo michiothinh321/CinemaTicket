@@ -19,6 +19,7 @@ import {
   EditTheater,
   Animation,
   DetailsFilm,
+  PaySuccess,
 } from "../pages";
 import { DefaultLayout, AdminLayout } from "../layouts";
 const PrivateRoutes = ({ children }) => {
@@ -39,6 +40,11 @@ const publicRoutes = [
     path: "/ticket",
     layout: DefaultLayout,
     component: Ticket,
+  },
+  {
+    path: "/paysuccess",
+    layout: DefaultLayout,
+    component: PaySuccess,
   },
   {
     path: "/order",

@@ -7,3 +7,4 @@ export { default as room } from "./room";
 export { default as animation } from "./animation";
 export { default as showtime } from "./showtime";
 export { default as ticket } from "./ticket";
+export { default as bill } from "./bill";

@@ -18,3 +18,4 @@ export { default as Room } from "./Room";
 export { default as EditTheater } from "./EditTheater";
 export { default as Animation } from "./Animation";
 export { default as DetailsFilm } from "./DetailsFilm";
+export { default as PaySuccess } from "./PaySuccess";
