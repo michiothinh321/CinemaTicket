@@ -47,7 +47,7 @@ const Ticket = () => {
         <div className="ticket_left">
           <div className="ticket_descript1">
             <div>
-              <img src={logo} alt="?" />
+              <img src={movie.picture} alt="?" />
             </div>
             <div className="ticket_title">
               <h3>{movie.nameFilm}</h3>

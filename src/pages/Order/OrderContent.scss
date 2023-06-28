@@ -42,6 +42,11 @@
         background-color: pink;
         color: black;
       }
+      li.disabled{
+        background-color: gray;
+        color: white;
+        cursor: unset;
+      }
     }
   }
 }

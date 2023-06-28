@@ -27,14 +27,14 @@ export default function AddFilm() {
   const [animation, setAnimation] = useState([]);
 
   const handlePicture = (e) => {
-    const file = e.target.files[0];
-    file.preview = URL.createObjectURL(file);
-    
     const reader = new FileReader();
-    reader.readAsDataURL(file.preview);
+    reader.readAsDataURL(e.target.files[0]);
     reader.onload = function () {
       setPicture(reader.result);
-  };
+    };
+    reader.onerror = error => {
+      console.log("Error",error)
+    }
   };
   const handleAddFilm = async (e) => {
     e.preventDefault();

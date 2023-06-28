@@ -1,10 +1,11 @@
 import { useSelector } from "react-redux";
-import { room as roomAPI, showtime as showtimeAPI,ticket as ticketAPI,user as userAPI } from "../../API";
+import { room as roomAPI, showtime as showtimeAPI,ticket as ticketAPI,chair as chairAPI} from "../../API";
 import React, { useEffect, useState } from "react";
 import {  notification } from "antd";
 import "./OrderContent.scss";
 import { Link } from "react-router-dom";
 const Order = () => {
+  const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' ,'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
   const keyValue = window.location.search;
   const urlParams = new URLSearchParams(keyValue);
   const idRoom = urlParams.get("idRoom");
@@ -15,8 +16,8 @@ const Order = () => {
   const [numberChair,setNumberChair] = useState([])
   const [priceFilm,setPriceFilm] = useState(0)
   const [api, contextHolder] = notification.useNotification();
-  const [idShowTime,setIdShowTime]= useState("")
-
+  const [idShowTime,setIdShowTime]= useState("");
+  const [chair,setChair] = useState([])
   const user = useSelector((state) => state.user);
   useEffect(() => {
     (async () => {
@@ -46,14 +47,6 @@ const Order = () => {
       console.log(error);
     }
   };
-  const arr = new Array();
-  for (let i = 0; i < movie.columns; i++) {
-    arr[i] =new Array();
-    for (let j = 0; j < movie.rows; j++) {
-      arr[i].push(`${i}${j}`)
-    }
-  }
-
   const handleAddTicket=async (e) => {
     try {
       const result = await ticketAPI.addTicket({
@@ -62,6 +55,12 @@ const Order = () => {
         chairs:numberChair,
         email:user.email
       });
+
+     
+      const result1 =await chairAPI.addChair({
+        idRoom,
+        numberChair,
+      })
 
       if (result.status === 200) {
         api.open({
@@ -77,6 +76,41 @@ const Order = () => {
     }
   };
  
+  useEffect(() => {
+    (async () => {
+      await getChair();
+    })();
+  }, []);
+  const getChair = async () => {
+    try {
+      const result = await chairAPI.getChair({ idRoom });
+      setChair(result.data);
+      
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const arr = new Array();
+  for (let i = 0; i < movie.columns; i++) {
+    arr[i] =new Array();
+    for (let j = 0; j < movie.rows; j++) {
+      arr[i].push({
+        'numberChair': `${alphabet[i]}${j}`,
+        'status': false,
+      })
+    }
+  }
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < arr.length; j++) {
+      for(let ij = 0; ij <chair.length; ij++){
+        for(let index=0;index <chair[ij].numberChair.length;index++){
+          if(arr[i][j].numberChair===chair[ij].numberChair[index] ){
+            arr[i][j].status =true;
+          }
+        }
+      }
+    }
+  }
   const handleSetChair= (e)=>{
     if(!enable.includes(e.target.innerHTML)){
       setEnable((pre)=>[...pre,e.target.innerHTML])
@@ -84,6 +118,7 @@ const Order = () => {
       e.currentTarget.style.color = 'white';
       setNumberChair((pre)=>[...pre,e.target.innerHTML]);
       setPriceFilm(prev=>+film.price+prev);
+      
     }
     else{
       setEnable(enable.filter(item=>!e.target.innerHTML.includes(item)));
@@ -93,7 +128,6 @@ const Order = () => {
       setPriceFilm(prev=>prev-parseInt(film.price));
     }
   }
-  console.log(numberChair);
   return (
     <>
       {contextHolder}
@@ -111,9 +145,9 @@ const Order = () => {
                       <ul key={index} >
                           {chairs.map((chair,index)=>{
                             return (
-                              <li key={index} 
+                              <li key={index} className={chair.status?'disabled':''}
                               onClick={(e)=>handleSetChair(e)}>
-                              {chair}
+                              {chair.numberChair}
                               </li>
                             )
                           })}
@@ -132,8 +166,8 @@ const Order = () => {
         </div>
         <div className="order_right">
           <div className="order_right_img">
-            <img src="" alt="Fail" />
-            <h2>NameFilm</h2>
+            <img src={film.picture} alt="Fail" />
+            <h2>{film.nameFilm}</h2>
           </div>
           <div>
             <p>
