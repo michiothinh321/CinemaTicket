@@ -1,69 +1,86 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import { notification } from "antd";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
-import { ticket as ticketAPI, bill as billAPI } from "../../API";
+import { ticket as ticketAPI,chair as chairAPI} from "../../API";
 import styles from "./PaymentContent.module.scss";
 const PaymentContent = () => {
   const [api, contextHolder] = notification.useNotification();
-
-  const [ticket, setTicket] = useState("");
+  const keyValue = window.location.search;
+  const urlParams = new URLSearchParams(keyValue);
+  const idRoom = urlParams.get("idRoom");
+  const navigate = useNavigate();
+  const [ticket, setTicket] = useState([]);
+  const [chair,setChair] = useState([]);
   const user = useSelector((state) => state.user);
 
   useEffect(() => {
-    (async () => {
-      await getTicket();
-    })();
+    if(ticket){
+      (async () => {
+        await getTicket();
+      })();
+    }
   }, []);
   const getTicket = async () => {
     try {
       const result = await ticketAPI.getTicket({ email: user.email });
-      setTicket(result.data[0]);
+      const result1 = await chairAPI.getChair({idRoom})
+      setTicket(result.data);
+      setChair(result1.data)
     } catch (error) {
       console.log(error);
     }
   };
   const [seconds, setSeconds] = useState(60);
   const [minutes, setMinutes] = useState(2);
+  const timer = () => setSeconds(seconds=>seconds - 1);
+  useEffect(
+      () => {
+          if (seconds <= 0 && minutes >0) {
+              setMinutes((minutes)=> minutes-1)
+              setSeconds(60)
+          }
+          if(minutes <=0 && seconds<=0){
+            navigate("/")
+            return;
+            }
 
-  // const timer = () => setSeconds(seconds=>seconds - 1);
-
-  // useEffect(
-  //     () => {
-  //         if (seconds <= 0 && minutes >0) {
-  //             setMinutes((minutes)=> minutes-1)
-  //             setSeconds(60)
-  //         }
-  //         if(minutes <=0 && seconds<=0){
-
-  //           return;
-  //           }
-
-  //         const id = setInterval(timer, 50);
-  //         return () => clearInterval(id);
-  //     },
-  //     [seconds,minutes]
-  // );
-
+          const id = setInterval(timer, 1000);
+          return () => clearInterval(id);
+      },
+      [seconds,minutes]
+  );
   const handleAddBill = async (e) => {
     try {
-      const result = await billAPI.addBill({
-        idTicket: ticket._id,
-        email: ticket.email,
-      });
+      ticket.map(async (ticket)=>{
+        if( !ticket.checkout){
+          const resultTicket = await ticketAPI.checkoutTicket({
+            id: ticket._id,
+          });
+        }
+      })
+      chair.map(async (chair)=>{
+        if(!chair.checkout){
+          const resultChair = await chairAPI.checkoutChair({
+            id: chair._id,
+          });
+        }
+      })
 
-      if (result.status === 200) {
-        api.open({
-          type: "success",
-          message: "Add Film successfully.",
-        });
-      }
+      // if (result.status === 200) {
+      //   api.open({
+      //     type: "success",
+      //     message: "Add Film successfully.",
+      //   });
+      // }
     } catch (error) {
-      api.open({
-        type: "error",
-        message: "Film is exsist.",
-      });
+      // api.open({
+      //   type: "error",
+      //   message: "Film is exsist.",
+      // });
+      console.log({error});
     }
   };
   return (
@@ -72,8 +89,8 @@ const PaymentContent = () => {
         <div className={clsx(styles.payment_left)}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <h2>THANH TOÁN</h2>
-            <h2>THỜI GIAN: {`${minutes}:${seconds}`}</h2>
-          </div>
+            <h2>THỜI GIAN: {`${minutes<10?"0"+minutes:minutes}:${seconds<10?"0"+seconds:seconds}`}</h2>
+         </div>
           <div className={clsx(styles.payment_left_info)}>
             <div className={clsx(styles.payment_left_text)}>
               <p>Hình thức thanh toán</p>
@@ -107,9 +124,12 @@ const PaymentContent = () => {
             </div>
           </div>
         </div>
-        <div className={clsx(styles.payment_right)}>
+          {ticket.map((ticket,index)=>{
+            if(!ticket.checkout){
+              return(
+                <div key={index} className={clsx(styles.payment_right)}>
           <div className={clsx(styles.payment_right_img)}>
-            <img src="" alt="" />
+            <img src={ticket.picture} alt="" />
             <h2>{ticket.nameFilm}</h2>
           </div>
           <div>
@@ -130,6 +150,9 @@ const PaymentContent = () => {
             </h2>
           </div>
         </div>
+              )
+            }
+          })}
       </div>
     </>
   );

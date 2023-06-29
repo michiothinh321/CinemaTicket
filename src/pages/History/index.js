@@ -37,9 +37,10 @@ export default function History() {
             </tr>
           </thead>
           <tbody>
-            {ticket.map((ticket) => {
-              return (
-                <tr key={ticket.id}>
+            {ticket.map((ticket,index) => {
+              if(ticket.checkout){
+                 return (
+                <tr key={index}>
                   <td>{ticket.nameTheater}</td>
                   <td>{ticket.nameFilm}</td>
                   <td>{ticket.nameRoom}</td>
@@ -50,7 +51,8 @@ export default function History() {
                   <td>{ticket.chairs.join(", ")}</td>
                   <td>{ticket.price}</td>
                 </tr>
-              );
+              ); 
+              }
             })}
           </tbody>
         </table>

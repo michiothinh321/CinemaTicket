@@ -1,17 +1,24 @@
 import React from 'react';
-import styles from './Slide.module.scss';
-import clsx from 'clsx';
+import './Slide.scss';
 import logo from '../image/one-piece.jpg'
+import { Carousel } from 'antd';
 
 const Slide = () => {
     return (
-        <div>
-                <img className={clsx(styles.slide_img)} src={logo} alt= ''/>
-                <div className={clsx(styles.slide_icon)}>
-                    <i className="fa fa-angle-left" aria-hidden="true"></i>
-                    <i className="fa fa-angle-right" aria-hidden="true"></i>
-                </div>
-        </div>
+        <Carousel autoplay>
+    <div>
+      <img className='slide_img' src={logo}  alt='' />
+    </div>
+    <div>
+    <img className='slide_img' src={logo}  alt='' />
+    </div>
+    <div>
+    <img className='slide_img' src={logo}  alt='' />
+    </div>
+    <div>
+    <img className='slide_img' src={logo}  alt='' />
+    </div>
+  </Carousel>
     );
 };
 

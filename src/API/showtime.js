@@ -11,6 +11,10 @@ const showtime = {
     const url = API_BASE_URL + `/showtime/${idFilm}`;
     return await axios.get(url);
   },
+  showTime: async ({ idShowTime }) => {
+    const url = API_BASE_URL + `/showtime/showtime/${idShowTime}`;
+    return await axios.get(url);
+  },
   edit: async ({ ...showtime }) => {
     const url = API_BASE_URL + `/showtime/${showtime._id}`;
     return await axios.put(url, showtime);

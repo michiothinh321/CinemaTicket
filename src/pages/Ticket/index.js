@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./ticket.scss";
 import { Link } from "react-router-dom";
-import logo from "../../component/image/background.jpg"
+import { Button, Modal } from 'antd';
+import video from "../../component/image/a.mp4"
 import { movie as movieAPI, showtime as showtimeAPI } from "../../API/index";
 const Ticket = () => {
   const keyValue = window.location.search;
@@ -9,8 +10,7 @@ const Ticket = () => {
   const idFilm = urlParams.get("idFilm");
   const [movie, setMovie] = useState({});
   const [film, setFilm] = useState([]);
-  const [timeFilm,setTimeFilm] = useState([])
-
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     (async () => {
       await getMovie();
@@ -40,7 +40,6 @@ const Ticket = () => {
       console.log(error);
     }
   };
-  
   return (
     <>
       <div className="ticket_content">
@@ -61,6 +60,23 @@ const Ticket = () => {
               <p>
                 Ngày công chiếu: {movie.date?.slice(0, 10).split("-").join("-")}
               </p>
+              <Button type="primary" onClick={() => setOpen(true)}>
+        Open Modal of 1000px width
+      </Button>
+      <Modal
+        title="Trailer"
+        width={1000}
+        centered
+        open={open}
+        onOk={() => setOpen(false)}
+        onCancel={() => setOpen(false)}
+      >
+        <video width={950} height={500} controls>
+          <source src={video} type="video/mp4"/>
+          
+        </video>
+
+      </Modal>
             </div>
           </div>
           <div className="ticket_descript2">
@@ -83,7 +99,7 @@ const Ticket = () => {
                   </div>
                   <div className="ticket_time_button">
                     <Link
-                      to={`/order?idRoom=${film.idRoom}&idFilm=${film.idFilm}`}
+                      to={`/order?idRoom=${film.idRoom}&idShowTime=${film._id}&idFilm=${film.idFilm}`}
                     >
                       <button className="button_order">{film.timeStart}</button>
                     </Link>

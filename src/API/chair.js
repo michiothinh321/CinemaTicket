@@ -10,6 +10,10 @@ const chair = {
     const url = API_BASE_URL + `/chair/${idRoom}`;
     return await axios.get(url);
   },
+  checkoutChair: async ({ id }) => {
+    const url = API_BASE_URL + `/chair/${id}`;
+    return await axios.put(url, chair);
+  },
 };
 
 export default chair;

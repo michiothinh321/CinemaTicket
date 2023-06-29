@@ -7,6 +7,7 @@
 
   
 .order_left {
+ 
   background-color: rgba(#b6d4ae, 0.3);
   clear: both;
   min-height: 0;
@@ -15,8 +16,14 @@
   width: 70%;
   display: inline-block;
   opacity: 0.9;
+  position: relative;
   h2 {
     color: yellow;
+    margin-bottom: 0;
+    position: absolute;
+    right: 0;
+    top: -20px;
+    padding: 5px;
   }
  
   .order_choice {
