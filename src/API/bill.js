@@ -6,6 +6,10 @@ const bill = {
     const url = API_BASE_URL + "/bill/addBill";
     return await axios.post(url, data);
   },
+  getBill: async ({ idTicket }) => {
+    const url = API_BASE_URL + `/bill/${idTicket}`;
+    return await axios.get(url);
+  },
 };
 
 export default bill;

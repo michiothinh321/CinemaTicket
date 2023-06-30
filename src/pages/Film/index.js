@@ -18,14 +18,15 @@ export default function Film() {
   const [idArea, setIdArea] = useState("");
   const [idTheater, setIdTheater] = useState("");
   const [idRoom, setIdRoom] = useState("");
-  const [idAnimation, setIdAnimation] = useState("");
+  const [animation, setAnimation] = useState("");
   const [date, setDate] = useState("");
   const [timeStart, setTimeStart] = useState("");
   const [price, setPrice] = useState("");
   const [theater, setTheater] = useState([]);
   const [room, setRoom] = useState([]);
   const [idFilm, setIdFilm] = useState("");
-  const [timeFilm,setTimeFilm] = useState("")
+  const [movie, setMovie] = useState([]);
+
   //MODAL
   const showModal = (id) => {
     setIsModalOpen(true);
@@ -47,19 +48,14 @@ export default function Film() {
   }, []);
 
   //THEM SUAT CHIEU
-  const arr = timeStart.split(":")
+  const arr = timeStart.split(":");
   var timeStartNow = {
-  hour:  (parseInt(arr[0], 10) ),
-  minute: (parseInt(arr[1], 10)) 
-  }
-  const timeStartShowTime = {
-  hour: Math.floor(((Number(timeFilm)+15)/60)+timeStartNow.hour),
-  minute:  Math.floor(((Number(timeFilm)+15)%60)+timeStartNow.minute)
-};
+    hour: parseInt(arr[0], 10),
+    minute: parseInt(arr[1], 10),
+  };
   const handleAddShowTime = async () => {
     try {
-
-      if(timeStart.slice(0,2)>=9 && timeStart.slice(0,2) <=23){
+      if (timeStart.slice(0, 2) >= 9 && timeStart.slice(0, 2) <= 23) {
         const result = await showtimeAPI.addShowTime({
           price,
           timeStart,
@@ -67,14 +63,14 @@ export default function Film() {
           idRoom,
           idFilm,
         });
-  
+
         if (result.status === 200) {
           api.open({
             type: "success",
             message: "Add Film successfully.",
           });
         }
-      }else{
+      } else {
         api.open({
           type: "error",
           message: "Có thể tạo suất từ 9h tới 23h.",
@@ -104,7 +100,7 @@ export default function Film() {
   };
 
   useEffect(() => {
-    if(idFilm){
+    if (idFilm) {
       (async () => {
         await getMovie();
       })();
@@ -112,8 +108,8 @@ export default function Film() {
   }, [idFilm]);
   const getMovie = async () => {
     try {
-      const result = await movieAPI.getMovie({idFilm});
-      setTimeFilm(result.data.time);
+      const result = await movieAPI.getMovie({ idFilm });
+      setMovie(result.data.animation);
     } catch (error) {
       console.log(error);
     }
@@ -320,11 +316,17 @@ export default function Film() {
                         </Form.Item>
                         <Form.Item label="Thể loại">
                           <select
-                            onChange={(e) => setIdAnimation(e.target.value)}
-                            value={idAnimation}
+                            onChange={(e) => setAnimation(e.target.value)}
+                            value={animation}
                           >
-                            <option>A</option>
-                            <option>B</option>
+                            <option>---SELECT---</option>
+                            {movie.map((e) => {
+                              return (
+                                <option key={e} value={e}>
+                                  {e}
+                                </option>
+                              );
+                            })}
                           </select>
                         </Form.Item>
                         <Form.Item label="Ngày Chiếu">
