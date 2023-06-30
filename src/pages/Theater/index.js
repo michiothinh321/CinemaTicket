@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from "./PageAdmin.module.scss";
-import clsx from "clsx";
+import "./PageAdmin.scss";
 import { Link } from "react-router-dom";
 import { notification, Button, Modal, Form, Input } from "antd";
 import { theater as theaterAPI } from "../../API";
@@ -78,7 +77,7 @@ export default function Theater() {
   return (
     <>
       {contextHolder}
-      <div className={clsx(styles.admin_right)}>
+      <div className="admin_right">
         <h1>Quản Lý Rạp</h1>
         <Link to="/area">
           <Button type="primary" danger htmlType="submit">
@@ -95,7 +94,7 @@ export default function Theater() {
           onCancel={handleCancel}
         >
           <Form
-            className={clsx(styles.form_addfilm)}
+            className="form_addfilm"
             labelCol={{
               span: 4,
             }}

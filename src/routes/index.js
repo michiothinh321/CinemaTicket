@@ -16,7 +16,6 @@ import {
   InfoUser,
   EditUser,
   Room,
-  EditTheater,
   Animation,
   DetailsFilm,
   PaySuccess,
@@ -105,11 +104,6 @@ const publicRoutes = [
     path: "/editfilm",
     layout: AdminLayout,
     component: EditFilm,
-  },
-  {
-    path: "/edittheater",
-    layout: AdminLayout,
-    component: EditTheater,
   },
   {
     path: "/edituser",

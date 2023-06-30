@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import styles from "./History.module.scss";
+import "./History.scss";
 import { useSelector } from "react-redux";
-import clsx from "clsx";
 import { ticket as ticketAPI } from "../../API";
 export default function History() {
   const [ticket, setTicket] = useState([]);
@@ -22,7 +21,7 @@ export default function History() {
   };
   return (
     <>
-      <div className={clsx(styles.history_content)}>
+      <div className="history_content">
         <h1>LỊCH SỬ ĐẶT VÉ</h1>
         <table>
           <thead>

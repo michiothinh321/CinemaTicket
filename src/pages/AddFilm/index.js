@@ -6,8 +6,7 @@ import {
   category as categoryAPI,
 } from "../../API/index";
 
-import styles from "./PageAdmin.module.scss";
-import clsx from "clsx";
+import "./PageAdmin.scss";
 
 const { TextArea } = Input;
 export default function AddFilm() {
@@ -114,10 +113,10 @@ export default function AddFilm() {
   return (
     <>
       {contextHolder}
-      <div className={clsx(styles.admin_right)}>
+      <div className="admin_right">
         <h1>Thêm phim</h1>
         <Form
-          className={clsx(styles.form_addfilm)}
+          className="form_addfilm"
           labelCol={{
             span: 4,
           }}
@@ -215,7 +214,7 @@ export default function AddFilm() {
           <input type="file" id="file" name="file" onChange={handlePicture} />
           <Form.Item>
             <Button
-              className={clsx(styles.btn_film)}
+              className="btn_film"
               type="submit"
               onClick={handleAddFilm}
             >

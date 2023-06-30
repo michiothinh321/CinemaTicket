@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import clsx from "clsx";
 import { useSelector } from "react-redux";
 import { notification, Button } from "antd";
 
 import { Link } from "react-router-dom";
-import styles from "./PageAdmin.module.scss";
+import "./PageAdmin.scss";
 import { user as userAPI } from "../../API";
 
 export default function User() {
@@ -51,7 +50,7 @@ export default function User() {
   return (
     <>
       {contextHolder}
-      <div className={clsx(styles.admin_right)}>
+      <div className="admin_right">
         <h1>Quản lý người dùng</h1>
         <table>
           <thead>

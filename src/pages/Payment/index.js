@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import { notification } from "antd";
-import clsx from "clsx";
 import { Link } from "react-router-dom";
 import { ticket as ticketAPI,chair as chairAPI} from "../../API";
-import styles from "./PaymentContent.module.scss";
+import "./PaymentContent.scss";
 const PaymentContent = () => {
   const [api, contextHolder] = notification.useNotification();
   const keyValue = window.location.search;
@@ -85,18 +84,18 @@ const PaymentContent = () => {
   };
   return (
     <>
-      <div className={clsx(styles.payment)}>
-        <div className={clsx(styles.payment_left)}>
+      <div className="payment">
+        <div className="payment_left">
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <h2>THANH TOÁN</h2>
             <h2>THỜI GIAN: {`${minutes<10?"0"+minutes:minutes}:${seconds<10?"0"+seconds:seconds}`}</h2>
          </div>
-          <div className={clsx(styles.payment_left_info)}>
-            <div className={clsx(styles.payment_left_text)}>
+          <div className="payment_left_info">
+            <div className="payment_left_text">
               <p>Hình thức thanh toán</p>
             </div>
             <div>
-              <div className={clsx(styles.payment_left_input)}>
+              <div className="payment_left_input">
                 <p>
                   <select>
                     <option>Chọn loại thẻ</option>
@@ -105,20 +104,26 @@ const PaymentContent = () => {
                   </select>
                 </p>
 
-                <div className={clsx(styles.payment_btn_main)}>
+                <div className="payment_btn_main">
                   <Link to="/order">
-                    <button className={clsx(styles.pay_btn_main)}>
+                    <button className="pay_btn_main">
                       QUAY LẠI
                     </button>
                   </Link>
-                  <Link to="/paysuccess">
+                  {ticket.map((ticket)=>{
+                    if(!ticket.checkout){
+                      return(
+                        <Link to={`/paysuccess?idTicket=${ticket._id}`}>
                     <button
-                      className={clsx(styles.pay_btn_main)}
+                      className="pay_btn_main"
                       onClick={handleAddBill}
                     >
                       THANH TOÁN
                     </button>
                   </Link>
+                      )
+                    }
+                  })}
                 </div>
               </div>
             </div>
@@ -127,8 +132,8 @@ const PaymentContent = () => {
           {ticket.map((ticket,index)=>{
             if(!ticket.checkout){
               return(
-                <div key={index} className={clsx(styles.payment_right)}>
-          <div className={clsx(styles.payment_right_img)}>
+                <div key={index} className="payment_right">
+          <div className="payment_right_img">
             <img src={ticket.picture} alt="" />
             <h2>{ticket.nameFilm}</h2>
           </div>

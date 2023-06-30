@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { clsx } from "clsx";
 import { notification } from "antd";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { isEmpty, isEmail } from "validator";
 
-import styles from "./Login.module.scss";
+import "./Login.scss";
 import { user as userAPI } from "../../API/index";
 import userSlice from "../../redux/userSlice";
 
@@ -43,7 +42,25 @@ export default function Login() {
   const handleDateOfBirthChange = (e) => {
     setDateOfBirth(e.target.value);
   };
-
+  function underAgeValidate(birthday){
+    // it will accept two types of format yyyy-mm-dd and yyyy/mm/dd
+    var optimizedBirthday = birthday.replace(/-/g, "/");
+  
+    //set date based on birthday at 01:00:00 hours GMT+0100 (CET)
+    var myBirthday = new Date(optimizedBirthday);
+  
+    // set current day on 01:00:00 hours GMT+0100 (CET)
+    var currentDate = new Date().toJSON().slice(0,10)+' 01:00:00';
+  
+    // calculate age comparing current date and borthday
+    var myAge = ~~((Date.now(currentDate) - myBirthday) / (31557600000));
+    if(myAge < 12) {
+             return false;
+          }else{
+        return true;
+    }
+  
+  } 
   const validateAll = () => {
     const msg = {};
     if (isEmpty(fullName)) {
@@ -66,12 +83,16 @@ export default function Login() {
     if (isEmpty(dateOfBirth)) {
       msg.dateOfBirth = "Vui lòng chọn ngày sinh";
     }
+    if(!underAgeValidate(dateOfBirth)){
+      msg.dateOfBirth = "Bạn chưa đủ tuổi đăng ký";
+    }
 
     setValidation(msg);
     if (Object.keys(msg).length > 0) return false;
     return true;
   };
 
+  
   const register = async (e) => {
     e.preventDefault();
 
@@ -131,12 +152,12 @@ export default function Login() {
   return (
     <>
       {contextHolder}
-      <div className={clsx(styles.loginPage)}>
-        <div className={clsx(styles.loginPage_right)}>
+      <div className="loginPage">
+        <div className="loginPage_right">
           <h2>Đăng nhập</h2>
-          <div className={clsx(styles.form_right)}>
+          <div className="form_right">
             <form>
-              <div className={clsx(styles.formControl)}>
+              <div className="formControl">
                 <label htmlFor="email">Email(*)</label>
                 <input
                   type="text"
@@ -147,7 +168,7 @@ export default function Login() {
                   }}
                 />
               </div>
-              <div className={clsx(styles.formControl)}>
+              <div className="formControl">
                 <label htmlFor="password">Mật khẩu(*)</label>
                 <input
                   type="password"
@@ -160,7 +181,7 @@ export default function Login() {
                 />
               </div>
               <button
-                className={clsx(styles.btn_log)}
+                className="btn_log"
                 type="submit"
                 onClick={login}
               >
@@ -169,11 +190,11 @@ export default function Login() {
             </form>
           </div>
         </div>
-        <div className={clsx(styles.loginPage_left)}>
+        <div className="loginPage_left">
           <h2>Đăng Ký</h2>
-          <div className={clsx(styles.form_left)}>
+          <div className="form_left">
             <form>
-              <div className={clsx(styles.formControl)}>
+              <div className="formControl">
                 <label htmlFor="username">Họ Tên(*)</label>
                 <input
                   type="text"
@@ -184,7 +205,7 @@ export default function Login() {
                 />
               </div>
               <p>{validation.fullName}</p>
-              <div className={clsx(styles.formControl)}>
+              <div className="formControl">
                 <label htmlFor="email">Email(*)</label>
                 <input
                   type="text"
@@ -195,7 +216,7 @@ export default function Login() {
                 />
               </div>
               <p>{validation.email}</p>
-              <div className={clsx(styles.formControl)}>
+              <div className="formControl">
                 <label htmlFor="password">Mật khẩu(*)</label>
                 <input
                   type="password"
@@ -206,7 +227,7 @@ export default function Login() {
                 />
               </div>
               <p>{validation.password}</p>
-              <div className={clsx(styles.formControl)}>
+              <div className="formControl">
                 <label htmlFor="confirmPassword">Nhập lại mật khẩu(*)</label>
                 <input
                   type="password"
@@ -217,7 +238,7 @@ export default function Login() {
                 />
               </div>
               <p>{validation.retypePassword}</p>
-              <div className={clsx(styles.formControl)}>
+              <div className="formControl">
                 <label htmlFor="phone">Số điện thoại(*)</label>
                 <input
                   type="text"
@@ -228,19 +249,18 @@ export default function Login() {
                 />
               </div>
               <p>{validation.phone}</p>
-              <div className={clsx(styles.formControl)}>
+              <div className="formControl">
                 <label htmlFor="birthday">Ngày sinh(*)</label>
                 <input
                   type="date"
                   id="birthday"
                   name="birthday"
                   value={dateOfBirth}
-                  max="2012-12-12"
                   onChange={handleDateOfBirthChange}
                 />
               </div>
               <p>{validation.dateOfBirth}</p>
-              <button className={clsx(styles.btn_log)} onClick={register}>
+              <button className="btn_log" onClick={register}>
                 Đăng ký
               </button>
             </form>

@@ -1,11 +1,10 @@
 import React from "react";
-import styles from "./PageAdmin.module.scss";
-import clsx from "clsx";
+import "./PageAdmin.scss"
 import { Link } from "react-router-dom";
 export default function Sidebar() {
   return (
     <>
-      <div className={clsx(styles.admin_left)}>
+      <div className="admin_left">
         <ul>
           <li>
             <Link to="/">Trang chủ</Link>

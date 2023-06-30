@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from "./PageAdmin.module.scss";
-import clsx from "clsx";
+import "./PageAdmin.scss";
 import { Link } from "react-router-dom";
 import { notification, Button, Modal, Form, Input } from "antd";
 import { room as roomAPI } from "../../API";
@@ -97,7 +96,7 @@ export default function Room() {
   return (
     <>
       {contextHolder}
-      <div className={clsx(styles.admin_right)}>
+      <div className="admin_right">
         <h1>Quản Lý Phòng</h1>
         <Link to={`/theater?idArea=${idArea}`}>
           <Button type="primary" danger htmlType="submit">
@@ -114,7 +113,7 @@ export default function Room() {
           onCancel={handleCancel}
         >
           <Form
-            className={clsx(styles.form_addfilm)}
+            className="form_addfilm"
             labelCol={{
               span: 4,
             }}

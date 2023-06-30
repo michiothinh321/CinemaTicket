@@ -38,7 +38,7 @@ const Content = () => {
         <Row gutter={[16, 24]}>
         {film.map((film, index) => {
             return (
-              <Col className="gutter-row" span={6}>
+              <Col key={index} className="gutter-row" span={6}>
               <div key={index} className="content_card">
                 <img src={film.picture} alt="" />
                 <p>{film.nameFilm}</p>

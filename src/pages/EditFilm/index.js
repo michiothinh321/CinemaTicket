@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Form, Input, notification } from "antd";
 import { movie as movieAPI } from "../../API/index";
-import styles from "./PageAdmin.module.scss";
-import clsx from "clsx";
+import "./PageAdmin.scss";
 const { TextArea } = Input;
 export default function EditFilm() {
   const keyValue = window.location.search;
@@ -49,10 +48,10 @@ export default function EditFilm() {
   return (
     <>
       {contextHolder}
-      <div className={clsx(styles.admin_right)}>
+      <div className="admin_right">
         <h1>Thêm phim</h1>
         <Form
-          className={clsx(styles.form_addfilm)}
+          className="form_addfilm"
           labelCol={{
             span: 4,
           }}
