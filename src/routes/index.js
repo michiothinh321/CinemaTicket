@@ -19,6 +19,7 @@ import {
   Animation,
   DetailsFilm,
   PaySuccess,
+  ManagerTicket,
 } from "../pages";
 import { DefaultLayout, AdminLayout } from "../layouts";
 const PrivateRoutes = ({ children }) => {
@@ -64,6 +65,11 @@ const publicRoutes = [
     path: "/admin",
     layout: AdminLayout,
     component: Admin,
+  },
+  {
+    path: "/managerTicket",
+    layout: AdminLayout,
+    component: ManagerTicket,
   },
   {
     path: "/user",

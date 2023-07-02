@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./ticket.scss";
 import { Link } from "react-router-dom";
-import { Button, Modal } from 'antd';
-import video from "../../component/image/a.mp4"
+import { Button, Modal } from "antd";
+import video from "../../component/image/a.mp4";
 import { movie as movieAPI, showtime as showtimeAPI } from "../../API/index";
 const Ticket = () => {
   const keyValue = window.location.search;
@@ -61,22 +61,20 @@ const Ticket = () => {
                 Ngày công chiếu: {movie.date?.slice(0, 10).split("-").join("-")}
               </p>
               <Button type="primary" onClick={() => setOpen(true)}>
-        Open Modal of 1000px width
-      </Button>
-      <Modal
-        title="Trailer"
-        width={1000}
-        centered
-        open={open}
-        onOk={() => setOpen(false)}
-        onCancel={() => setOpen(false)}
-      >
-        <video width={950} height={500} controls>
-          <source src={video} type="video/mp4"/>
-          
-        </video>
-
-      </Modal>
+                Open Modal of 1000px width
+              </Button>
+              <Modal
+                title="Trailer"
+                width={1000}
+                centered
+                open={open}
+                onOk={() => setOpen(false)}
+                onCancel={() => setOpen(false)}
+              >
+                <video width={950} height={500} controls>
+                  <source src={video} type="video/mp4" />
+                </video>
+              </Modal>
             </div>
           </div>
           <div className="ticket_descript2">

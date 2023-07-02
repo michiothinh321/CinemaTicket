@@ -1,9 +1,18 @@
-import React, { useEffect, useState } from "react";
-import "./History.scss";
-import { Button, Modal, QRCode, Space } from "antd";
+import React, { useState, useEffect } from "react";
+import "./ticket.scss";
+import { Button, Modal } from "antd";
 import { useSelector } from "react-redux";
-import { ticket as ticketAPI, bill as billAPI } from "../../API";
-export default function History() {
+
+import {
+  movie as movieAPI,
+  showtime as showtimeAPI,
+  ticket as ticketAPI,
+  bill as billAPI,
+} from "../../API/index";
+const ManagerTicket = () => {
+  const keyValue = window.location.search;
+  const urlParams = new URLSearchParams(keyValue);
+  const idFilm = urlParams.get("idFilm");
   const [ticket, setTicket] = useState([]);
   const user = useSelector((state) => state.user);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -14,6 +23,7 @@ export default function History() {
     setIdTicket(e);
     setIsModalOpen(true);
   };
+
   const handleOk = () => {
     setIsModalOpen(false);
   };
@@ -21,7 +31,6 @@ export default function History() {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
   useEffect(() => {
     (async () => {
       await getTicket();
@@ -46,26 +55,28 @@ export default function History() {
   const getBill = async () => {
     try {
       const result = await billAPI.getBill({ idTicket });
-      setBill(result.data);
+      setBill(result.data[0]);
     } catch (error) {
       console.log(error);
     }
   };
+
   return (
     <>
-      <div className="history_content">
+      <div className="admin_right">
         <h1>LỊCH SỬ ĐẶT VÉ</h1>
         <table>
           <thead>
             <tr>
-              <th>Tên Rạp</th>
+              <th>Email</th>
+              <th>Rạp Phim</th>
               <th>Phim</th>
-              <th>Tên phòng</th>
-              <th>Ngày chiếu</th>
-              <th>Giờ chiếu</th>
+              <th>Phòng</th>
+              <th>Ngày Chiếu</th>
+              <th>Giờ Chiếu</th>
               <th>Ghế</th>
-              <th>Giá vé</th>
-              <th>Hóa đơn</th>
+              <th>Tổng Tiền</th>
+              <th>Hành Động</th>
             </tr>
           </thead>
           <tbody>
@@ -73,6 +84,7 @@ export default function History() {
               if (ticket.checkout) {
                 return (
                   <tr key={index}>
+                    <td>{ticket.email}</td>
                     <td>{ticket.nameTheater}</td>
                     <td>{ticket.nameFilm}</td>
                     <td>{ticket.nameRoom}</td>
@@ -92,49 +104,17 @@ export default function History() {
                         type="primary"
                         onClick={() => showModal(ticket._id)}
                       >
-                        Xem hóa đơn
+                        Xuất vé
                       </Button>
                       <Modal
-                        title="Hóa đơn"
+                        title="Vé"
                         open={isModalOpen}
                         onOk={handleOk}
                         onCancel={handleCancel}
-                      >
-                        {bill.map((e) => {
-                          return (
-                            <div key={e.idTicket}>
-                              <Space>
-                                <QRCode type="canvas" value={e.idTicket} />
-                              </Space>
-                              <p>Email: {e.email}</p>
-                              <p>Ghế: {e.chairs.join(", ")}</p>
-                              <p>
-                                Ngày:{" "}
-                                {e.date
-                                  ?.slice(0, 10)
-                                  .split("-")
-                                  .reverse()
-                                  .join("-")}
-                              </p>
-                              <p>
-                                Tên phim: {e.nameFilm} || Xuất chiếu:{" "}
-                                {e.timeStart} || Thời lượng: {`${e.time}p`}
-                              </p>
-                              <p>
-                                Tên rạp: {e.nameTheater} || Tên phòng:{" "}
-                                {e.nameRoom}
-                              </p>
-                              <p>
-                                Tổng:{" "}
-                                {e.price.toLocaleString("vi", {
-                                  style: "currency",
-                                  currency: "VND",
-                                })}{" "}
-                              </p>
-                            </div>
-                          );
-                        })}
-                      </Modal>
+                      ></Modal>
+                      <Button type="primary" danger>
+                        Xóa Vé
+                      </Button>
                     </td>
                   </tr>
                 );
@@ -145,4 +125,6 @@ export default function History() {
       </div>
     </>
   );
-}
+};
+
+export default ManagerTicket;

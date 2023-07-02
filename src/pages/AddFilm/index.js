@@ -31,9 +31,9 @@ export default function AddFilm() {
     reader.onload = function () {
       setPicture(reader.result);
     };
-    reader.onerror = error => {
-      console.log("Error",error)
-    }
+    reader.onerror = (error) => {
+      console.log("Error", error);
+    };
   };
   const handleAddFilm = async (e) => {
     e.preventDefault();
@@ -203,21 +203,13 @@ export default function AddFilm() {
             />
           </Form.Item>
           <Form.Item label="Trailer">
-            <Input
-              placeholder="Trailer"
-              id="trailer"
-              name="trailer"
-              value={trailer}
-              onChange={(e) => setTrailer(e.target.value)}
-            />
+            <input type="file" id="file" name="file" onChange={handlePicture} />
           </Form.Item>
-          <input type="file" id="file" name="file" onChange={handlePicture} />
+          <Form.Item label="Hình ảnh">
+            <input type="file" id="file" name="file" onChange={handlePicture} />
+          </Form.Item>
           <Form.Item>
-            <Button
-              className="btn_film"
-              type="submit"
-              onClick={handleAddFilm}
-            >
+            <Button className="btn_film" type="submit" onClick={handleAddFilm}>
               Thêm
             </Button>
           </Form.Item>

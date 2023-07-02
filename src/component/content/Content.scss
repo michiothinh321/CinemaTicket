@@ -52,3 +52,9 @@ a {
     }
   }
 }
+:where(.css-dev-only-do-not-override-1me4733).ant-col-4 {
+  max-width: 50%;
+}
+.ant-tabs-tab-btn{
+  font-size: 30px !important;
+}

@@ -94,6 +94,11 @@ export default function User() {
                         Sửa
                       </Button>
                     </Link>
+                    <Link to={`/managerTicket?idUser=${user._id}`}>
+                      <Button type="primary" htmlType="submit">
+                        Quản lý vé
+                      </Button>
+                    </Link>
                   </td>
                 </tr>
               );
