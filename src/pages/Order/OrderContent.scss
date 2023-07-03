@@ -5,10 +5,8 @@
   color: black;
 }
 
-  
 .order_left {
- 
-  background-color: rgba(#b6d4ae, 0.3);
+  background-color: whitesmoke;
   clear: both;
   min-height: 0;
   box-sizing: border-box;
@@ -18,14 +16,14 @@
   opacity: 0.9;
   position: relative;
   h2 {
-    color: yellow;
+    color: black;
     margin-bottom: 0;
     position: absolute;
     right: 0;
     top: -20px;
     padding: 5px;
   }
- 
+
   .order_choice {
     ul {
       display: flex;
@@ -33,21 +31,19 @@
       justify-content: center;
       text-align: center;
       li {
-        background-color: #1a4fb1;
+        border: 1px solid #01c73c;
         display: inline-block;
-        width: 30px;
-        height: 30px;
-        font-size: 15px;
-        text-align: center;
-        line-height: 22px;
-        margin: 5px 2px;
+        width: 22px;
+        height: 22px;
+        vertical-align: middle;
+        font-size: 7pt;
+        margin: 0 1px;
+        padding: 1px 0;
         cursor: pointer;
-        padding: 6px;
-        
       }
-      li.disabled{
-        background-color: red;
-        color: white;
+      li.disabled {
+        background-color: #bbb;
+        color: black;
         cursor: unset;
       }
     }
@@ -66,6 +62,8 @@
 }
 
 .order_note {
+  position: relative;
+  bottom: -260px;
   font-weight: bold;
   display: flex;
   justify-content: space-around;
@@ -80,7 +78,7 @@
     height: 20px;
     left: -22px;
     top: 2px;
-    background-color: green;
+    background-color: #f71708;
   }
   span:nth-child(2)::before {
     content: "";
@@ -89,7 +87,7 @@
     height: 20px;
     left: -22px;
     top: 2px;
-    background-color: red;
+    background-color: gray;
   }
   span:nth-child(3)::before {
     content: "";
@@ -98,7 +96,7 @@
     height: 20px;
     left: -22px;
     top: 2px;
-    background-color: blue;
+    border: 1px solid #01c73c;
   }
   span:nth-child(4)::before {
     content: "";
@@ -107,15 +105,15 @@
     height: 20px;
     left: -22px;
     top: 2px;
-    background-color: gray;
+    border: 1px solid #f71708;
   }
 }
 
 .order_right {
   width: 25%;
   padding: 20px;
-  background-color: rgba(#b6d4ae, 0.3);
-  color: white;
+  background-color: whitesmoke;
+  color: black;
   opacity: 0.9;
   .order_right_img {
     display: flex;
@@ -139,7 +137,7 @@
       font-size: 18px;
       font-weight: bold;
       background-color: gray;
-      color: yellow;
+      color: black;
       &:hover {
         cursor: pointer;
         background-color: white;

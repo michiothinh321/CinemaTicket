@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Form, Input, notification } from "antd";
 import { movie as movieAPI } from "../../API/index";
 import "./PageAdmin.scss";
+import minDate from "./../AddFilm/minDate";
 const { TextArea } = Input;
 export default function EditFilm() {
   const keyValue = window.location.search;
@@ -112,6 +113,7 @@ export default function EditFilm() {
               type="date"
               id="date"
               name="date"
+              min={minDate()}
               value={movie.date?.slice(0, 10).split("-").join("-") || ""}
               onChange={(e) =>
                 setMovie((pre) => ({ ...pre, date: e.target.value }))

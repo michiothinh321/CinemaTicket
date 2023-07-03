@@ -101,6 +101,7 @@ const Order = () => {
         idShowTime,
         chairs: numberChair,
         email: user.email,
+        date: new Date(),
       });
 
       const result1 = await chairAPI.addChair({
@@ -143,11 +144,19 @@ const Order = () => {
       arr[i].push({
         numberChair: `${alphabet[i]}${j}`,
         status: false,
+        vip: false,
       });
     }
   }
   for (let i = 0; i < arr.length; i++) {
     for (let j = 0; j < arr.length; j++) {
+      if (
+        arr[i][j].numberChair.charAt(0) === "D" ||
+        arr[i][j].numberChair.charAt(0) === "E" ||
+        arr[i][j].numberChair.charAt(0) === "F"
+      ) {
+        arr[i][j].vip = true;
+      }
       for (let ij = 0; ij < chair.length; ij++) {
         for (let index = 0; index < chair[ij].numberChair.length; index++) {
           if (arr[i][j].numberChair === chair[ij].numberChair[index]) {
@@ -157,38 +166,47 @@ const Order = () => {
       }
     }
   }
-  const handleSetChair = (e) => {
+  const handleSetChair = (e, chair) => {
     if (e.target.className !== "disabled") {
       if (!enable.includes(e.target.innerHTML)) {
-        if (
-          e.target.innerHTML[0] === "D" ||
-          e.target.innerHTML[0] === "E" ||
-          e.target.innerHTML[0] === "F"
-        ) {
+        if (!chair.vip) {
           setEnable((pre) => [...pre, e.target.innerHTML]);
-          e.currentTarget.style.backgroundColor = "green";
+          e.currentTarget.style.backgroundColor = "#f71708";
           e.currentTarget.style.color = "white";
           setNumberChair((pre) => [...pre, e.target.innerHTML]);
           setPriceFilm((prev) => +film.price + prev);
         } else {
           setEnable((pre) => [...pre, e.target.innerHTML]);
-          e.currentTarget.style.backgroundColor = "green";
+          e.currentTarget.style.backgroundColor = "#f71708";
           e.currentTarget.style.color = "white";
           setNumberChair((pre) => [...pre, e.target.innerHTML]);
-          setPriceFilm((prev) => +film.price + prev);
+          setPriceFilm((prev) => +film.price + prev + 5000);
         }
       } else {
-        setEnable(enable.filter((item) => !e.target.innerHTML.includes(item)));
-        e.currentTarget.style.backgroundColor = "#1A4FB1";
-        e.currentTarget.style.color = "black";
-        setNumberChair(
-          enable.filter((item) => !e.target.innerHTML.includes(item))
-        );
-        setPriceFilm((prev) => prev - parseInt(film.price));
+        if (!chair.vip) {
+          setEnable(
+            enable.filter((item) => !e.target.innerHTML.includes(item))
+          );
+          e.currentTarget.style.backgroundColor = "transparent";
+          e.currentTarget.style.color = "black";
+          setNumberChair(
+            enable.filter((item) => !e.target.innerHTML.includes(item))
+          );
+          setPriceFilm((prev) => prev - parseInt(film.price));
+        } else {
+          setEnable(
+            enable.filter((item) => !e.target.innerHTML.includes(item))
+          );
+          e.currentTarget.style.backgroundColor = "transparent";
+          e.currentTarget.style.color = "black";
+          setNumberChair(
+            enable.filter((item) => !e.target.innerHTML.includes(item))
+          );
+          setPriceFilm((prev) => prev - parseInt(film.price) - 5000);
+        }
       }
     }
   };
-
   return (
     <>
       {contextHolder}
@@ -211,15 +229,28 @@ const Order = () => {
                   return (
                     <ul key={index}>
                       {chairs.map((chair, index) => {
-                        return (
-                          <li
-                            key={index}
-                            className={chair.status ? "disabled" : ""}
-                            onClick={(e) => handleSetChair(e)}
-                          >
-                            {chair.numberChair}
-                          </li>
-                        );
+                        if (chair.vip) {
+                          return (
+                            <li
+                              style={{ border: "1px solid #f71708" }}
+                              key={index}
+                              className={chair.status ? "disabled" : ""}
+                              onClick={(e) => handleSetChair(e, chair)}
+                            >
+                              {chair.numberChair}
+                            </li>
+                          );
+                        } else {
+                          return (
+                            <li
+                              key={index}
+                              className={chair.status ? "disabled" : ""}
+                              onClick={(e) => handleSetChair(e, chair)}
+                            >
+                              {chair.numberChair}
+                            </li>
+                          );
+                        }
                       })}
                     </ul>
                   );
@@ -227,10 +258,10 @@ const Order = () => {
               </div>
             </ul>
             <div className="order_note">
-              <span>Ghế đã chọn</span>
-              <span>Ghế đã bán</span>
-              <span>Có thể chọn</span>
-              <span>Không thể chọn</span>
+              <span>Checked</span>
+              <span>Đã chọn</span>
+              <span>Thường</span>
+              <span>Vip</span>
             </div>
           </div>
         </div>

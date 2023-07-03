@@ -35,7 +35,6 @@ export default function History() {
       console.log(error);
     }
   };
-
   useEffect(() => {
     if (idTicket) {
       (async () => {
@@ -51,6 +50,7 @@ export default function History() {
       console.log(error);
     }
   };
+
   return (
     <>
       <div className="history_content">
@@ -61,6 +61,7 @@ export default function History() {
               <th>Tên Rạp</th>
               <th>Phim</th>
               <th>Tên phòng</th>
+              <th>Ngày đặt vé</th>
               <th>Ngày chiếu</th>
               <th>Giờ chiếu</th>
               <th>Ghế</th>
@@ -79,10 +80,17 @@ export default function History() {
                     <td>
                       {ticket.date?.slice(0, 10).split("-").reverse().join("-")}
                     </td>
+                    <td>
+                      {ticket.newDate
+                        ?.slice(0, 10)
+                        .split("-")
+                        .reverse()
+                        .join("-")}
+                    </td>
                     <td>{ticket.timeStart}</td>
                     <td>{ticket.chairs.join(", ")}</td>
                     <td>
-                      {ticket.price.toLocaleString("vi", {
+                      {parseInt(ticket.price).toLocaleString("vi", {
                         style: "currency",
                         currency: "VND",
                       })}
@@ -109,7 +117,7 @@ export default function History() {
                               <p>Email: {e.email}</p>
                               <p>Ghế: {e.chairs.join(", ")}</p>
                               <p>
-                                Ngày:{" "}
+                                Ngày chiếu:{" "}
                                 {e.date
                                   ?.slice(0, 10)
                                   .split("-")
@@ -126,7 +134,7 @@ export default function History() {
                               </p>
                               <p>
                                 Tổng:{" "}
-                                {e.price.toLocaleString("vi", {
+                                {parseInt(e.price).toLocaleString("vi", {
                                   style: "currency",
                                   currency: "VND",
                                 })}{" "}

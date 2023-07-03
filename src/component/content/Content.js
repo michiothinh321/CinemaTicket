@@ -34,7 +34,12 @@ const Content = () => {
               <div className="content_img">
                 <Row gutter={[16, 24]}>
                   {film.map((film, index) => {
-                    if (film.date !== null) {
+                    if (
+                      parseInt(film.date?.slice(0, 4)) ===
+                        new Date().getFullYear() &&
+                      parseInt(film.date?.slice(5, 7)) ===
+                        new Date().getMonth() + 1
+                    ) {
                       return (
                         <Col key={index} className="gutter-row" span={4}>
                           <div key={index} className="content_card">
@@ -58,7 +63,12 @@ const Content = () => {
               <div className="content_img">
                 <Row gutter={[16, 24]}>
                   {film.map((film, index) => {
-                    if (film.date === null) {
+                    if (
+                      parseInt(film.date?.slice(0, 4)) >
+                        new Date().getFullYear() ||
+                      parseInt(film.date?.slice(5, 7)) >
+                        new Date().getMonth() + 1
+                    ) {
                       return (
                         <Col key={index} className="gutter-row" span={4}>
                           <div key={index} className="content_card">
@@ -79,26 +89,6 @@ const Content = () => {
               </div>
             </Tabs.TabPane>
           </Tabs>
-          {/* <div className="content_img">
-            <Row gutter={[16, 24]}>
-              {film.map((film, index) => {
-                if (film.date !== null) {
-                  return (
-                    <Col key={index} className="gutter-row" span={4}>
-                      <div key={index} className="content_card">
-                        <img src={film.picture} alt="" />
-                        <p>{film.nameFilm}</p>
-
-                        <button className="btn_header">
-                          <Link to={`/ticket?idFilm=${film._id}`}>Mua Vé</Link>
-                        </button>
-                      </div>
-                    </Col>
-                  );
-                }
-              })}
-            </Row>
-          </div> */}
         </div>
       </div>
     </>

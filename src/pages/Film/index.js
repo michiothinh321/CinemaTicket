@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./PageAdmin.scss";
 import { Link } from "react-router-dom";
 import { notification, Button, Modal, Form, Input } from "antd";
+import minDate from "../AddFilm/minDate";
 import {
   movie as movieAPI,
   area as areaAPI,
@@ -27,6 +28,8 @@ export default function Film() {
   const [idFilm, setIdFilm] = useState("");
   const [movie, setMovie] = useState([]);
 
+  const Animation2D = [75000, 90000, 95000, 100000, 125000];
+  const Animation3D = [100000, 110000, 120000, 130000, 150000];
   //MODAL
   const showModal = (id) => {
     setIsModalOpen(true);
@@ -53,6 +56,7 @@ export default function Film() {
     hour: parseInt(arr[0], 10),
     minute: parseInt(arr[1], 10),
   };
+  console.log(timeStart);
   const handleAddShowTime = async () => {
     try {
       if (timeStart.slice(0, 2) >= 9 && timeStart.slice(0, 2) <= 23) {
@@ -67,23 +71,22 @@ export default function Film() {
         if (result.status === 200) {
           api.open({
             type: "success",
-            message: "Add Film successfully.",
+            message: "Thêm suất chiếu thành công.",
           });
         }
       } else {
         api.open({
           type: "error",
-          message: "Có thể tạo suất từ 9h tới 23h.",
+          message: "Không thể tạo suất trước 9h và sau 23h.",
         });
       }
     } catch (error) {
       api.open({
         type: "error",
-        message: "Film is exsist.",
+        message: "Thêm suất chiếu thất bại.",
       });
     }
   };
-
   //CALL API DS PHIM
   useEffect(() => {
     (async () => {
@@ -124,13 +127,13 @@ export default function Film() {
         await getMovieList();
         api.open({
           type: "success",
-          message: "Delete movie successfully.",
+          message: "Xóa phim thành công.",
         });
       }
     } catch (error) {
       api.open({
         type: "error",
-        message: "Delete movie failure.",
+        message: "Xóa phim thất bại.",
       });
       console.log(error);
     }
@@ -185,7 +188,6 @@ export default function Film() {
     }
   };
   //END CALL API KHU VUC - RAP - PHONG -THE LOAI
-
   return (
     <>
       {contextHolder}
@@ -334,6 +336,7 @@ export default function Film() {
                             type="date"
                             id="date"
                             name="date"
+                            min={minDate()}
                             value={date}
                             onChange={(e) => setDate(e.target.value)}
                           />
@@ -349,13 +352,42 @@ export default function Film() {
                           />
                         </Form.Item>
                         <Form.Item label="Giá vé">
-                          <Input
+                          {/* <Input
                             placeholder="Giá vé"
                             id="price"
                             name="price"
                             onChange={(e) => setPrice(e.target.value)}
                             value={price}
-                          />
+                          /> */}
+                          <select
+                            onChange={(e) => setPrice(e.target.value)}
+                            value={price}
+                          >
+                            <option>---SELECT---</option>
+                            {animation === ""
+                              ? ""
+                              : animation === "2D"
+                              ? Animation2D.map((e) => {
+                                  return (
+                                    <option key={e} value={e}>
+                                      {e.toLocaleString("vi", {
+                                        style: "currency",
+                                        currency: "VND",
+                                      })}
+                                    </option>
+                                  );
+                                })
+                              : Animation3D.map((e) => {
+                                  return (
+                                    <option key={e} value={e}>
+                                      {e.toLocaleString("vi", {
+                                        style: "currency",
+                                        currency: "VND",
+                                      })}
+                                    </option>
+                                  );
+                                })}
+                          </select>
                         </Form.Item>
                       </Form>
                     </Modal>

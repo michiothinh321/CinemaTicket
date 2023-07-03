@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Form, Input, Select, notification } from "antd";
+import minDate from "./minDate";
 import {
   movie as movieAPI,
   animation as animationAPI,
@@ -25,8 +26,9 @@ export default function AddFilm() {
   const [listAnimation, setListAnimation] = useState([]);
   const [animation, setAnimation] = useState([]);
 
+  console.log(trailer);
   const handlePicture = (e) => {
-    const reader = new FileReader();
+    let reader = new FileReader();
     reader.readAsDataURL(e.target.files[0]);
     reader.onload = function () {
       setPicture(reader.result);
@@ -35,33 +37,41 @@ export default function AddFilm() {
       console.log("Error", error);
     };
   };
+
   const handleAddFilm = async (e) => {
     e.preventDefault();
 
     try {
-      const result = await movieAPI.addfilm({
-        nameFilm,
-        genres,
-        directors,
-        actors,
-        date,
-        time,
-        animation,
-        content,
-        picture,
-        trailer,
-      });
+      if (parseInt(time) >= 75 && parseInt(time) <= 200) {
+        const result = await movieAPI.addfilm({
+          nameFilm,
+          genres,
+          directors,
+          actors,
+          date,
+          time,
+          animation,
+          content,
+          picture,
+          trailer,
+        });
 
-      if (result.status === 200) {
+        if (result.status === 200) {
+          api.open({
+            type: "success",
+            message: "Thêm phim thành công.",
+          });
+        }
+      } else {
         api.open({
-          type: "success",
-          message: "Add Film successfully.",
+          type: "error",
+          message: "Thời lượng không hợp lệ.",
         });
       }
     } catch (error) {
       api.open({
         type: "error",
-        message: "Film is exsist.",
+        message: "Phim đã tồn tại.",
       });
     }
   };
@@ -180,6 +190,7 @@ export default function AddFilm() {
               type="date"
               id="date"
               name="date"
+              min={minDate()}
               value={date}
               onChange={(e) => setDate(e.target.value)}
             />
@@ -189,6 +200,8 @@ export default function AddFilm() {
               type="number"
               id="time"
               name="time"
+              min="75"
+              max="200"
               value={time}
               onChange={(e) => setTime(e.target.value)}
             />
@@ -203,7 +216,13 @@ export default function AddFilm() {
             />
           </Form.Item>
           <Form.Item label="Trailer">
-            <input type="file" id="file" name="file" onChange={handlePicture} />
+            <input
+              type="text"
+              id="file"
+              name="file"
+              value={trailer}
+              onChange={(e) => setTrailer(e.target.value)}
+            />
           </Form.Item>
           <Form.Item label="Hình ảnh">
             <input type="file" id="file" name="file" onChange={handlePicture} />
