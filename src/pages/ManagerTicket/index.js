@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./ticket.scss";
-import { Button, Modal } from "antd";
+import { notification, Button, Modal, Popconfirm } from "antd";
 import { useSelector } from "react-redux";
 
 import {
@@ -18,6 +18,7 @@ const ManagerTicket = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [idTicket, setIdTicket] = useState("");
   const [bill, setBill] = useState([]);
+  const [api, contextHolder] = notification.useNotification();
 
   const showModal = (e) => {
     setIdTicket(e);
@@ -60,9 +61,35 @@ const ManagerTicket = () => {
       console.log(error);
     }
   };
+  const handleDeleteTicket = async (id) => {
+    try {
+      console.log({ id });
+      const result = await ticketAPI.deleteTicket({
+        id,
+      });
+      if (result.status === 200) {
+        await getTicket();
+        api.open({
+          type: "success",
+          message: "Xóa vé thành công.",
+        });
+      }
+    } catch (error) {
+      api.open({
+        type: "error",
+        message: "Xóa vé thất bại.",
+      });
+    }
+  };
+
+  const confirm = (e) =>
+    new Promise((resolve) => {
+      setTimeout(() => resolve(handleDeleteTicket(e)), 2000);
+    });
 
   return (
     <>
+      {contextHolder}
       <div className="admin_right">
         <h1>LỊCH SỬ ĐẶT VÉ</h1>
         <table>
@@ -112,9 +139,17 @@ const ManagerTicket = () => {
                         onOk={handleOk}
                         onCancel={handleCancel}
                       ></Modal>
-                      <Button type="primary" danger>
-                        Xóa Vé
-                      </Button>
+                      <Popconfirm
+                        title="Xóa phòng"
+                        description="Bạn có muốn xóa phòng này?"
+                        onConfirm={() => confirm(ticket._id)}
+                        okText="Yes"
+                        cancelText="No"
+                      >
+                        <Button type="primary" danger>
+                          Xóa vé
+                        </Button>
+                      </Popconfirm>
                     </td>
                   </tr>
                 );

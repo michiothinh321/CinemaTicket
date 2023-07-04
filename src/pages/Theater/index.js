@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./PageAdmin.scss";
 import { Link } from "react-router-dom";
-import { notification, Button, Modal, Form, Input } from "antd";
+import { notification, Button, Modal, Form, Input, Popconfirm } from "antd";
 import { theater as theaterAPI } from "../../API";
 
 export default function Theater() {
@@ -10,7 +10,6 @@ export default function Theater() {
   const [address, setAddress] = useState("");
   const [theater, setTheater] = useState([]);
   const [api, contextHolder] = notification.useNotification();
-
   const keyValue = window.location.search;
   const urlParams = new URLSearchParams(keyValue);
   const idArea = urlParams.get("idArea");
@@ -39,19 +38,40 @@ export default function Theater() {
     setAddress(e.target.value);
   };
 
+  const handleDeleteTheater = async (nameTheater) => {
+    try {
+      const result = await theaterAPI.deleteTheater({
+        nameTheater,
+      });
+      if (result.status === 200) {
+        await getTheaterById();
+        api.open({
+          type: "success",
+          message: "Xóa rạp thành công.",
+        });
+      }
+    } catch (error) {
+      api.open({
+        type: "error",
+        message: "Xóa rạp thất bại.",
+      });
+      console.log(error);
+    }
+  };
+
   // OPEN MODAL
   const showModal = () => {
     setIsModalOpen(true);
-  };
-
-  const handleOk = () => {
-    handleAddTheater();
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
     window.location.reload(true);
   };
+  const confirm = (e) =>
+    new Promise((resolve) => {
+      setTimeout(() => resolve(handleDeleteTheater(e)), 2000);
+    });
 
   const handleAddTheater = async () => {
     try {
@@ -64,13 +84,13 @@ export default function Theater() {
       if (result.status === 200) {
         api.open({
           type: "success",
-          message: "Thêm khu vực thành công.",
+          message: "Thêm rạp thành công.",
         });
       }
     } catch (error) {
       api.open({
         type: "error",
-        message: "Tên khu vực đã tồn tại.",
+        message: "Tên rạp đã tồn tại.",
       });
     }
   };
@@ -90,7 +110,7 @@ export default function Theater() {
         <Modal
           title="Thêm Rạp"
           open={isModalOpen}
-          onOk={handleOk}
+          onOk={handleAddTheater}
           onCancel={handleCancel}
         >
           <Form
@@ -149,9 +169,17 @@ export default function Theater() {
                         Sửa Rạp
                       </Button>
                     </Link>
-                    <Button type="primary" danger htmlType="submit">
-                      Xóa Rạp
-                    </Button>
+                    <Popconfirm
+                      title="Xóa rạp"
+                      description="Bạn có muốn xóa rạp này?"
+                      onConfirm={() => confirm(theater.nameTheater)}
+                      okText="Yes"
+                      cancelText="No"
+                    >
+                      <Button type="primary" danger>
+                        Xóa rạp
+                      </Button>
+                    </Popconfirm>
                     <Link
                       to={`/room?idArea=${theater.idArea}&idTheater=${theater._id}`}
                     >

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./PageAdmin.scss";
 import { Link } from "react-router-dom";
-import { notification, Button, Modal, Form, Input } from "antd";
+import { notification, Button, Modal, Form, Input, Popconfirm } from "antd";
 import { room as roomAPI } from "../../API";
 
 export default function Room() {
@@ -11,19 +11,20 @@ export default function Room() {
   const [rows, setRows] = useState("");
   const [room, setRoom] = useState([]);
   const [api, contextHolder] = notification.useNotification();
-  const [fistNameRoom,setFirstNameRoom] = useState("")
+  const [fistNameRoom, setFirstNameRoom] = useState("");
   const keyValue = window.location.search;
   const urlParams = new URLSearchParams(keyValue);
   const idArea = urlParams.get("idArea");
   const idTheater = urlParams.get("idTheater");
-  const name = fistNameRoom +" " +nameRoom;
+  const name = fistNameRoom + " " + nameRoom;
+
   const addRoom = async () => {
     try {
       const result = await roomAPI.addRoom({
         idTheater,
         columns,
         rows,
-        nameRoom:name,
+        nameRoom: name,
       });
       if (result.status === 200) {
         api.open({
@@ -65,13 +66,13 @@ export default function Room() {
         await getRoomById(idTheater);
         api.open({
           type: "success",
-          message: "Delete room successfully.",
+          message: "Xóa phòng thành công.",
         });
       }
     } catch (error) {
       api.open({
         type: "error",
-        message: "Delete room failure.",
+        message: "Xóa phòng thất bại.",
       });
     }
   };
@@ -84,15 +85,19 @@ export default function Room() {
   const handleOk = () => {
     addRoom();
   };
+  const confirm = (e) =>
+    new Promise((resolve) => {
+      setTimeout(() => resolve(handleDeleteRoom(e)), 2000);
+    });
 
   const handleCancel = () => {
     setIsModalOpen(false);
     window.location.reload(true);
   };
-  const handleNameRoom = (e)=>{
+  const handleNameRoom = (e) => {
     setFirstNameRoom(e.target.value);
-  }
-  
+  };
+
   return (
     <>
       {contextHolder}
@@ -125,13 +130,13 @@ export default function Room() {
               minWidth: 600,
             }}
           >
-            <Form.Item label="Tên Phòng" >
-            <select onChange={handleNameRoom} value={fistNameRoom}>
-              <option> </option>
-              <option>Phòng</option>
-              <option>CGV</option>
-              <option>Rạp</option>
-            </select>
+            <Form.Item label="Tên Phòng">
+              <select onChange={handleNameRoom} value={fistNameRoom}>
+                <option> </option>
+                <option>Phòng</option>
+                <option>CGV</option>
+                <option>Rạp</option>
+              </select>
               <Input
                 placeholder="Tên Phòng"
                 id="nameRoom"
@@ -188,16 +193,17 @@ export default function Room() {
                     <Button type="primary" htmlType="submit">
                       Sửa Phòng
                     </Button>
-                    <Button
-                      type="primary"
-                      danger
-                      htmlType="submit"
-                      onClick={() => {
-                        handleDeleteRoom(room.nameRoom);
-                      }}
+                    <Popconfirm
+                      title="Xóa phòng"
+                      description="Bạn có muốn xóa phòng này?"
+                      onConfirm={() => confirm(room.nameRoom)}
+                      okText="Yes"
+                      cancelText="No"
                     >
-                      Xóa Phòng
-                    </Button>
+                      <Button type="primary" danger>
+                        Xóa phòng
+                      </Button>
+                    </Popconfirm>
                   </td>
                 </tr>
               );

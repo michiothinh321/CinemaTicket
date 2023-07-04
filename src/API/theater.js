@@ -18,8 +18,8 @@ const theater = {
     const url = API_BASE_URL + `/theater/${theater._id}`;
     return await axios.put(url, theater);
   },
-  deleteTheater: async ({ index }) => {
-    const url = API_BASE_URL + `/theater/${index}`;
+  deleteTheater: async ({ nameTheater }) => {
+    const url = API_BASE_URL + `/theater/${nameTheater}`;
     return await axios.delete(url);
   },
 };

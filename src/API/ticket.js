@@ -6,7 +6,7 @@ const ticket = {
     const url = API_BASE_URL + "/ticket/addTicket";
     return await axios.post(url, data);
   },
-  getTicket: async ({email}) => {
+  getTicket: async ({ email }) => {
     const url = API_BASE_URL + `/ticket/${email}`;
     return await axios.get(url);
   },
@@ -14,7 +14,10 @@ const ticket = {
     const url = API_BASE_URL + `/ticket/${id}`;
     return await axios.put(url, ticket);
   },
-  
+  deleteTicket: async ({ id }) => {
+    const url = API_BASE_URL + `/ticket/${id}`;
+    return await axios.delete(url);
+  },
 };
 
 export default ticket;

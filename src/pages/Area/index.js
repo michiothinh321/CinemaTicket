@@ -80,26 +80,7 @@ export default function Area() {
       console.log(error);
     }
   };
-  const handleDeleteArea = async (nameArea) => {
-    try {
-      const result = await areaAPI.deleteArea({
-        nameArea,
-      });
-      if (result.status === 200) {
-        await getAreaList();
-        api.open({
-          type: "success",
-          message: "Delete area successfully.",
-        });
-      }
-    } catch (error) {
-      api.open({
-        type: "error",
-        message: "Delete area failure.",
-      });
-      console.log(error);
-    }
-  };
+
   return (
     <>
       {contextHolder}
@@ -140,16 +121,6 @@ export default function Area() {
                   <td>{index}</td>
                   <td>{area.nameArea}</td>
                   <td>
-                    <Button
-                      type="primary"
-                      danger
-                      htmlType="submit"
-                      onClick={() => {
-                        handleDeleteArea(area.nameArea);
-                      }}
-                    >
-                      Xóa Khu Vực
-                    </Button>
                     <Link to={`/theater?idArea=${area._id}`}>
                       <Button type="primary" htmlType="submit">
                         Quản Lý Rạp
