@@ -68,10 +68,7 @@ export default function Theater() {
     setIsModalOpen(false);
     window.location.reload(true);
   };
-  const confirm = (e) =>
-    new Promise((resolve) => {
-      setTimeout(() => resolve(handleDeleteTheater(e)), 2000);
-    });
+  const confirm = (e) => handleDeleteTheater(e);
 
   const handleAddTheater = async () => {
     try {

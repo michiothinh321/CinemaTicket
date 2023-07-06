@@ -4,6 +4,7 @@ import {
   showtime as showtimeAPI,
   ticket as ticketAPI,
   chair as chairAPI,
+  detailTicket as detailTicketAPI,
 } from "../../API";
 import React, { useEffect, useState } from "react";
 import { notification } from "antd";
@@ -54,20 +55,21 @@ const Order = () => {
   const navigate = useNavigate();
   const [seconds, setSeconds] = useState(59);
   const [minutes, setMinutes] = useState(2);
+  const [detailTicket, setDetailTicket] = useState([]);
   const timer = () => setSeconds((seconds) => seconds - 1);
-  useEffect(() => {
-    if (seconds <= 0 && minutes > 0) {
-      setMinutes((minutes) => minutes - 1);
-      setSeconds(59);
-    }
-    if (minutes <= 0 && seconds <= 0) {
-      navigate("/");
-      return;
-    }
+  // useEffect(() => {
+  //   if (seconds <= 0 && minutes > 0) {
+  //     setMinutes((minutes) => minutes - 1);
+  //     setSeconds(59);
+  //   }
+  //   if (minutes <= 0 && seconds <= 0) {
+  //     navigate("/");
+  //     return;
+  //   }
 
-    const id = setInterval(timer, 1000);
-    return () => clearInterval(id);
-  }, [seconds, minutes]);
+  //   const id = setInterval(timer, 1000);
+  //   return () => clearInterval(id);
+  // }, [seconds, minutes]);
   useEffect(() => {
     (async () => {
       await getMovie();
@@ -109,6 +111,14 @@ const Order = () => {
         numberChair,
       });
 
+      detailTicket.map(async (detail) => {
+        const result2 = await detailTicketAPI.addDetailTicket({
+          idShowTime,
+          email: user.email,
+          date: new Date(),
+          detail,
+        });
+      });
       // if (result.status === 200) {
       //   api.open({
       //     type: "success",
@@ -175,12 +185,26 @@ const Order = () => {
           e.currentTarget.style.color = "white";
           setNumberChair((pre) => [...pre, e.target.innerHTML]);
           setPriceFilm((prev) => +film.price + prev);
+          setDetailTicket((pre) => [
+            ...pre,
+            {
+              price: film.price,
+              chair: e.target.innerHTML,
+            },
+          ]);
         } else {
           setEnable((pre) => [...pre, e.target.innerHTML]);
           e.currentTarget.style.backgroundColor = "#f71708";
           e.currentTarget.style.color = "white";
           setNumberChair((pre) => [...pre, e.target.innerHTML]);
           setPriceFilm((prev) => +film.price + prev + 5000);
+          setDetailTicket((pre) => [
+            ...pre,
+            {
+              price: film.price,
+              chair: e.target.innerHTML,
+            },
+          ]);
         }
       } else {
         if (!chair.vip) {
@@ -193,6 +217,13 @@ const Order = () => {
             enable.filter((item) => !e.target.innerHTML.includes(item))
           );
           setPriceFilm((prev) => prev - parseInt(film.price));
+          setDetailTicket((pre) => [
+            ...pre,
+            {
+              price: film.price,
+              chair: e.target.innerHTML,
+            },
+          ]);
         } else {
           setEnable(
             enable.filter((item) => !e.target.innerHTML.includes(item))
@@ -203,10 +234,18 @@ const Order = () => {
             enable.filter((item) => !e.target.innerHTML.includes(item))
           );
           setPriceFilm((prev) => prev - parseInt(film.price) - 5000);
+          setDetailTicket((pre) => [
+            ...pre,
+            {
+              price: film.price,
+              chair: e.target.innerHTML,
+            },
+          ]);
         }
       }
     }
   };
+  console.log(detailTicket);
   return (
     <>
       {contextHolder}

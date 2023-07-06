@@ -147,7 +147,6 @@ export default function Film() {
       console.log(error);
     }
   };
-
   useEffect(() => {
     if (idFilm) {
       (async () => {
@@ -156,6 +155,20 @@ export default function Film() {
     }
   }, [idFilm]);
   const getMovie = async () => {
+    try {
+      const result = await movieAPI.getMovie({ idFilm });
+      setMovie(result.data.animation);
+      setDateMovie(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    (async () => {
+      await getFilm();
+    })();
+  }, []);
+  const getFilm = async () => {
     try {
       const result = await movieAPI.getMovie({ idFilm });
       setMovie(result.data.animation);
@@ -198,10 +211,7 @@ export default function Film() {
   };
 
   //MODAL DELETE
-  const confirm = (e) =>
-    new Promise((resolve) => {
-      setTimeout(() => resolve(handleDeleteMovie(e)), 2000);
-    });
+  const confirm = (e) => handleDeleteMovie(e);
 
   return (
     <>
@@ -227,232 +237,276 @@ export default function Film() {
             </tr>
           </thead>
           <tbody>
-            {film.map((film, index) => {
-              if (
-                parseInt(film.date?.slice(0, 4)) > new Date().getFullYear() ||
-                parseInt(film.date?.slice(5, 7)) > new Date().getMonth() + 2
-              ) {
-                return (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{film.nameFilm}</td>
-                    <td>
-                      <img src={film.picture} alt="" />
-                    </td>
-                    <td>
-                      {film.date?.slice(0, 10).split("-").reverse().join("-")}
-                    </td>
-                    <td>{film.time}</td>
-                    <td>{film.genres}</td>
-                    <td>{film.animation.join(" , ")}</td>
-                    <td>
-                      <Link to={`/editfilm?idFilm=${film._id}`}>
-                        <Button type="primary" htmlType="submit">
-                          Sửa phim
-                        </Button>
-                      </Link>
-                      <Popconfirm
-                        title="Delete the task"
-                        description="Are you sure to delete this task?"
-                        onConfirm={() => confirm(film.nameFilm)}
-                        okText="Yes"
-                        cancelText="No"
-                      >
-                        <Button type="primary" danger>
-                          Xóa phim
-                        </Button>
-                      </Popconfirm>
-                      <Link to={`/detailsFilm?idFilm=${film._id}`}>
-                        <Button type="primary" htmlType="submit">
-                          Chi Tiết Phim
-                        </Button>
-                      </Link>
-                    </td>
-                  </tr>
-                );
-              } else {
-                return (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{film.nameFilm}</td>
-                    <td>
-                      <img src={film.picture} alt="" />
-                    </td>
-                    <td>
-                      {film.date?.slice(0, 10).split("-").reverse().join("-")}
-                    </td>
-                    <td>{film.time}</td>
-                    <td>{film.genres}</td>
-                    <td>{film.animation.join(" , ")}</td>
-                    <td>
-                      <Link to={`/editfilm?idFilm=${film._id}`}>
-                        <Button type="primary" htmlType="submit">
-                          Sửa phim
-                        </Button>
-                      </Link>
-                      <Popconfirm
-                        title="Delete the task"
-                        description="Are you sure to delete this task?"
-                        onConfirm={() => confirm(film.nameFilm)}
-                        okText="Yes"
-                        cancelText="No"
-                      >
-                        <Button type="primary" danger>
-                          Xóa phim
-                        </Button>
-                      </Popconfirm>
-
-                      <Button
-                        type="primary"
-                        htmlType="submit"
-                        onClick={() => showModal(film._id)}
-                      >
-                        Thêm Suất Chiếu
-                      </Button>
-                      <Modal
-                        title="Thêm Suất Chiếu"
-                        open={isModalOpen}
-                        onOk={handleOpenModal}
-                        onCancel={handleCancel}
-                      >
-                        <Form
-                          className="form_addfilm"
-                          labelCol={{
-                            span: 4,
-                          }}
-                          wrapperCol={{
-                            span: 14,
-                          }}
-                          layout="horizontal"
-                          style={{
-                            minWidth: 600,
-                          }}
+            {film
+              .sort((a, b) => (a.nameFilm > b.nameFilm ? 1 : -1))
+              .map((film, index) => {
+                if (
+                  parseInt(film.date?.slice(0, 4)) > new Date().getFullYear() ||
+                  parseInt(film.date?.slice(5, 7)) > new Date().getMonth() + 2
+                ) {
+                  return (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{film.nameFilm}</td>
+                      <td>
+                        <img src={film.picture} alt="" />
+                      </td>
+                      <td>
+                        {film.date?.slice(0, 10).split("-").reverse().join("-")}
+                      </td>
+                      <td>{film.time}</td>
+                      <td>{film.genres}</td>
+                      <td>{film.animation.join(" , ")}</td>
+                      <td>
+                        <Link to={`/editfilm?idFilm=${film._id}`}>
+                          <Button type="primary" htmlType="submit">
+                            Sửa phim
+                          </Button>
+                        </Link>
+                        <Popconfirm
+                          title="Xóa phim"
+                          description="Bạn có muốn xóa phim này?"
+                          onConfirm={() => confirm(film.nameFilm)}
+                          okText="Yes"
+                          cancelText="No"
                         >
-                          <Form.Item label="Khu Vực">
-                            <select
-                              onChange={(e) => {
-                                setIdArea(e.target.value);
-                              }}
-                              value={idArea}
-                            >
-                              <option>---SELECT---</option>
-                              {listArea.map((area) => {
-                                return (
-                                  <option key={area._id} value={area._id}>
-                                    {area.nameArea}
-                                  </option>
-                                );
-                              })}
-                            </select>
-                          </Form.Item>
-                          <Form.Item label="Rạp">
-                            <select
-                              onChange={(e) => setIdTheater(e.target.value)}
-                              value={idTheater}
-                            >
-                              <option>---SELECT---</option>
-                              {theater.map((theater) => {
-                                return (
-                                  <option key={theater._id} value={theater._id}>
-                                    {theater.nameTheater}
-                                  </option>
-                                );
-                              })}
-                            </select>
-                          </Form.Item>
-                          <Form.Item label="Phòng">
-                            <select
-                              onChange={(e) => setIdRoom(e.target.value)}
-                              value={idRoom}
-                            >
-                              <option>---SELECT---</option>
-                              {room.map((room) => {
-                                return (
-                                  <option key={room._id} value={room._id}>
-                                    {room.nameRoom}
-                                  </option>
-                                );
-                              })}
-                            </select>
-                          </Form.Item>
-                          <Form.Item label="Thể loại">
-                            <select
-                              onChange={(e) => setAnimation(e.target.value)}
-                              value={animation}
-                            >
-                              <option>---SELECT---</option>
-                              {movie.map((e) => {
-                                return (
-                                  <option key={e} value={e}>
-                                    {e}
-                                  </option>
-                                );
-                              })}
-                            </select>
-                          </Form.Item>
-                          <Form.Item label="Ngày Chiếu">
-                            <input
-                              type="date"
-                              id="date"
-                              name="date"
-                              min={minDate()}
-                              value={date}
-                              onChange={(e) => setDate(e.target.value)}
-                            />
-                          </Form.Item>
-                          <Form.Item label="Giờ Chiếu">
-                            <input
-                              placeholder="Giờ Chiếu"
-                              id="time"
-                              name="time"
-                              type="time"
-                              onChange={(e) => setTimeStart(e.target.value)}
-                              value={timeStart}
-                            />
-                          </Form.Item>
-                          <Form.Item label="Giá vé">
-                            <select
-                              onChange={(e) => setPrice(e.target.value)}
-                              value={price}
-                            >
-                              <option>---SELECT---</option>
-                              {animation === ""
-                                ? ""
-                                : animation === "2D"
-                                ? Animation2D.map((e) => {
-                                    return (
-                                      <option key={e} value={e}>
-                                        {e.toLocaleString("vi", {
-                                          style: "currency",
-                                          currency: "VND",
-                                        })}
-                                      </option>
-                                    );
-                                  })
-                                : Animation3D.map((e) => {
-                                    return (
-                                      <option key={e} value={e}>
-                                        {e.toLocaleString("vi", {
-                                          style: "currency",
-                                          currency: "VND",
-                                        })}
-                                      </option>
-                                    );
-                                  })}
-                            </select>
-                          </Form.Item>
-                        </Form>
-                      </Modal>
-                      <Link to={`/detailsFilm?idFilm=${film._id}`}>
-                        <Button type="primary" htmlType="submit">
-                          Chi Tiết Phim
+                          <Button type="primary" danger>
+                            Xóa phim
+                          </Button>
+                        </Popconfirm>
+                        <Link to={`/detailsFilm?idFilm=${film._id}`}>
+                          <Button type="primary" htmlType="submit">
+                            Chi Tiết Phim
+                          </Button>
+                        </Link>
+                      </td>
+                    </tr>
+                  );
+                } else {
+                  return (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{film.nameFilm}</td>
+                      <td>
+                        <img src={film.picture} alt="" />
+                      </td>
+                      <td>
+                        {film.date?.slice(0, 10).split("-").reverse().join("-")}
+                      </td>
+                      <td>{film.time}</td>
+                      <td>{film.genres}</td>
+                      <td>{film.animation.join(" , ")}</td>
+                      <td>
+                        <Link to={`/editfilm?idFilm=${film._id}`}>
+                          <Button type="primary" htmlType="submit">
+                            Sửa phim
+                          </Button>
+                        </Link>
+                        <Popconfirm
+                          title="Delete the task"
+                          description="Are you sure to delete this task?"
+                          onConfirm={() => confirm(film.nameFilm)}
+                          okText="Yes"
+                          cancelText="No"
+                        >
+                          <Button type="primary" danger>
+                            Xóa phim
+                          </Button>
+                        </Popconfirm>
+
+                        <Button
+                          type="primary"
+                          htmlType="submit"
+                          onClick={() => showModal(film._id)}
+                        >
+                          Thêm Suất Chiếu
                         </Button>
-                      </Link>
-                    </td>
-                  </tr>
-                );
-              }
-            })}
+                        <Modal
+                          title="Thêm Suất Chiếu"
+                          open={isModalOpen}
+                          onOk={handleOpenModal}
+                          onCancel={handleCancel}
+                        >
+                          <Form
+                            className="form_addfilm"
+                            labelCol={{
+                              span: 4,
+                            }}
+                            wrapperCol={{
+                              span: 14,
+                            }}
+                            layout="horizontal"
+                            style={{
+                              minWidth: 600,
+                            }}
+                          >
+                            <Form.Item label="Khu Vực">
+                              <select
+                                onChange={(e) => {
+                                  setIdArea(e.target.value);
+                                }}
+                                value={idArea}
+                              >
+                                <option>---SELECT---</option>
+                                {listArea.map((area) => {
+                                  return (
+                                    <option key={area._id} value={area._id}>
+                                      {area.nameArea}
+                                    </option>
+                                  );
+                                })}
+                              </select>
+                            </Form.Item>
+                            <Form.Item label="Rạp">
+                              <select
+                                onChange={(e) => setIdTheater(e.target.value)}
+                                value={idTheater}
+                              >
+                                <option>---SELECT---</option>
+                                {theater.map((theater) => {
+                                  return (
+                                    <option
+                                      key={theater._id}
+                                      value={theater._id}
+                                    >
+                                      {theater.nameTheater}
+                                    </option>
+                                  );
+                                })}
+                              </select>
+                            </Form.Item>
+                            <Form.Item label="Phòng">
+                              <select
+                                onChange={(e) => setIdRoom(e.target.value)}
+                                value={idRoom}
+                              >
+                                <option>---SELECT---</option>
+                                {room.map((room) => {
+                                  return (
+                                    <option key={room._id} value={room._id}>
+                                      {room.nameRoom}
+                                    </option>
+                                  );
+                                })}
+                              </select>
+                            </Form.Item>
+                            <Form.Item label="Thể loại">
+                              <select
+                                onChange={(e) => setAnimation(e.target.value)}
+                                value={animation}
+                              >
+                                <option>---SELECT---</option>
+                                {movie.map((e) => {
+                                  return (
+                                    <option key={e} value={e}>
+                                      {e}
+                                    </option>
+                                  );
+                                })}
+                              </select>
+                            </Form.Item>
+                            <Form.Item label="Ngày Chiếu">
+                              <input
+                                type="date"
+                                id="date"
+                                name="date"
+                                min={minDate()}
+                                value={date}
+                                onChange={(e) => setDate(e.target.value)}
+                              />
+                            </Form.Item>
+                            <Form.Item label="Giờ Chiếu">
+                              <input
+                                placeholder="Giờ Chiếu"
+                                id="time"
+                                name="time"
+                                type="time"
+                                onChange={(e) => setTimeStart(e.target.value)}
+                                value={timeStart}
+                              />
+                            </Form.Item>
+                            <Form.Item label="Giá vé">
+                              <input
+                                onChange={(e) => setPrice(e.target.value)}
+                                value={price}
+                              />
+                              {/* <select
+                                onChange={(e) => setPrice(e.target.value)}
+                                value={price}
+                              >
+                                <option>---SELECT---</option>
+                                {animation === ""
+                                  ? ""
+                                  : animation === "2D"
+                                  ? Animation2D.map((e) => {
+                                      return (
+                                        <option key={e} value={e}>
+                                          {e.toLocaleString("vi", {
+                                            style: "currency",
+                                            currency: "VND",
+                                          })}
+                                        </option>
+                                      );
+                                    })
+                                  : Animation3D.map((e) => {
+                                      return (
+                                        <option key={e} value={e}>
+                                          {e.toLocaleString("vi", {
+                                            style: "currency",
+                                            currency: "VND",
+                                          })}
+                                        </option>
+                                      );
+                                    })}
+                              </select> */}
+                            </Form.Item>
+                            <Form.Item label="Giá vé">
+                              <input
+                                onChange={(e) => setPrice(e.target.value)}
+                                value={price}
+                              />
+                              {/* <select
+                                onChange={(e) => setPrice(e.target.value)}
+                                value={price}
+                              >
+                                <option>---SELECT---</option>
+                                {animation === ""
+                                  ? ""
+                                  : animation === "2D"
+                                  ? Animation2D.map((e) => {
+                                      return (
+                                        <option key={e} value={e}>
+                                          {e.toLocaleString("vi", {
+                                            style: "currency",
+                                            currency: "VND",
+                                          })}
+                                        </option>
+                                      );
+                                    })
+                                  : Animation3D.map((e) => {
+                                      return (
+                                        <option key={e} value={e}>
+                                          {e.toLocaleString("vi", {
+                                            style: "currency",
+                                            currency: "VND",
+                                          })}
+                                        </option>
+                                      );
+                                    })}
+                              </select> */}
+                            </Form.Item>
+                          </Form>
+                        </Modal>
+                        <Link to={`/detailsFilm?idFilm=${film._id}`}>
+                          <Button type="primary" htmlType="submit">
+                            Chi Tiết Phim
+                          </Button>
+                        </Link>
+                      </td>
+                    </tr>
+                  );
+                }
+              })}
           </tbody>
         </table>
       </div>

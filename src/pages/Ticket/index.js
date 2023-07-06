@@ -40,6 +40,7 @@ const Ticket = () => {
       console.log(error);
     }
   };
+
   return (
     <>
       <div className="ticket_content">
@@ -84,7 +85,6 @@ const Ticket = () => {
         </div>
         <div className="ticket_right">
           <h2>LỊCH CHIẾU</h2>
-
           {film.map((film) => {
             return (
               <div className="ticket_time" key={film._id}>
@@ -106,6 +106,27 @@ const Ticket = () => {
               </div>
             );
           })}
+          {/* {film.map((film) => {
+            return (
+              <div className="ticket_time" key={film._id}>
+                <div>
+                  <h3>{film.nameTheater}</h3>
+                </div>
+                <div className="flex_center">
+                  <div className="ticket_time_title">
+                    <h4>2D</h4>
+                  </div>
+                  <div className="ticket_time_button">
+                    <Link
+                      to={`/order?idRoom=${film.idRoom}&idShowTime=${film._id}&idFilm=${film.idFilm}`}
+                    >
+                      <button className="button_order">{film.timeStart}</button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            );
+          })} */}
         </div>
       </div>
     </>

@@ -1,5 +1,5 @@
 import React from "react";
-import "./PageAdmin.scss"
+import "./PageAdmin.scss";
 import { Link } from "react-router-dom";
 export default function Sidebar() {
   return (

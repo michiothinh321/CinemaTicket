@@ -85,10 +85,7 @@ export default function Room() {
   const handleOk = () => {
     addRoom();
   };
-  const confirm = (e) =>
-    new Promise((resolve) => {
-      setTimeout(() => resolve(handleDeleteRoom(e)), 2000);
-    });
+  const confirm = (e) => handleDeleteRoom(e);
 
   const handleCancel = () => {
     setIsModalOpen(false);
