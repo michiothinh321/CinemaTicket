@@ -6,16 +6,22 @@ import {
   ticket as ticketAPI,
   chair as chairAPI,
   bill as billAPI,
+  detailTicket as detailTicketAPI,
 } from "../../API";
 import "./PaymentContent.scss";
 const PaymentContent = () => {
   const keyValue = window.location.search;
   const urlParams = new URLSearchParams(keyValue);
   const idRoom = urlParams.get("idRoom");
+  const idShowTime = urlParams.get("idShowTime");
+  const user = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [ticket, setTicket] = useState([]);
   const [chair, setChair] = useState([]);
-  const user = useSelector((state) => state.user);
+  const [detail, setDetail] = useState([]);
+  const [seconds, setSeconds] = useState(59);
+  const [minutes, setMinutes] = useState(2);
+  const timer = () => setSeconds((seconds) => seconds - 1);
 
   useEffect(() => {
     if (ticket) {
@@ -28,28 +34,44 @@ const PaymentContent = () => {
     try {
       const result = await ticketAPI.getTicket({ email: user.email });
       const result1 = await chairAPI.getChair({ idRoom });
+
       setTicket(result.data);
       setChair(result1.data);
     } catch (error) {
       console.log(error);
     }
   };
-  const [seconds, setSeconds] = useState(59);
-  const [minutes, setMinutes] = useState(2);
-  const timer = () => setSeconds((seconds) => seconds - 1);
-  useEffect(() => {
-    if (seconds <= 0 && minutes > 0) {
-      setMinutes((minutes) => minutes - 1);
-      setSeconds(59);
-    }
-    if (minutes <= 0 && seconds <= 0) {
-      navigate("/");
-      return;
-    }
 
-    const id = setInterval(timer, 1000);
-    return () => clearInterval(id);
-  }, [seconds, minutes]);
+  useEffect(() => {
+    if (ticket) {
+      (async () => {
+        await getDetail();
+      })();
+    }
+  }, [ticket]);
+  const getDetail = async () => {
+    try {
+      const result = await detailTicketAPI.getDetailTicket({
+        idShowTime,
+      });
+      setDetail(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // useEffect(() => {
+  //   if (seconds <= 0 && minutes > 0) {
+  //     setMinutes((minutes) => minutes - 1);
+  //     setSeconds(59);
+  //   }
+  //   if (minutes <= 0 && seconds <= 0) {
+  //     navigate("/");
+  //     return;
+  //   }
+
+  //   const id = setInterval(timer, 1000);
+  //   return () => clearInterval(id);
+  // }, [seconds, minutes]);
   const handleAddBill = async (e) => {
     try {
       ticket.map(async (ticket) => {
@@ -63,6 +85,13 @@ const PaymentContent = () => {
         if (!chair.checkout) {
           const resultChair = await chairAPI.checkoutChair({
             id: chair._id,
+          });
+        }
+      });
+      detail.map(async (detail) => {
+        if (!detail.checkout) {
+          const resultDetail = await detailTicketAPI.editDetailTicket({
+            id: detail._id,
           });
         }
       });

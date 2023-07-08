@@ -117,6 +117,7 @@ const Order = () => {
           email: user.email,
           date: new Date(),
           detail,
+          idShowTime,
         });
       });
       // if (result.status === 200) {
@@ -245,7 +246,6 @@ const Order = () => {
       }
     }
   };
-  console.log(detailTicket);
   return (
     <>
       {contextHolder}
@@ -332,7 +332,9 @@ const Order = () => {
             <Link to="/ticket">
               <button className="order_btn_main">QUAY LẠI</button>
             </Link>
-            <Link to={`/payment?idRoom=${film.idRoom}&idFilm=${film.idFilm}`}>
+            <Link
+              to={`/payment?idRoom=${film.idRoom}&idFilm=${film.idFilm}&idShowTime=${idShowTime}`}
+            >
               <button className="order_btn_main" onClick={handleAddChairs}>
                 TIẾP TỤC
               </button>

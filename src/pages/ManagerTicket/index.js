@@ -61,6 +61,7 @@ const ManagerTicket = () => {
       console.log(error);
     }
   };
+  console.log(bill);
   const handleDeleteTicket = async (id) => {
     try {
       console.log({ id });
@@ -82,10 +83,7 @@ const ManagerTicket = () => {
     }
   };
 
-  const confirm = (e) =>
-    new Promise((resolve) => {
-      setTimeout(() => resolve(handleDeleteTicket(e)), 2000);
-    });
+  const confirm = (e) => handleDeleteTicket(e);
 
   return (
     <>
