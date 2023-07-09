@@ -10,9 +10,9 @@ const detailTicket = {
     const url = API_BASE_URL + `/detailticket/${idShowTime}`;
     return await axios.get(url);
   },
-  editDetailTicket: async ({ id }) => {
-    const url = API_BASE_URL + `/detailticket/${id}`;
-    return await axios.put(url, detailTicket);
+  editDetailTicket: async ({ details }) => {
+    const url = API_BASE_URL + `/detailticket/${details.id}`;
+    return await axios.put(url, details);
   },
 };
 

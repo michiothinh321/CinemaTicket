@@ -117,7 +117,7 @@ const Order = () => {
           email: user.email,
           date: new Date(),
           detail,
-          idShowTime,
+          idTicket: "",
         });
       });
       // if (result.status === 200) {

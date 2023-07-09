@@ -88,10 +88,14 @@ const PaymentContent = () => {
           });
         }
       });
-      detail.map(async (detail) => {
-        if (!detail.checkout) {
+      detail.map(async (e) => {
+        if (!e.checkout) {
+          const details = {
+            idTicket: (e.idTicket = ticket[0]._id),
+            id: e._id,
+          };
           const resultDetail = await detailTicketAPI.editDetailTicket({
-            id: detail._id,
+            details,
           });
         }
       });
@@ -114,6 +118,16 @@ const PaymentContent = () => {
       console.log({ error });
     }
   };
+  // detail.map((e) => {
+  //   if (!e.checkout) {
+  //     e.idTicket = ticket._id;
+  //     const details = {
+  //       idTicket: ticket._id,
+  //       id: e._id,
+  //     };
+  //     console.log(details);
+  //   }
+  // });
   return (
     <>
       <div className="payment">
