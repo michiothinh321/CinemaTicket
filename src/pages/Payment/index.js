@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import {
   ticket as ticketAPI,
   chair as chairAPI,
-  bill as billAPI,
   detailTicket as detailTicketAPI,
 } from "../../API";
 import "./PaymentContent.scss";
@@ -14,6 +13,7 @@ const PaymentContent = () => {
   const urlParams = new URLSearchParams(keyValue);
   const idRoom = urlParams.get("idRoom");
   const idShowTime = urlParams.get("idShowTime");
+  const idFilm = urlParams.get("idFilm");
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [ticket, setTicket] = useState([]);
@@ -89,20 +89,17 @@ const PaymentContent = () => {
         }
       });
       detail.map(async (e) => {
-        if (!e.checkout) {
-          const details = {
-            idTicket: (e.idTicket = ticket[0]._id),
-            id: e._id,
-          };
-          const resultDetail = await detailTicketAPI.editDetailTicket({
-            details,
-          });
-        }
-      });
-      const resultBill = await billAPI.addBill({
-        date: new Date(),
-        idTicket: e,
-        email: user.email,
+        ticket.map(async (value) => {
+          if (!e.checkout && !value.checkout) {
+            const details = {
+              idTicket: (e.idTicket = value._id),
+              id: e._id,
+            };
+            const resultDetail = await detailTicketAPI.editDetailTicket({
+              details,
+            });
+          }
+        });
       });
       // if (result.status === 200) {
       //   api.open({
@@ -118,16 +115,31 @@ const PaymentContent = () => {
       console.log({ error });
     }
   };
-  // detail.map((e) => {
-  //   if (!e.checkout) {
-  //     e.idTicket = ticket._id;
-  //     const details = {
-  //       idTicket: ticket._id,
-  //       id: e._id,
-  //     };
-  //     console.log(details);
-  //   }
-  // });
+  const handleDeleteTicket = async () => {
+    ticket.map(async (ticket) => {
+      if (!ticket.checkout) {
+        const resultTicket = await ticketAPI.deleteTicket({
+          id: ticket._id,
+        });
+      }
+    });
+    chair.map(async (chair) => {
+      if (!chair.checkout) {
+        const resultChair = await chairAPI.deleteChair({
+          id: chair._id,
+        });
+      }
+    });
+    detail.map(async (e) => {
+      ticket.map(async (value) => {
+        if (!e.checkout && !value.checkout) {
+          const resultDetail = await detailTicketAPI.deleteDetailTicket({
+            id: e._id,
+          });
+        }
+      });
+    });
+  };
   return (
     <>
       <div className="payment">
@@ -156,8 +168,15 @@ const PaymentContent = () => {
                 </p>
 
                 <div className="payment_btn_main">
-                  <Link to="/order">
-                    <button className="pay_btn_main">QUAY LẠI</button>
+                  <Link
+                    to={`/order?idRoom=${idRoom}&idShowTime=${idShowTime}&idFilm=${idFilm}`}
+                  >
+                    <button
+                      className="pay_btn_main"
+                      onClick={handleDeleteTicket}
+                    >
+                      QUAY LẠI
+                    </button>
                   </Link>
                   {ticket.map((ticket) => {
                     if (!ticket.checkout) {

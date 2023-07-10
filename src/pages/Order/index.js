@@ -57,19 +57,19 @@ const Order = () => {
   const [minutes, setMinutes] = useState(2);
   const [detailTicket, setDetailTicket] = useState([]);
   const timer = () => setSeconds((seconds) => seconds - 1);
-  // useEffect(() => {
-  //   if (seconds <= 0 && minutes > 0) {
-  //     setMinutes((minutes) => minutes - 1);
-  //     setSeconds(59);
-  //   }
-  //   if (minutes <= 0 && seconds <= 0) {
-  //     navigate("/");
-  //     return;
-  //   }
+  useEffect(() => {
+    if (seconds <= 0 && minutes > 0) {
+      setMinutes((minutes) => minutes - 1);
+      setSeconds(59);
+    }
+    if (minutes <= 0 && seconds <= 0) {
+      navigate("/");
+      return;
+    }
 
-  //   const id = setInterval(timer, 1000);
-  //   return () => clearInterval(id);
-  // }, [seconds, minutes]);
+    const id = setInterval(timer, 1000);
+    return () => clearInterval(id);
+  }, [seconds, minutes]);
   useEffect(() => {
     (async () => {
       await getMovie();
@@ -113,11 +113,11 @@ const Order = () => {
 
       detailTicket.map(async (detail) => {
         const result2 = await detailTicketAPI.addDetailTicket({
+          idTicket: "",
           idShowTime,
           email: user.email,
           date: new Date(),
           detail,
-          idTicket: "",
         });
       });
       // if (result.status === 200) {
@@ -198,11 +198,11 @@ const Order = () => {
           e.currentTarget.style.backgroundColor = "#f71708";
           e.currentTarget.style.color = "white";
           setNumberChair((pre) => [...pre, e.target.innerHTML]);
-          setPriceFilm((prev) => +film.price + prev + 5000);
+          setPriceFilm((prev) => +film.price + prev + parseInt(film.priceVip));
           setDetailTicket((pre) => [
             ...pre,
             {
-              price: film.price,
+              price: +film.price + parseInt(film.priceVip),
               chair: e.target.innerHTML,
             },
           ]);
@@ -218,13 +218,11 @@ const Order = () => {
             enable.filter((item) => !e.target.innerHTML.includes(item))
           );
           setPriceFilm((prev) => prev - parseInt(film.price));
-          setDetailTicket((pre) => [
-            ...pre,
-            {
-              price: film.price,
-              chair: e.target.innerHTML,
-            },
-          ]);
+          setDetailTicket(
+            detailTicket.filter(
+              (item) => !e.target.innerHTML.includes(item.chair)
+            )
+          );
         } else {
           setEnable(
             enable.filter((item) => !e.target.innerHTML.includes(item))
@@ -234,14 +232,14 @@ const Order = () => {
           setNumberChair(
             enable.filter((item) => !e.target.innerHTML.includes(item))
           );
-          setPriceFilm((prev) => prev - parseInt(film.price) - 5000);
-          setDetailTicket((pre) => [
-            ...pre,
-            {
-              price: film.price,
-              chair: e.target.innerHTML,
-            },
-          ]);
+          setPriceFilm(
+            (prev) => prev - parseInt(film.price) - parseInt(film.priceVip)
+          );
+          setDetailTicket(
+            detailTicket.filter(
+              (item) => !e.target.innerHTML.includes(item.chair)
+            )
+          );
         }
       }
     }

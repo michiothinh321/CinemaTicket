@@ -10,6 +10,14 @@ const detailTicket = {
     const url = API_BASE_URL + `/detailticket/${idShowTime}`;
     return await axios.get(url);
   },
+  getDetail: async ({ idTicket }) => {
+    const url = API_BASE_URL + `/detailticket/getDetail/${idTicket}`;
+    return await axios.get(url);
+  },
+  deleteDetailTicket: async ({ id }) => {
+    const url = API_BASE_URL + `/detailticket/${id}`;
+    return await axios.delete(url);
+  },
   editDetailTicket: async ({ details }) => {
     const url = API_BASE_URL + `/detailticket/${details.id}`;
     return await axios.put(url, details);

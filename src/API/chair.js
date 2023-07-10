@@ -5,10 +5,14 @@ const chair = {
   addChair: async ({ ...data }) => {
     const url = API_BASE_URL + "/chair/addChair";
     return await axios.post(url, data);
-  },  
-  getChair: async ({idRoom}) => {
+  },
+  getChair: async ({ idRoom }) => {
     const url = API_BASE_URL + `/chair/${idRoom}`;
     return await axios.get(url);
+  },
+  deleteChair: async ({ id }) => {
+    const url = API_BASE_URL + `/chair/${id}`;
+    return await axios.delete(url);
   },
   checkoutChair: async ({ id }) => {
     const url = API_BASE_URL + `/chair/${id}`;

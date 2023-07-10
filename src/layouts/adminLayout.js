@@ -4,7 +4,7 @@ function AdminLayout({ children }) {
     <div
       style={{
         backgroundColor: "white",
-        width: "100%",
+        minWidth: "110vw",
         minHeight: "100vh",
         display: "flex",
         overflow: "scroll-y",

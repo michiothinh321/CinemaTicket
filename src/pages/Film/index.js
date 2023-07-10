@@ -22,14 +22,15 @@ export default function Film() {
   const [date, setDate] = useState("");
   const [timeStart, setTimeStart] = useState("");
   const [price, setPrice] = useState("");
+  const [priceVip, setPriceVip] = useState("");
   const [theater, setTheater] = useState([]);
   const [room, setRoom] = useState([]);
   const [idFilm, setIdFilm] = useState("");
   const [movie, setMovie] = useState([]);
   const [dateMovie, setDateMovie] = useState("");
 
-  const Animation2D = [75000, 90000, 95000, 100000, 125000];
-  const Animation3D = [100000, 110000, 120000, 130000, 150000];
+  const Animation2D = [75000, 95000];
+  const Animation3D = [120000, 150000];
 
   //CALL API KHU VUC - RAP - PHONG -THE LOAI
   useEffect(() => {
@@ -96,12 +97,6 @@ export default function Film() {
     setIsModalOpen(false);
   };
 
-  useEffect(() => {
-    return () => {
-      film.nameFilm && URL.revokeObjectURL(film.nameFilm);
-    };
-  }, []);
-
   //THEM SUAT CHIEU
   const handleAddShowTime = async () => {
     try {
@@ -112,6 +107,7 @@ export default function Film() {
           date,
           idRoom,
           idFilm,
+          priceVip,
         });
 
         if (result.status === 200) {
@@ -163,20 +159,7 @@ export default function Film() {
       console.log(error);
     }
   };
-  useEffect(() => {
-    (async () => {
-      await getFilm();
-    })();
-  }, []);
-  const getFilm = async () => {
-    try {
-      const result = await movieAPI.getMovie({ idFilm });
-      setMovie(result.data.animation);
-      setDateMovie(result.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
   //XOA PHIM
   const handleDeleteMovie = async (nameFilm) => {
     try {
@@ -212,7 +195,6 @@ export default function Film() {
 
   //MODAL DELETE
   const confirm = (e) => handleDeleteMovie(e);
-
   return (
     <>
       {contextHolder}
@@ -430,7 +412,7 @@ export default function Film() {
                                 onChange={(e) => setPrice(e.target.value)}
                                 value={price}
                               />
-                              {/* <select
+                              <select
                                 onChange={(e) => setPrice(e.target.value)}
                                 value={price}
                               >
@@ -458,42 +440,13 @@ export default function Film() {
                                         </option>
                                       );
                                     })}
-                              </select> */}
+                              </select>
                             </Form.Item>
-                            <Form.Item label="Giá vé">
+                            <Form.Item label="Giá ghế vip">
                               <input
-                                onChange={(e) => setPrice(e.target.value)}
-                                value={price}
+                                onChange={(e) => setPriceVip(e.target.value)}
+                                value={priceVip}
                               />
-                              {/* <select
-                                onChange={(e) => setPrice(e.target.value)}
-                                value={price}
-                              >
-                                <option>---SELECT---</option>
-                                {animation === ""
-                                  ? ""
-                                  : animation === "2D"
-                                  ? Animation2D.map((e) => {
-                                      return (
-                                        <option key={e} value={e}>
-                                          {e.toLocaleString("vi", {
-                                            style: "currency",
-                                            currency: "VND",
-                                          })}
-                                        </option>
-                                      );
-                                    })
-                                  : Animation3D.map((e) => {
-                                      return (
-                                        <option key={e} value={e}>
-                                          {e.toLocaleString("vi", {
-                                            style: "currency",
-                                            currency: "VND",
-                                          })}
-                                        </option>
-                                      );
-                                    })}
-                              </select> */}
                             </Form.Item>
                           </Form>
                         </Modal>

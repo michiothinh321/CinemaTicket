@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "./ticket.scss";
-import { notification, Button, Modal, Popconfirm } from "antd";
+import { notification, Button, Modal, Popconfirm, Space, QRCode } from "antd";
 import { useSelector } from "react-redux";
 
 import {
   movie as movieAPI,
   showtime as showtimeAPI,
   ticket as ticketAPI,
-  bill as billAPI,
+  detailTicket as detailTicketAPI,
 } from "../../API/index";
 const ManagerTicket = () => {
   const keyValue = window.location.search;
@@ -55,13 +55,12 @@ const ManagerTicket = () => {
   }, [idTicket]);
   const getBill = async () => {
     try {
-      const result = await billAPI.getBill({ idTicket });
-      setBill(result.data[0]);
+      const result = await detailTicketAPI.getDetail({ idTicket });
+      setBill(result.data);
     } catch (error) {
       console.log(error);
     }
   };
-  console.log(bill);
   const handleDeleteTicket = async (id) => {
     try {
       console.log({ id });
@@ -84,7 +83,6 @@ const ManagerTicket = () => {
   };
 
   const confirm = (e) => handleDeleteTicket(e);
-
   return (
     <>
       {contextHolder}
@@ -132,11 +130,52 @@ const ManagerTicket = () => {
                         Xuất vé
                       </Button>
                       <Modal
-                        title="Vé"
+                        title="Xuất vé"
                         open={isModalOpen}
                         onOk={handleOk}
+                        width={1000}
                         onCancel={handleCancel}
-                      ></Modal>
+                      >
+                        <table border={{ border: "1px solid black" }}>
+                          <thead>
+                            <th>Email</th>
+                            <th>Rạp Phim</th>
+                            <th>Phim</th>
+                            <th>Phòng</th>
+                            <th>Ngày Chiếu</th>
+                            <th>Giờ Chiếu</th>
+                            <th>Ghế</th>
+                            <th>Tiền</th>
+                            <th>QR</th>
+                          </thead>
+                          <tbody>
+                            {bill.map((e) => {
+                              if (e.checkout) {
+                                return (
+                                  <tr key={e._id}>
+                                    <td>{e.email}</td>
+                                    <td>{e.nameTheater}</td>
+                                    <td>{e.nameFilm}</td>
+                                    <td>{e.nameRoom}</td>
+                                    <td>{e.date}</td>
+                                    <td>{e.timeStart}</td>
+                                    <td>{e.detail.chair}</td>
+                                    <td>{e.detail.price}</td>
+                                    <td>
+                                      <Space>
+                                        <QRCode
+                                          type="canvas"
+                                          value={e.idTicket}
+                                        />
+                                      </Space>
+                                    </td>
+                                  </tr>
+                                );
+                              }
+                            })}
+                          </tbody>
+                        </table>
+                      </Modal>
                       <Popconfirm
                         title="Xóa phòng"
                         description="Bạn có muốn xóa phòng này?"

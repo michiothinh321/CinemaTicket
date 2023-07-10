@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import "./History.scss";
 import { Button, Modal, QRCode, Space } from "antd";
 import { useSelector } from "react-redux";
-import { ticket as ticketAPI, bill as billAPI } from "../../API";
+import {
+  ticket as ticketAPI,
+  detailTicket as detailTicketAPI,
+} from "../../API";
 export default function History() {
   const [ticket, setTicket] = useState([]);
   const user = useSelector((state) => state.user);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [idTicket, setIdTicket] = useState("");
-  const [bill, setBill] = useState([]);
+  const [bill, setBill] = useState("");
 
   const showModal = (e) => {
     setIdTicket(e);
@@ -44,13 +47,12 @@ export default function History() {
   }, [idTicket]);
   const getBill = async () => {
     try {
-      const result = await billAPI.getBill({ idTicket });
-      setBill(result.data);
+      const result = await detailTicketAPI.getDetail({ idTicket });
+      setBill(result.data[0]);
     } catch (error) {
       console.log(error);
     }
   };
-
   return (
     <>
       <div className="history_content">
@@ -108,40 +110,36 @@ export default function History() {
                         onOk={handleOk}
                         onCancel={handleCancel}
                       >
-                        {bill.map((e) => {
-                          return (
-                            <div key={e.idTicket}>
-                              <Space>
-                                <QRCode type="canvas" value={e.idTicket} />
-                              </Space>
-                              <p>Email: {e.email}</p>
-                              <p>Ghế: {e.chairs.join(", ")}</p>
-                              <p>
-                                Ngày chiếu:{" "}
-                                {e.date
-                                  ?.slice(0, 10)
-                                  .split("-")
-                                  .reverse()
-                                  .join("-")}
-                              </p>
-                              <p>
-                                Tên phim: {e.nameFilm} || Xuất chiếu:{" "}
-                                {e.timeStart} || Thời lượng: {`${e.time}p`}
-                              </p>
-                              <p>
-                                Tên rạp: {e.nameTheater} || Tên phòng:{" "}
-                                {e.nameRoom}
-                              </p>
-                              <p>
-                                Tổng:{" "}
-                                {parseInt(e.price).toLocaleString("vi", {
-                                  style: "currency",
-                                  currency: "VND",
-                                })}{" "}
-                              </p>
-                            </div>
-                          );
-                        })}
+                        <div key={bill.idTicket}>
+                          <Space>
+                            <QRCode type="canvas" value={bill.idTicket} />
+                          </Space>
+                          <p>Email: {bill.email}</p>
+                          <p>Ghế: {bill.chairs?.join(", ")}</p>
+                          <p>
+                            Ngày chiếu:{" "}
+                            {bill.date
+                              ?.slice(0, 10)
+                              .split("-")
+                              .reverse()
+                              .join("-")}
+                          </p>
+                          <p>
+                            Tên phim: {bill.nameFilm} || Xuất chiếu:{" "}
+                            {bill.timeStart} || Thời lượng: {`${bill.time}p`}
+                          </p>
+                          <p>
+                            Tên rạp: {bill.nameTheater} || Tên phòng:{" "}
+                            {bill.nameRoom}
+                          </p>
+                          <p>
+                            Tổng:{" "}
+                            {parseInt(bill.price).toLocaleString("vi", {
+                              style: "currency",
+                              currency: "VND",
+                            })}{" "}
+                          </p>
+                        </div>
                       </Modal>
                     </td>
                   </tr>

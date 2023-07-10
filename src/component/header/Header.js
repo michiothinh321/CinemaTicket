@@ -35,38 +35,31 @@ function Header() {
               </Link>
             </h3>
             <Link to="/history" className="header_home">
-              <button className="header_menu btn_header">
-                Lịch sử
-              </button>
+              <button className="header_menu btn_header">Lịch sử</button>
             </Link>
+          </>
+        )}
+        {user && user.role && (
+          <>
             <Link to="/admin">
-              <button className="header_menu btn_header">
-                Quản lý
-              </button>
+              <button className="header_menu btn_header">Quản lý</button>
             </Link>
           </>
         )}
 
         {user ? (
           <>
-            <button
-              className="header_menu btn_header"
-              onClick={handleLogout}
-            >
+            <button className="header_menu btn_header" onClick={handleLogout}>
               Đăng xuất
             </button>
           </>
         ) : (
           <>
             <Link to={"/login"}>
-              <button className="header_menu btn_header">
-                Đăng nhập
-              </button>
+              <button className="header_menu btn_header">Đăng nhập</button>
             </Link>
             <Link to={"/"}>
-              <button className="header_menu btn_header">
-                Trang chủ
-              </button>
+              <button className="header_menu btn_header">Trang chủ</button>
             </Link>
           </>
         )}
