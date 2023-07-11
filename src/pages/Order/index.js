@@ -161,11 +161,7 @@ const Order = () => {
   }
   for (let i = 0; i < arr.length; i++) {
     for (let j = 0; j < arr.length; j++) {
-      if (
-        arr[i][j].numberChair.charAt(0) === "D" ||
-        arr[i][j].numberChair.charAt(0) === "E" ||
-        arr[i][j].numberChair.charAt(0) === "F"
-      ) {
+      if (i >= 3 && i < arr.length - 3) {
         arr[i][j].vip = true;
       }
       for (let ij = 0; ij < chair.length; ij++) {

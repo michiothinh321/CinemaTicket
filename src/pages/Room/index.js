@@ -20,17 +20,24 @@ export default function Room() {
 
   const addRoom = async () => {
     try {
-      const result = await roomAPI.addRoom({
-        idTheater,
-        columns,
-        rows,
-        nameRoom: name,
-      });
-      if (result.status === 200) {
+      if (+rows < 1 || +rows > 20 || +columns < 1 || +columns > 20) {
         api.open({
-          type: "success",
-          message: "Add Room successfully.",
+          type: "error",
+          message: "Số hàng cột không hợp lệ.",
         });
+      } else {
+        const result = await roomAPI.addRoom({
+          idTheater,
+          columns,
+          rows,
+          nameRoom: name,
+        });
+        if (result.status === 200) {
+          api.open({
+            type: "success",
+            message: "Add Room successfully.",
+          });
+        }
       }
     } catch (error) {
       api.open({

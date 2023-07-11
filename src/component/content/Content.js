@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
 import "./Content.scss";
-import { Col, Anchor, Row, Tabs } from "antd";
+import { Col, Row, Tabs } from "antd";
 import { Link } from "react-router-dom";
-import { movie as movieAPI } from "../../API";
+import {
+  movie as movieAPI,
+  theater as theaterAPI,
+  area as areaAPI,
+} from "../../API";
 
 const Content = () => {
   const [film, setFilm] = useState([]);
+  const [listArea, setListArea] = useState([]);
+  const [listTheater, setListTheater] = useState([]);
+  const [idArea, setIdArea] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -22,6 +29,37 @@ const Content = () => {
     }
   };
 
+  useEffect(() => {
+    (async () => {
+      await getAreaList();
+    })();
+  }, []);
+  const getAreaList = async () => {
+    try {
+      const result = await areaAPI.getAreaList();
+      setListArea(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    if (idArea) {
+      (async () => {
+        await getTheaterById();
+      })();
+    }
+  }, [idArea]);
+
+  const getTheaterById = async () => {
+    try {
+      const result = await theaterAPI.getTheaterById({
+        idArea,
+      });
+      setListTheater(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <div className="content_body">
@@ -88,6 +126,36 @@ const Content = () => {
                 </Row>
               </div>
             </Tabs.TabPane>
+          </Tabs>
+        </div>
+        <div>
+          <Tabs
+            style={{ color: "white", fontSize: "16px" }}
+            tabPosition="left"
+            onChange={(e) => setIdArea(e)}
+          >
+            {listArea.map((area) => {
+              return (
+                <Tabs.TabPane tab={area.nameArea} key={area._id}>
+                  <div>
+                    <Tabs
+                      style={{ color: "white", fontSize: "16px" }}
+                      tabPosition="left"
+                      key={area._id}
+                    >
+                      {listTheater.map((theater) => {
+                        return (
+                          <Tabs.TabPane
+                            tab={theater.nameTheater}
+                            key={theater._id}
+                          ></Tabs.TabPane>
+                        );
+                      })}
+                    </Tabs>
+                  </div>
+                </Tabs.TabPane>
+              );
+            })}
           </Tabs>
         </div>
       </div>
