@@ -73,7 +73,7 @@ export default function User() {
                   <td>{user.phone}</td>
                   <td>
                     {user.dateOfBirth
-                      .slice(0, 10)
+                      ?.slice(0, 10)
                       .split("-")
                       .reverse()
                       .join("-")}

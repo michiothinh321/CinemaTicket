@@ -40,7 +40,16 @@ const Ticket = () => {
       console.log(error);
     }
   };
-
+  // const cats = film.reduce((catMemo, { nameTheater, timeStart }) => {
+  //   (catMemo[nameTheater] = catMemo[nameTheater] || []).push(timeStart);
+  //   return catMemo;
+  // }, {});
+  const cats = film.reduce((catsSoFar, { nameTheater, timeStart }) => {
+    if (!catsSoFar[nameTheater]) catsSoFar[nameTheater] = [];
+    catsSoFar[nameTheater].push(timeStart);
+    return catsSoFar;
+  }, {});
+  console.log(cats);
   return (
     <>
       <div className="ticket_content">
@@ -62,7 +71,7 @@ const Ticket = () => {
                 Ngày công chiếu: {movie.date?.slice(0, 10).split("-").join("-")}
               </p>
               <Button type="primary" onClick={() => setOpen(true)}>
-                Open Modal of 1000px width
+                Xem Trailer
               </Button>
               <Modal
                 title="Trailer"
@@ -85,27 +94,6 @@ const Ticket = () => {
         </div>
         <div className="ticket_right">
           <h2>LỊCH CHIẾU</h2>
-          {film.map((film) => {
-            return (
-              <div className="ticket_time" key={film._id}>
-                <div>
-                  <h3>{film.nameTheater}</h3>
-                </div>
-                <div className="flex_center">
-                  <div className="ticket_time_title">
-                    <h4>2D</h4>
-                  </div>
-                  <div className="ticket_time_button">
-                    <Link
-                      to={`/order?idRoom=${film.idRoom}&idShowTime=${film._id}&idFilm=${film.idFilm}`}
-                    >
-                      <button className="button_order">{film.timeStart}</button>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
           {/* {film.map((film) => {
             return (
               <div className="ticket_time" key={film._id}>
@@ -120,13 +108,39 @@ const Ticket = () => {
                     <Link
                       to={`/order?idRoom=${film.idRoom}&idShowTime=${film._id}&idFilm=${film.idFilm}`}
                     >
-                      <button className="button_order">{film.timeStart}</button>
+                      {cats[film.nameTheater].map((e) => {
+                        return <button className="button_order">{e}</button>;
+                      })}
                     </Link>
                   </div>
                 </div>
               </div>
             );
           })} */}
+
+          {film.map((film) => {
+            return (
+              <div className="ticket_time" key={film._id}>
+                <div>
+                  <h3>{film.nameTheater}</h3>
+                </div>
+                <div className="flex_center">
+                  <div className="ticket_time_title">
+                    <h4>2D</h4>
+                  </div>
+                  <div className="ticket_time_button">
+                    <Link
+                      to={`/order?idRoom=${film.idRoom}&idShowTime=${film._id}&idFilm=${film.idFilm}`}
+                    >
+                      {cats[film.nameTheater].map((e) => {
+                        return <button className="button_order">{e}</button>;
+                      })}
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </>

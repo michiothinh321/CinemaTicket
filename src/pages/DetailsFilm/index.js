@@ -38,6 +38,7 @@ export default function DetailsFilm() {
     }
   };
 
+  console.log(film);
   // const handleDeleteCategory = async (nameCategory) => {
   //   try {
   //     const result = await categoryAPI.deleteCategory({
@@ -93,8 +94,8 @@ export default function DetailsFilm() {
                   <td>{film.nameTheater}</td>
                   <td>{film.nameRoom}</td>
                   <td>{film.price}</td>
-                  <td>{nameFilm.nameFilm}</td>
-                  <td>{film.idAnimation}</td>
+                  <td>{film.nameFilm}</td>
+                  <td>{film.animation}</td>
                   <td>
                     <Button type="primary" danger htmlType="submit">
                       Xóa Suất

@@ -108,6 +108,7 @@ export default function Film() {
           idRoom,
           idFilm,
           priceVip,
+          animation,
         });
 
         if (result.status === 200) {
