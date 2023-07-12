@@ -30,13 +30,13 @@ export default function Category() {
       if (result.status === 200) {
         api.open({
           type: "success",
-          message: "Thêm khu vực thành công.",
+          message: "Thêm thể loại thành công.",
         });
       }
     } catch (error) {
       api.open({
         type: "error",
-        message: "Tên khu vực đã tồn tại.",
+        message: "Tên thể loại đã tồn tại.",
       });
     }
   };
@@ -93,7 +93,7 @@ export default function Category() {
           </Button>
         </Link>
         <Modal
-          title="Thêm Rạp"
+          title="Thêm thể loại"
           open={isModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}

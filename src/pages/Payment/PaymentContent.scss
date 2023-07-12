@@ -74,3 +74,13 @@
     font-size: 18px;
   }
 }
+
+:where(.css-dev-only-do-not-override-1me4733).ant-result .ant-result-title,
+:where(.css-dev-only-do-not-override-1me4733).ant-result .ant-result-subtitle {
+  font-size: 30px;
+  color: white;
+  font-weight: bolder;
+}
+:where(.css-dev-only-do-not-override-1me4733).ant-result {
+  padding: 100px;
+}

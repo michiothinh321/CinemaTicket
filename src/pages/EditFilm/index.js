@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, Input, notification } from "antd";
-import { movie as movieAPI } from "../../API/index";
+import { Button, Form, Input, notification, Select } from "antd";
+import {
+  movie as movieAPI,
+  category as categoryAPI,
+  animation as animationAPI,
+} from "../../API/index";
 import "./PageAdmin.scss";
 import minDate from "./../AddFilm/minDate";
 const { TextArea } = Input;
@@ -10,6 +14,8 @@ export default function EditFilm() {
   const idFilm = urlParams.get("idFilm");
   const [movie, setMovie] = useState({});
   const [api, contextHolder] = notification.useNotification();
+  const [listGenres, setListGenres] = useState([]);
+  const [listAnimation, setListAnimation] = useState([]);
 
   const handleEditMovie = async () => {
     try {
@@ -18,13 +24,13 @@ export default function EditFilm() {
       if (result.status === 200) {
         api.open({
           type: "success",
-          message: "Edit movie successfully.",
+          message: "Sửa phim thành công.",
         });
       }
     } catch (error) {
       api.open({
         type: "error",
-        message: "Edit movie failure.",
+        message: "Sửa phim thất bại.",
       });
       console.log(error);
     }
@@ -46,6 +52,53 @@ export default function EditFilm() {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    (async () => {
+      await getCategoryList();
+    })();
+  }, []);
+
+  const getCategoryList = async () => {
+    try {
+      const result = await categoryAPI.getCategoryList();
+      setListGenres(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      await getListAnimation();
+    })();
+  }, []);
+
+  const getListAnimation = async () => {
+    try {
+      const result = await animationAPI.getList();
+      setListAnimation(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const optionsAnimation = [];
+  for (let i = 0; i < listAnimation.length; i++) {
+    optionsAnimation.push({
+      label: listAnimation[i].nameAnimation,
+      value: listAnimation[i].nameAnimation,
+    });
+  }
+
+  const optionsCategory = [];
+  for (let i = 0; i < listGenres.length; i++) {
+    optionsCategory.push({
+      label: listGenres[i].nameCategory,
+      value: listGenres[i].nameCategory,
+    });
+  }
+  console.log(movie);
   return (
     <>
       {contextHolder}
@@ -75,7 +128,7 @@ export default function EditFilm() {
               }
             />
           </Form.Item>
-          <Form.Item label="Thể loại">
+          {/* <Form.Item label="Thể loại">
             <Input
               placeholder="Thể loại"
               id="genres"
@@ -84,6 +137,16 @@ export default function EditFilm() {
               onChange={(e) =>
                 setMovie((pre) => ({ ...pre, genres: e.target.value }))
               }
+            />
+          </Form.Item> */}
+          <Form.Item label="Thể loại">
+            <Select
+              mode="multiple"
+              allowClear
+              onChange={(e) => setMovie((pre) => ({ ...pre, genres: e }))}
+              style={{ width: "100%" }}
+              placeholder="Please select"
+              options={optionsCategory}
             />
           </Form.Item>
           <Form.Item label="Tác giả">
@@ -106,6 +169,21 @@ export default function EditFilm() {
               onChange={(e) =>
                 setMovie((pre) => ({ ...pre, actors: e.target.value }))
               }
+            />
+          </Form.Item>
+          <Form.Item label="Animation">
+            <Select
+              mode="multiple"
+              allowClear
+              onChange={(e) =>
+                setMovie((pre) => ({
+                  ...pre,
+                  animation: e,
+                }))
+              }
+              style={{ width: "100%" }}
+              placeholder="Please select"
+              options={optionsAnimation}
             />
           </Form.Item>
           <Form.Item label="Ngày chiếu">

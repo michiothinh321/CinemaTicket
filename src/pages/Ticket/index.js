@@ -48,8 +48,8 @@ const Ticket = () => {
     if (!catsSoFar[nameTheater]) catsSoFar[nameTheater] = [];
     catsSoFar[nameTheater].push(timeStart);
     return catsSoFar;
-  }, {});
-  console.log(cats);
+  }, []);
+
   return (
     <>
       <div className="ticket_content">

@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "./PageAdmin.scss";
 import { Link } from "react-router-dom";
-import { notification, Button, Modal, Form, Popconfirm } from "antd";
+import {
+  notification,
+  Button,
+  Modal,
+  Form,
+  Popconfirm,
+  Radio,
+  RadioChangeEvent,
+} from "antd";
 import {
   movie as movieAPI,
   area as areaAPI,
@@ -28,9 +36,11 @@ export default function Film() {
   const [idFilm, setIdFilm] = useState("");
   const [movie, setMovie] = useState([]);
   const [dateMovie, setDateMovie] = useState("");
+  const [value, setValue] = useState(1);
 
   const Animation2D = [75000, 95000];
   const Animation3D = [120000, 150000];
+  const Vip = [5000, 10000, 15000, 20000];
 
   //CALL API KHU VUC - RAP - PHONG -THE LOAI
   useEffect(() => {
@@ -101,20 +111,27 @@ export default function Film() {
   const handleAddShowTime = async () => {
     try {
       if (timeStart.slice(0, 2) >= 9 && timeStart.slice(0, 2) <= 23) {
-        const result = await showtimeAPI.addShowTime({
-          price,
-          timeStart,
-          date,
-          idRoom,
-          idFilm,
-          priceVip,
-          animation,
-        });
+        if (price >= 45000) {
+          const result = await showtimeAPI.addShowTime({
+            price,
+            timeStart,
+            date,
+            idRoom,
+            idFilm,
+            priceVip,
+            animation,
+          });
 
-        if (result.status === 200) {
+          if (result.status === 200) {
+            api.open({
+              type: "success",
+              message: "Thêm suất chiếu thành công.",
+            });
+          }
+        } else {
           api.open({
-            type: "success",
-            message: "Thêm suất chiếu thành công.",
+            type: "error",
+            message: "Giá tiền không hợp lệ.",
           });
         }
       } else {
@@ -196,6 +213,11 @@ export default function Film() {
 
   //MODAL DELETE
   const confirm = (e) => handleDeleteMovie(e);
+
+  const onChange = (e) => {
+    setValue(e.target.value);
+  };
+  console.log(idArea);
   return (
     <>
       {contextHolder}
@@ -238,7 +260,7 @@ export default function Film() {
                         {film.date?.slice(0, 10).split("-").reverse().join("-")}
                       </td>
                       <td>{film.time}</td>
-                      <td>{film.genres}</td>
+                      <td>{film.genres.join(" , ")}</td>
                       <td>{film.animation.join(" , ")}</td>
                       <td>
                         <Link to={`/editfilm?idFilm=${film._id}`}>
@@ -409,45 +431,69 @@ export default function Film() {
                               />
                             </Form.Item>
                             <Form.Item label="Giá vé">
-                              <input
-                                onChange={(e) => setPrice(e.target.value)}
-                                value={price}
-                              />
-                              <select
-                                onChange={(e) => setPrice(e.target.value)}
-                                value={price}
-                              >
-                                <option>---SELECT---</option>
-                                {animation === ""
-                                  ? ""
-                                  : animation === "2D"
-                                  ? Animation2D.map((e) => {
-                                      return (
-                                        <option key={e} value={e}>
-                                          {e.toLocaleString("vi", {
-                                            style: "currency",
-                                            currency: "VND",
-                                          })}
-                                        </option>
-                                      );
-                                    })
-                                  : Animation3D.map((e) => {
-                                      return (
-                                        <option key={e} value={e}>
-                                          {e.toLocaleString("vi", {
-                                            style: "currency",
-                                            currency: "VND",
-                                          })}
-                                        </option>
-                                      );
-                                    })}
-                              </select>
+                              <Radio.Group onChange={onChange} value={value}>
+                                <Radio value={1}>Nhập giá vé</Radio>
+                                <Radio value={2}>Chọn giá vé</Radio>
+                              </Radio.Group>
+                              <br></br>
+                              {value === 1 ? (
+                                <input
+                                  onChange={(e) => setPrice(e.target.value)}
+                                  value={price}
+                                  type="number"
+                                  min={45000}
+                                  step={5000}
+                                  placeholder="Nhập giá vé"
+                                />
+                              ) : (
+                                <select
+                                  onChange={(e) => setPrice(e.target.value)}
+                                  value={price}
+                                >
+                                  <option>---SELECT---</option>
+                                  {animation === ""
+                                    ? ""
+                                    : animation === "2D"
+                                    ? Animation2D.map((e) => {
+                                        return (
+                                          <option key={e} value={e}>
+                                            {e.toLocaleString("vi", {
+                                              style: "currency",
+                                              currency: "VND",
+                                            })}
+                                          </option>
+                                        );
+                                      })
+                                    : Animation3D.map((e) => {
+                                        return (
+                                          <option key={e} value={e}>
+                                            {e.toLocaleString("vi", {
+                                              style: "currency",
+                                              currency: "VND",
+                                            })}
+                                          </option>
+                                        );
+                                      })}
+                                </select>
+                              )}
                             </Form.Item>
                             <Form.Item label="Giá ghế vip">
-                              <input
+                              <select
                                 onChange={(e) => setPriceVip(e.target.value)}
                                 value={priceVip}
-                              />
+                              >
+                                <option>---SELECT---</option>
+                                {Vip.map((e) => {
+                                  return (
+                                    <option key={e} value={e}>
+                                      {e.toLocaleString("vi", {
+                                        style: "currency",
+                                        currency: "VND",
+                                      })}
+                                    </option>
+                                  );
+                                })}
+                              </select>
                             </Form.Item>
                           </Form>
                         </Modal>

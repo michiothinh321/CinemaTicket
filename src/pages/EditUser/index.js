@@ -55,13 +55,13 @@ export default function EditUser() {
       if (result.status === 200) {
         api.open({
           type: "success",
-          message: "Edit user successfully.",
+          message: "Sửa người dùng thành công.",
         });
       }
     } catch (error) {
       api.open({
         type: "error",
-        message: "Edit user failure.",
+        message: "Sửa người dùng thất bại.",
       });
       console.log(error);
     }

@@ -64,13 +64,13 @@ export default function Animation() {
         await getAnimationList();
         api.open({
           type: "success",
-          message: "Xóa thể loại thành công.",
+          message: "Xóa animation thành công.",
         });
       }
     } catch (error) {
       api.open({
         type: "error",
-        message: "Xóa thể loại thât bại.",
+        message: "Xóa animation thât bại.",
       });
       console.log(error);
     }
@@ -95,7 +95,7 @@ export default function Animation() {
         </Button>
 
         <Modal
-          title="Thêm Rạp"
+          title="Thêm Anmation"
           open={isModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}
