@@ -7,7 +7,7 @@ function DefaultLayout({ children }) {
       style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
     >
       <Header />
-      <div style={{ flex: "1" }}>{children}</div>
+      <div style={{ flex: "1", margin: "150px 0" }}>{children}</div>
       <Footer />
     </div>
   );

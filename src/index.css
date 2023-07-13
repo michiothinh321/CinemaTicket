@@ -5,7 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url("https://www.bhdstar.vn/wp-content/themes/bhd/assets/images/movie-details-bg.jpg");
+  background-image: url("https://cinestar.com.vn/catalog/view/theme/default/images/bg-top.png"),
+    url("https://cinestar.com.vn/catalog/view/theme/default/images/bg-footer.jpg");
   color: white;
 }
 button {

@@ -1,15 +1,14 @@
-import React from 'react';
-import './Main.scss'
-import logo from '../image/u22.jpg'
-import logo1 from '../image/we.png'
-import logo2 from '../image/culture.png'
-import logo3 from '../image/event.png'
-
+import React from "react";
+import "./Main.scss";
+import logo from "../image/u22.jpg";
+import logo1 from "../image/we.png";
+import logo2 from "../image/culture.png";
+import logo3 from "../image/event.png";
 
 const Main = () => {
-    return (
-        <>
-            <div className="main">
+  return (
+    <>
+      {/* <div className="main">
                 <div className="main_title">
                     <h2>EVENT</h2>
                 </div>
@@ -30,9 +29,9 @@ const Main = () => {
                     </ul>
                 </div>
                 <img className="main_event_center" src={logo} alt=''/>
-            </div>
-        </>
-    );
+            </div> */}
+    </>
+  );
 };
 
 export default Main;
