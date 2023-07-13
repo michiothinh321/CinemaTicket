@@ -1,161 +1,88 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Content.scss";
-import { Col, Row, Tabs } from "antd";
-import { Link } from "react-router-dom";
-import ReactCardSlider from "react-card-slider-component";
+import { SmoothScrolling } from "./Controller";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import logo1 from "../image/2d.png";
 import logo2 from "../image/3d3.png";
 import logo3 from "../image/dolby.png";
 import logo4 from "../image/christie.png";
-import {
-  movie as movieAPI,
-  theater as theaterAPI,
-  area as areaAPI,
-} from "../../API";
 
 const Content = () => {
-  const [film, setFilm] = useState([]);
-  const [listArea, setListArea] = useState([]);
-  const [listTheater, setListTheater] = useState([]);
-  const [idArea, setIdArea] = useState("");
+  const [dragDown, setDragDown] = useState(0);
+  const [dragMove, setDragMove] = useState(0);
+  const [isDrag, setIsDrag] = useState(false);
+  const sliderRef = useRef();
+  const movieRef = useRef();
 
+  //SLIDER
+  const handleScrollRight = () => {
+    const maxScrollLeft =
+      sliderRef.current.scrollWidth - sliderRef.current.clientWidth;
+    if (sliderRef.current.scrollLeft < maxScrollLeft) {
+      SmoothScrolling(
+        sliderRef.current,
+        250,
+        movieRef.current.clientWidth * 2,
+        sliderRef.current.scrollLeft
+      );
+    }
+  };
+  const handleScrollLeft = () => {
+    if (sliderRef.current.scrollLeft > 0) {
+      SmoothScrolling(
+        sliderRef.current,
+        250,
+        -movieRef.current.clientWidth * 2,
+        sliderRef.current.scrollLeft
+      );
+    }
+  };
+  useEffect(() => {
+    if (isDrag) {
+      if (dragMove < dragDown) {
+        handleScrollRight();
+      }
+      if (dragMove > dragDown) {
+        handleScrollLeft();
+      }
+    }
+  }, [dragDown, dragMove, isDrag]);
+  const onDragStart = (e) => {
+    setIsDrag(true);
+    setDragDown(e.screenX);
+  };
+  const onDragEnd = (e) => {
+    setIsDrag(false);
+  };
+  const onDragEnter = (e) => {
+    setDragMove(e.screenX);
+  };
+  //END SLIDER
   const slides = [
     {
       image: "https://picsum.photos/200/300",
-      title: "This is a title",
-      description: "This is a description",
-      // clickEvent: sliderClick
+      title: "This is a title 1",
     },
     {
       image: "https://picsum.photos/600/500",
-      title: "This is a second title",
-      description: "This is a second description",
-      // clickEvent: sliderClick
+      title: "This is a second title 2",
     },
     {
       image: "https://picsum.photos/700/600",
-      title: "This is a third title",
-      description: "This is a third description",
-      // clickEvent: sliderClick
+      title: "This is a third title 3",
     },
     {
-      image: "https://picsum.photos/500/400",
-      title: "This is a fourth title",
-      description: "This is a fourth description",
-      // clickEvent: sliderClick
+      image: "https://picsum.photos/700/600",
+      title: "This is a third title 4",
     },
     {
-      image: "https://picsum.photos/200/300",
-      title: "This is a fifth title",
-      description: "This is a fifth description",
-      // clickEvent: sliderClick
-    },
-    {
-      image: "https://picsum.photos/800/700",
-      title: "This is a sixth title",
-      description: "This is a sixth description",
-      // clickEvent: sliderClick
-    },
-    {
-      image: "https://picsum.photos/800/900",
-      title: "This is a seventh title",
-      description: "This is a seventh description",
-      // clickEvent: sliderClick
+      image: "https://picsum.photos/700/600",
+      title: "This is a third title 5",
     },
   ];
-  useEffect(() => {
-    (async () => {
-      await getMovieList();
-    })();
-  }, []);
 
-  const getMovieList = async () => {
-    try {
-      const result = await movieAPI.getMovieList();
-      setFilm(result.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    (async () => {
-      await getAreaList();
-    })();
-  }, []);
-  const getAreaList = async () => {
-    try {
-      const result = await areaAPI.getAreaList();
-      setListArea(result.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  useEffect(() => {
-    if (idArea) {
-      (async () => {
-        await getTheaterById();
-      })();
-    }
-  }, [idArea]);
-
-  const getTheaterById = async () => {
-    try {
-      const result = await theaterAPI.getTheaterById({
-        idArea,
-      });
-      setListTheater(result.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   return (
     <>
-      <div className="card_content">
-        <div className="card-wrap">
-          <div className="block-title">
-            <h2>
-              Mua vé <br></br>Online
-            </h2>
-          </div>
-          <div className="block-list">
-            <div className="select-list">
-              <div className="select-header">
-                <span></span>
-                <h3 data-holder="Chọn phim">Chọn phim</h3>
-              </div>
-              <div className="select-box">
-                <ul>
-                  <li>A</li>
-                  <li>B</li>
-                </ul>
-              </div>
-            </div>
-            <div className="select-list" data-cate="cine">
-              <div className="select-header">
-                <span></span>
-                <h3 data-holder="Chọn phim">Chọn rạp</h3>
-              </div>
-              <div className="select-box"></div>
-            </div>
-            <div className="select-list">
-              <div className="select-header">
-                <span></span>
-                <h3 data-holder="Chọn phim">Chọn ngày</h3>
-              </div>
-              <div className="select-box"></div>
-            </div>
-            <div className="select-list">
-              <div className="select-header">
-                <span></span>
-                <h3 data-holder="Chọn phim">Chọn suất chiếu</h3>
-              </div>
-              <div className="select-box"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div className="content-page">
         <div className="nav-icon-content">
           <div className="nav-icon-wrap">
@@ -176,110 +103,34 @@ const Content = () => {
           </div>
         </div>
         <div className="sub-tab">
-          <div style={{ marginTop: "5em" }}>
-            <ReactCardSlider slides={slides} />
+          <div
+            className="movie-slider"
+            ref={sliderRef}
+            draggable="true"
+            onDragStart={onDragStart}
+            onDragEnd={onDragEnd}
+            onDragEnter={onDragEnter}
+          >
+            {slides.map((slide, index) => {
+              return (
+                <div key={index} className="movieItem" ref={movieRef}>
+                  <img src={`${slide.image}`} alt="" draggable="false"></img>
+                  <div className="movieName">{`${slide.title}`}</div>
+                  <button>BUY</button>
+                </div>
+              );
+            })}
+          </div>
+          <div className="btnLeft" onClick={handleScrollLeft}>
+            <FiChevronLeft />
+          </div>
+          <div className="btnRight" onClick={handleScrollRight}>
+            <FiChevronRight />
           </div>
         </div>
         <div className="movie-content"></div>
         <div className="promotion-content"></div>
       </div>
-      {/* <div className="content_body">
-        <div className="content">
-          <Tabs
-            defaultActiveKey="1"
-            style={{ color: "yellow", margin: "20px 0" }}
-          >
-            <Tabs.TabPane tab="Phim đang chiếu" key="Phim đang chiếu">
-              <div className="content_img">
-                <Row gutter={[16, 24]}>
-                  {film.map((film, index) => {
-                    if (
-                      parseInt(film.date?.slice(0, 4)) ===
-                        new Date().getFullYear() &&
-                      parseInt(film.date?.slice(5, 7)) ===
-                        new Date().getMonth() + 1
-                    ) {
-                      return (
-                        <Col key={index} className="gutter-row" span={4}>
-                          <div key={index} className="content_card">
-                            <img src={film.picture} alt="" />
-                            <p>{film.nameFilm}</p>
-
-                            <button className="btn_header">
-                              <Link to={`/ticket?idFilm=${film._id}`}>
-                                Mua Vé
-                              </Link>
-                            </button>
-                          </div>
-                        </Col>
-                      );
-                    }
-                  })}
-                </Row>
-              </div>
-            </Tabs.TabPane>
-            <Tabs.TabPane tab="Phim sắp chiếu" key="Phim sắp chiếu">
-              <div className="content_img">
-                <Row gutter={[16, 24]}>
-                  {film.map((film, index) => {
-                    if (
-                      parseInt(film.date?.slice(0, 4)) >
-                        new Date().getFullYear() ||
-                      parseInt(film.date?.slice(5, 7)) >
-                        new Date().getMonth() + 1
-                    ) {
-                      return (
-                        <Col key={index} className="gutter-row" span={4}>
-                          <div key={index} className="content_card">
-                            <img src={film.picture} alt="" />
-                            <p>{film.nameFilm}</p>
-
-                            <button className="btn_header">
-                              <Link to={`/ticket?idFilm=${film._id}`}>
-                                Mua Vé
-                              </Link>
-                            </button>
-                          </div>
-                        </Col>
-                      );
-                    }
-                  })}
-                </Row>
-              </div>
-            </Tabs.TabPane>
-          </Tabs>
-        </div>
-        <div>
-          <Tabs
-            style={{ color: "white", fontSize: "16px" }}
-            tabPosition="left"
-            onChange={(e) => setIdArea(e)}
-          >
-            {listArea.map((area) => {
-              return (
-                <Tabs.TabPane tab={area.nameArea} key={area._id}>
-                  <div>
-                    <Tabs
-                      style={{ color: "white", fontSize: "16px" }}
-                      tabPosition="left"
-                      key={area._id}
-                    >
-                      {listTheater.map((theater) => {
-                        return (
-                          <Tabs.TabPane
-                            tab={theater.nameTheater}
-                            key={theater._id}
-                          ></Tabs.TabPane>
-                        );
-                      })}
-                    </Tabs>
-                  </div>
-                </Tabs.TabPane>
-              );
-            })}
-          </Tabs>
-        </div>
-      </div> */}
     </>
   );
 };
