@@ -6,6 +6,13 @@ import logo1 from "../image/2d.png";
 import logo2 from "../image/3d3.png";
 import logo3 from "../image/dolby.png";
 import logo4 from "../image/christie.png";
+import { Link } from "react-router-dom";
+
+import {
+  movie as movieAPI,
+  theater as theaterAPI,
+  showtime as showtimeAPI,
+} from "../../API";
 
 const Content = () => {
   const [dragDown, setDragDown] = useState(0);
@@ -13,6 +20,8 @@ const Content = () => {
   const [isDrag, setIsDrag] = useState(false);
   const sliderRef = useRef();
   const movieRef = useRef();
+  const [movies, setMovies] = useState([]);
+  const [isHovering, setIsHovering] = useState(false);
 
   //SLIDER
   const handleScrollRight = () => {
@@ -57,29 +66,31 @@ const Content = () => {
   const onDragEnter = (e) => {
     setDragMove(e.screenX);
   };
+
+  const handleMouseOver = () => {
+    setIsHovering(true);
+  };
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+  };
+  console.log(isHovering);
   //END SLIDER
-  const slides = [
-    {
-      image: "https://picsum.photos/200/300",
-      title: "This is a title 1",
-    },
-    {
-      image: "https://picsum.photos/600/500",
-      title: "This is a second title 2",
-    },
-    {
-      image: "https://picsum.photos/700/600",
-      title: "This is a third title 3",
-    },
-    {
-      image: "https://picsum.photos/700/600",
-      title: "This is a third title 4",
-    },
-    {
-      image: "https://picsum.photos/700/600",
-      title: "This is a third title 5",
-    },
-  ];
+
+  //GET MOVIE LIST
+  useEffect(() => {
+    (async () => {
+      await getMovieList();
+    })();
+  }, []);
+  const getMovieList = async () => {
+    try {
+      const result = await movieAPI.getMovieList();
+      setMovies(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  //END MOVIE LIST
 
   return (
     <>
@@ -105,18 +116,38 @@ const Content = () => {
         <div className="sub-tab">
           <div
             className="movie-slider"
+            style={{ gridTemplateColumns: `repeat(${movies.length}, 250px)` }}
             ref={sliderRef}
             draggable="true"
             onDragStart={onDragStart}
             onDragEnd={onDragEnd}
             onDragEnter={onDragEnter}
           >
-            {slides.map((slide, index) => {
+            {movies.map((movie, index) => {
               return (
-                <div key={index} className="movieItem" ref={movieRef}>
-                  <img src={`${slide.image}`} alt="" draggable="false"></img>
-                  <div className="movieName">{`${slide.title}`}</div>
-                  <button>BUY</button>
+                <div
+                  key={index}
+                  className="movieItem"
+                  ref={movieRef}
+                  onMouseOver={handleMouseOver}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <img src={`${movie.picture}`} alt="" draggable="false"></img>
+                  <div className="movieName">{`${movie.nameFilm}`}</div>
+                  {isHovering ? (
+                    <>
+                      <div className="movie-show">
+                        <Link
+                          to={`/ticket?idFilm=${movie._id}`}
+                          className="buyTicket"
+                        >
+                          Mua vé
+                        </Link>
+                      </div>
+                    </>
+                  ) : (
+                    ""
+                  )}
                 </div>
               );
             })}

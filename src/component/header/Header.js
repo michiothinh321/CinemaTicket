@@ -37,7 +37,7 @@ function Header() {
   }, []);
 
   useEffect(() => {
-    if (size.width > 768 && menuOpen) {
+    if (size.width > 922 && menuOpen) {
       setMenuOpen(false);
     }
   }, [size.width, menuOpen]);
@@ -45,7 +45,9 @@ function Header() {
   const menuToggleHandler = () => {
     setMenuOpen((p) => !p);
   };
-
+  if (size.width > 922 && menuOpen) {
+    setMenuOpen(false);
+  }
   return (
     <>
       <header className="header">
@@ -55,7 +57,7 @@ function Header() {
           </Link>
           <nav
             className={`${"header__content__nav"} 
-        ${menuOpen && size.width < 768 ? `${"isMenu"}` : ""} 
+        ${menuOpen && size.width < 922 ? `${"isMenu"}` : ""} 
         }`}
           >
             <div style={{ display: "flex", flexDirection: "column" }}>

@@ -111,64 +111,64 @@
       }
     }
   }
+  @media screen and (max-width: 520px) {
+    .block-title {
+      margin: 0;
+      padding: 0;
+      line-height: inherit;
+      margin-bottom: 10px;
+    }
+  }
+
+  @media screen and (max-width: 720px) {
+    .cart-wrap {
+      height: auto;
+      padding: 20px 0;
+    }
+
+    .cart-content {
+      background-size: contain, cover;
+      -webkit-background-size: contain, cover;
+      display: flex;
+      flex-direction: column;
+    }
+    .block-title {
+      display: inline-block;
+      padding-left: 90px;
+      line-height: 80px;
+      width: auto;
+      margin-top: -20px;
+      h2 {
+        font-size: 26px;
+        line-height: 26px;
+      }
+    }
+    .block-list {
+      display: block;
+      width: 100%;
+      margin-top: 0;
+    }
+  }
+  @media screen and (max-width: 900px) {
+    .block-title h2 {
+      font-size: 30px;
+      line-height: 28px;
+    }
+    .cart-wrap {
+      width: 96%;
+    }
+    .block-title {
+      padding-left: 110px;
+    }
+  }
+
+  @media screen and (max-width: 1200px) {
+    .block-title {
+      padding-left: 120px;
+    }
+    .block-list {
+      width: 68%;
+      text-align: center;
+    }
+  }
 }
-// @media screen and (max-width: 520px) {
-//   .block-title {
-//     margin: 0;
-//     padding: 0;
-//     line-height: inherit;
-//     margin-bottom: 10px;
-//   }
-// }
-
-// @media screen and (max-width: 720px) {
-//   .cart-wrap {
-//     height: auto;
-//     padding: 20px 0;
-//   }
-
-//   .cart-content {
-//     background-size: contain, cover;
-//     -webkit-background-size: contain, cover;
-//     display: flex;
-//     flex-direction: column;
-//   }
-//   .block-title {
-//     display: inline-block;
-//     padding-left: 90px;
-//     line-height: 80px;
-//     width: auto;
-//     margin-top: -20px;
-//     h2 {
-//       font-size: 26px;
-//       line-height: 26px;
-//     }
-//   }
-//   .block-list {
-//     display: block;
-//     width: 100%;
-//     margin-top: 0;
-//   }
-// }
-// @media screen and (max-width: 900px) {
-//   .block-title h2 {
-//     font-size: 30px;
-//     line-height: 28px;
-//   }
-//   .cart-wrap {
-//     width: 96%;
-//   }
-//   .block-title {
-//     padding-left: 110px;
-//   }
-// }
-
-// @media screen and (max-width: 1200px) {
-//   .block-title {
-//     padding-left: 120px;
-//   }
-//   .block-list {
-//     width: 68%;
-//     text-align: center;
-//   }
-// }

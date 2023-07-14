@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./ticket.scss";
 import { Link } from "react-router-dom";
-import { Button, Modal } from "antd";
-import video from "../../component/image/a.mp4";
 import { movie as movieAPI, showtime as showtimeAPI } from "../../API/index";
+import Slide from "./../../component/header/Slide";
+import CartContent from "./../../component/cartcontent/CartContent";
 const Ticket = () => {
   const keyValue = window.location.search;
   const urlParams = new URLSearchParams(keyValue);
@@ -12,10 +12,12 @@ const Ticket = () => {
   const [film, setFilm] = useState([]);
   const [open, setOpen] = useState(false);
   useEffect(() => {
-    (async () => {
-      await getMovie();
-    })();
-  }, []);
+    if (idFilm) {
+      (async () => {
+        await getMovie();
+      })();
+    }
+  }, [idFilm]);
 
   const getMovie = async () => {
     try {
@@ -40,107 +42,92 @@ const Ticket = () => {
       console.log(error);
     }
   };
-  // const cats = film.reduce((catMemo, { nameTheater, timeStart }) => {
-  //   (catMemo[nameTheater] = catMemo[nameTheater] || []).push(timeStart);
-  //   return catMemo;
-  // }, {});
-  const cats = film.reduce((catsSoFar, { nameTheater, timeStart }) => {
+
+  const cats = film.reduce((catsSoFar, { date, nameTheater, timeStart }) => {
     if (!catsSoFar[nameTheater]) catsSoFar[nameTheater] = [];
-    catsSoFar[nameTheater].push(timeStart);
+    catsSoFar[nameTheater].push({
+      time: timeStart,
+      date: date,
+    });
     return catsSoFar;
   }, []);
-
+  const array = [];
+  for (let i = 0; i < film.length; i++) {
+    if (array.indexOf(film[i].nameTheater) === -1) {
+      array.push(film[i].nameTheater);
+    }
+  }
   return (
     <>
-      <div className="ticket_content">
-        <div className="ticket_left">
-          <div className="ticket_descript1">
-            <div>
-              <img src={movie.picture} alt="?" />
-            </div>
-            <div className="ticket_title">
-              <h3>{movie.nameFilm}</h3>
-              <p>
-                <span>Thời gian: </span>
-                <span>{movie.time} phút</span>
-              </p>
-              <p>Đạo diễn: {movie.directors}</p>
-              <p>Thể loại: {movie.genres?.join(", ")}</p>
-              <p>Diễn viên: {movie.actors}</p>
-              <p>
-                Ngày công chiếu: {movie.date?.slice(0, 10).split("-").join("-")}
-              </p>
-              <Button type="primary" onClick={() => setOpen(true)}>
-                Xem Trailer
-              </Button>
-              <Modal
-                title="Trailer"
-                width={1000}
-                centered
-                open={open}
-                onOk={() => setOpen(false)}
-                onCancel={() => setOpen(false)}
-              >
-                <video width={950} height={500} controls>
-                  <source src={video} type="video/mp4" />
-                </video>
-              </Modal>
-            </div>
-          </div>
-          <div className="ticket_descript2">
-            <h4>Nội Dung Phim</h4>
-            <p>{movie.content}</p>
-          </div>
-        </div>
-        <div className="ticket_right">
-          <h2>LỊCH CHIẾU</h2>
-          {/* {film.map((film) => {
-            return (
-              <div className="ticket_time" key={film._id}>
-                <div>
-                  <h3>{film.nameTheater}</h3>
-                </div>
-                <div className="flex_center">
-                  <div className="ticket_time_title">
-                    <h4>2D</h4>
-                  </div>
-                  <div className="ticket_time_button">
-                    <Link
-                      to={`/order?idRoom=${film.idRoom}&idShowTime=${film._id}&idFilm=${film.idFilm}`}
-                    >
-                      {cats[film.nameTheater].map((e) => {
-                        return <button className="button_order">{e}</button>;
-                      })}
-                    </Link>
-                  </div>
-                </div>
+      <Slide />
+      <CartContent />
+      <div className="schedule-detail-content">
+        <div className="schedule-detail-wrap">
+          <div className="searh-block">
+            <div className="select-list">
+              <div className="select-header">
+                <span></span>
+                <h3>CineStar Hai Bà Trưng (TP.HCM)</h3>
               </div>
-            );
-          })} */}
+            </div>
+            <div className="select-list">
+              <div className="select-header">
+                <span></span>
+                <h3>CineStar Hai Bà Trưng (TP.HCM)</h3>
+              </div>
+            </div>
+          </div>
+          <div className="film-block">
+            <div className="film-item t-3d">
+              <div className="film-item-pic">
+                <img src={movie.picture} alt={movie.nameFilm} />
+              </div>
+              <div className="film-item-txt">
+                <h3>{movie.nameFilm}</h3>
+                <div className="schedule-block">
+                  <div className="schedule-block-load">
+                    {array.map((e, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className="cinema-item"
+                          cine-id="667c7727-857e-4aac-8aeb-771a8f86cd14"
+                          cine-name={e}
+                        >
+                          <h4>Rạp chiếu phim: {e}</h4>
 
-          {film.map((film) => {
-            return (
-              <div className="ticket_time" key={film._id}>
-                <div>
-                  <h3>{film.nameTheater}</h3>
-                </div>
-                <div className="flex_center">
-                  <div className="ticket_time_title">
-                    <h4>2D</h4>
-                  </div>
-                  <div className="ticket_time_button">
-                    <Link
-                      to={`/order?idRoom=${film.idRoom}&idShowTime=${film._id}&idFilm=${film.idFilm}`}
-                    >
-                      {cats[film.nameTheater].map((e) => {
-                        return <button className="button_order">{e}</button>;
-                      })}
-                    </Link>
+                          <div className="row">
+                            <div className="row-date" data-date="16/07/2023">
+                              <span>
+                                12/5
+                                <br />
+                                2023
+                              </span>
+                            </div>
+
+                            <div className="row-hour">
+                              <ul>
+                                {cats[e].map((cat, index) => {
+                                  return (
+                                    <li
+                                      data-id="50c8c44e-e7a6-4b8e-b1fa-f4bb99a71458"
+                                      data-room-name="01"
+                                    >
+                                      {cat.time}
+                                    </li>
+                                  );
+                                })}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
-            );
-          })}
+            </div>
+          </div>
         </div>
       </div>
     </>
