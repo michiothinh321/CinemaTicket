@@ -43,20 +43,21 @@ const Ticket = () => {
     }
   };
 
-  const cats = film.reduce((catsSoFar, { date, nameTheater, timeStart }) => {
-    if (!catsSoFar[nameTheater]) catsSoFar[nameTheater] = [];
-    catsSoFar[nameTheater].push({
-      time: timeStart,
-      date: date,
-    });
-    return catsSoFar;
-  }, []);
-  const array = [];
-  for (let i = 0; i < film.length; i++) {
-    if (array.indexOf(film[i].nameTheater) === -1) {
-      array.push(film[i].nameTheater);
-    }
-  }
+  // const cats = film.reduce((catsSoFar, { date, nameTheater, timeStart }) => {
+  //   if (!catsSoFar[nameTheater]) catsSoFar[nameTheater] = [];
+  //   catsSoFar[nameTheater].push({
+  //     time: timeStart,
+  //     date: date,
+  //   });
+  //   return catsSoFar;
+  // }, []);
+  // const array = [];
+  // for (let i = 0; i < film.length; i++) {
+  //   if (array.indexOf(film[i].nameTheater) === -1) {
+  //     array.push(film[i].nameTheater);
+  //   }
+  // }
+
   return (
     <>
       <Slide />
@@ -86,7 +87,42 @@ const Ticket = () => {
                 <h3>{movie.nameFilm}</h3>
                 <div className="schedule-block">
                   <div className="schedule-block-load">
-                    {array.map((e, index) => {
+                    {film.map((e) => {
+                      return (
+                        <div
+                          key={e._id}
+                          className="cinema-item"
+                          cine-id="667c7727-857e-4aac-8aeb-771a8f86cd14"
+                          cine-name={e}
+                        >
+                          <h4>Rạp chiếu phim: {e.nameTheater}</h4>
+                          <div className="row">
+                            <div className="row-date" data-date="16/07/2023">
+                              <span>
+                                12/5
+                                <br />
+                                2023
+                              </span>
+                            </div>
+                            <div className="row-hour">
+                              <ul>
+                                <Link
+                                  to={`/order?idRoom=${e.idRoom}&idFilm=${e.idFilm}&idShowTime=${e._id}`}
+                                >
+                                  <li
+                                    data-id="50c8c44e-e7a6-4b8e-b1fa-f4bb99a71458"
+                                    data-room-name="01"
+                                  >
+                                    {e.timeStart}
+                                  </li>
+                                </Link>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                    {/* {array.map((e, index) => {
                       return (
                         <div
                           key={index}
@@ -110,8 +146,12 @@ const Ticket = () => {
                                 {cats[e].map((cat, index) => {
                                   return (
                                     <li
+                                      key={index}
                                       data-id="50c8c44e-e7a6-4b8e-b1fa-f4bb99a71458"
                                       data-room-name="01"
+                                      onClick={(e) => {
+                                        console.log(e);
+                                      }}
                                     >
                                       {cat.time}
                                     </li>
@@ -122,7 +162,7 @@ const Ticket = () => {
                           </div>
                         </div>
                       );
-                    })}
+                    })} */}
                   </div>
                 </div>
               </div>

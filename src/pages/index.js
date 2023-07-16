@@ -19,3 +19,4 @@ export { default as Animation } from "./Animation";
 export { default as DetailsFilm } from "./DetailsFilm";
 export { default as PaySuccess } from "./PaySuccess";
 export { default as ManagerTicket } from "./ManagerTicket";
+export { default as SearchMovie } from "./SearchMovie";

@@ -20,6 +20,7 @@ import {
   DetailsFilm,
   PaySuccess,
   ManagerTicket,
+  SearchMovie,
 } from "../pages";
 import { DefaultLayout, AdminLayout } from "../layouts";
 const PrivateRoutes = ({ children }) => {
@@ -45,6 +46,11 @@ const publicRoutes = [
     path: "/paysuccess",
     layout: DefaultLayout,
     component: PaySuccess,
+  },
+  {
+    path: "/searchmovie",
+    layout: DefaultLayout,
+    component: SearchMovie,
   },
   {
     path: "/order",

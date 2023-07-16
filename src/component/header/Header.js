@@ -17,7 +17,7 @@ function Header() {
   //     dispatch(userSlice.actions.setUser(null));
   //   } catch (error) {}
   // };
-
+  const [keywords, setKeyWords] = useState("");
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [size, setSize] = useState({
@@ -48,6 +48,14 @@ function Header() {
   if (size.width > 922 && menuOpen) {
     setMenuOpen(false);
   }
+
+  const handleChangeInput = (e) => {
+    let keywords = e.target.value;
+    setKeyWords(keywords);
+    keywords.length > 0
+      ? navigate(`/searchmovie?keywords=${keywords.trim()}`)
+      : navigate(`/`);
+  };
   return (
     <>
       <header className="header">
@@ -69,14 +77,8 @@ function Header() {
                       type="text"
                       className="search-field"
                       placeholder="Tìm kiếm..."
+                      onChange={handleChangeInput}
                     />
-                    <input
-                      id="defaultvalue"
-                      type="hidden"
-                      className="search-field"
-                      placeholder="Tìm kiếm..."
-                    />
-                    <input type="hidden" id="href_search" value="" />
                   </form>
                 </div>
               </div>

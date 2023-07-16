@@ -57,19 +57,19 @@ const Order = () => {
   const [minutes, setMinutes] = useState(2);
   const [detailTicket, setDetailTicket] = useState([]);
   const timer = () => setSeconds((seconds) => seconds - 1);
-  useEffect(() => {
-    if (seconds <= 0 && minutes > 0) {
-      setMinutes((minutes) => minutes - 1);
-      setSeconds(59);
-    }
-    if (minutes <= 0 && seconds <= 0) {
-      navigate("/");
-      return;
-    }
+  // useEffect(() => {
+  //   if (seconds <= 0 && minutes > 0) {
+  //     setMinutes((minutes) => minutes - 1);
+  //     setSeconds(59);
+  //   }
+  //   if (minutes <= 0 && seconds <= 0) {
+  //     navigate("/");
+  //     return;
+  //   }
 
-    const id = setInterval(timer, 1000);
-    return () => clearInterval(id);
-  }, [seconds, minutes]);
+  //   const id = setInterval(timer, 1000);
+  //   return () => clearInterval(id);
+  // }, [seconds, minutes]);
   useEffect(() => {
     (async () => {
       await getMovie();
@@ -148,6 +148,7 @@ const Order = () => {
       console.log(error);
     }
   };
+
   const arr = new Array();
   for (let i = 0; i < movie.columns; i++) {
     arr[i] = new Array();
@@ -171,6 +172,7 @@ const Order = () => {
           }
         }
       }
+      console.log(chair);
     }
   }
   const handleSetChair = (e, chair) => {
@@ -178,8 +180,7 @@ const Order = () => {
       if (!enable.includes(e.target.innerHTML)) {
         if (!chair.vip) {
           setEnable((pre) => [...pre, e.target.innerHTML]);
-          e.currentTarget.style.backgroundColor = "#f71708";
-          e.currentTarget.style.color = "white";
+          e.target.className += " selected";
           setNumberChair((pre) => [...pre, e.target.innerHTML]);
           setPriceFilm((prev) => +film.price + prev);
           setDetailTicket((pre) => [
@@ -191,8 +192,7 @@ const Order = () => {
           ]);
         } else {
           setEnable((pre) => [...pre, e.target.innerHTML]);
-          e.currentTarget.style.backgroundColor = "#f71708";
-          e.currentTarget.style.color = "white";
+          e.target.className += " selected";
           setNumberChair((pre) => [...pre, e.target.innerHTML]);
           setPriceFilm((prev) => +film.price + prev + parseInt(film.priceVip));
           setDetailTicket((pre) => [
@@ -208,8 +208,7 @@ const Order = () => {
           setEnable(
             enable.filter((item) => !e.target.innerHTML.includes(item))
           );
-          e.currentTarget.style.backgroundColor = "transparent";
-          e.currentTarget.style.color = "black";
+          e.target.className = "cinema-seat";
           setNumberChair(
             enable.filter((item) => !e.target.innerHTML.includes(item))
           );
@@ -223,8 +222,7 @@ const Order = () => {
           setEnable(
             enable.filter((item) => !e.target.innerHTML.includes(item))
           );
-          e.currentTarget.style.backgroundColor = "transparent";
-          e.currentTarget.style.color = "black";
+          e.target.className = "cinema-seat";
           setNumberChair(
             enable.filter((item) => !e.target.innerHTML.includes(item))
           );
@@ -242,7 +240,129 @@ const Order = () => {
   };
   return (
     <>
-      {contextHolder}
+      <div className="section-order">
+        <div className="order-title">
+          <div className="order-wrap">
+            <div className="order-overview">
+              <h2>
+                <strong>Tên phim</strong>
+                <br></br>
+                <span>Name phim</span>
+              </h2>
+              <ul className="about-ticket">
+                <li>
+                  <p className="caption">Chọn suất chiếu</p>
+                  <p className="value">14:15</p>
+                </li>
+                <li>
+                  <p className="caption">Chọn suất chiếu</p>
+                  <p className="value">14:15</p>
+                </li>
+                <li>
+                  <p className="caption">Chọn suất chiếu</p>
+                  <p className="value">14:15</p>
+                </li>
+                <li>
+                  <p className="caption">Chọn suất chiếu</p>
+                  <p className="value">14:15</p>
+                </li>
+              </ul>
+              <ul className="about-seat">
+                <li>Số ghế</li>
+                <li className="seat-number"></li>
+              </ul>
+            </div>
+            <div className="order-clock">
+              <span className="title">Thời gian giữ ghế</span>
+            </div>
+          </div>
+        </div>
+        <div className="cinema-content">
+          <div className="cinema-name">
+            <h2>CINEMA STU</h2>
+          </div>
+          <div className="cinema-wrap">
+            <div className="cinema-title">Màn hình</div>
+            <div
+              className="cinema-wrap seat-scroll "
+              style={{ maxWidth: "1360px" }}
+            >
+              {/* <div className="cinema-chair">
+                <div className="cinema-row">
+                  <div className="cinema-seat occupied">A1</div>
+                  <div className="cinema-seat ">A2</div>
+                  <div className="cinema-seat ">A3</div>
+                  <div className="cinema-seat occupied">A4</div>
+                  <div className="cinema-seat ">A5</div>
+                  <div className="cinema-seat ">A6</div>
+                  <div className="cinema-seat ">A6</div>
+                </div> */}
+
+              <div className="cinema-chair">
+                {arr.map((chairs, indexChairs) => {
+                  return (
+                    <div className="cinema-row" key={indexChairs}>
+                      {chairs.map((chair, indexChair) => {
+                        if (chair.vip) {
+                          return (
+                            <div
+                              className="cinema-seat occupied"
+                              key={indexChair}
+                              onClick={(e) => handleSetChair(e, chair)}
+                            >
+                              {chair.numberChair}
+                            </div>
+                          );
+                        } else {
+                          return (
+                            <div
+                              className="cinema-seat"
+                              key={indexChair}
+                              onClick={(e) => handleSetChair(e, chair)}
+                            >
+                              {chair.numberChair}
+                            </div>
+                          );
+                        }
+                      })}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* </div> */}
+            </div>
+            <ul className="cinema-note">
+              <li>1</li>
+              <li>1</li>
+              <li>1</li>
+              <li>1</li>
+            </ul>
+            <div className="cinema-btn">
+              <input
+                type="button"
+                className="cinema-back"
+                style={{ WebkitBorderRadius: "30px 30px 0px 30px" }}
+                value="Quay lại"
+              />
+              <input
+                type="button"
+                className="cons-chose"
+                value="Chọn Đồ Ăn"
+                style={{ borderRadius: "25px 0 25px 0" }}
+              />
+              <input
+                type="button"
+                className="cinema-next disable"
+                value="Thanh toán"
+                style={{ WebkitBorderRadius: "30px 30px 30px 0" }}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* {contextHolder}
 
       <div className="order">
         <div className="order_left">
@@ -335,7 +455,7 @@ const Order = () => {
             </Link>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

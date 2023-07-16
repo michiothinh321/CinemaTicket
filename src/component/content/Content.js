@@ -73,7 +73,6 @@ const Content = () => {
   const handleMouseLeave = () => {
     setIsHovering(false);
   };
-  console.log(isHovering);
   //END SLIDER
 
   //GET MOVIE LIST
