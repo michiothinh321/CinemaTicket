@@ -1,86 +1,271 @@
-.payment {
-  display: flex;
-  justify-content: space-around;
-  margin: 50px;
-  color: white;
-}
+.order-title {
+  position: relative;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  background-image: url("https://cinestar.com.vn/catalog/view/theme/default/images/bg-footer.jpg");
+  .order-wrap {
+    width: 90%;
+    display: block;
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 10px 0;
+    text-align: center;
 
-.payment_left {
-  background-color: rgba(#b6d4ae, 0.3);
-  box-sizing: border-box;
-  padding: 0 20px;
-  width: 70%;
-  display: inline-block;
-  h2 {
-    color: yellow;
-  }
-  .payment_left_info {
-    display: flex;
-    justify-content: center;
-    .payment_left_text {
-      margin-right: 50px;
-      p {
-        font-size: 18px;
+    .order-overview {
+      width: 700px;
+      h2 {
+        position: relative;
+        left: 40px;
+        font-family: "MyriadBold";
+        font-weight: normal;
+        font-size: 30px;
+        color: #fff;
+        margin-bottom: 10px;
+        line-height: 30px;
+        text-align: left;
       }
-    }
-    .payment_left_input {
-      margin-left: 50px;
-      select {
+      .about-ticket {
+        display: block;
         width: 100%;
-        font-size: 18px;
+        display: table;
+        border-spacing: 1px;
+        li {
+          display: table-cell;
+          margin: 0 -1px;
+          text-align: center;
+          height: 70px;
+          vertical-align: middle;
+          height: 70px;
+          padding: 0 20px;
+          .caption {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            color: #fff;
+            margin-bottom: 10px;
+            text-align: left;
+          }
+          .value {
+            color: #fff;
+            text-align: left;
+            font-family: "Futurab";
+            font-weight: normal;
+            font-size: 22px;
+            margin: 0 0 5px;
+            text-align: left;
+          }
+          &:nth-child(1) {
+            background-color: #f18720;
+            width: 84px;
+            padding: 0 0 0 20px;
+          }
+          &:nth-child(2) {
+            background-color: #f18720;
+          }
+          &:nth-child(3) {
+            background-color: #e00d7a;
+          }
+          &:nth-child(4) {
+            background-color: #e00d7a;
+            min-width: 200px;
+          }
+        }
       }
-      input {
-        font-size: 18px;
+      .about-seat {
+        position: relative;
+        top: -16px;
+        display: block;
         width: 100%;
-      }
-      .payment_btn_main {
-        .pay_btn_main {
-          display: flex;
-          justify-content: space-around;
-          margin: 20px 50px 0 0;
-          padding: 10px;
-          font-size: 16px;
-          font-weight: bold;
-          background-color: gray;
-          color: yellow;
-          &:hover {
-            cursor: pointer;
-            background-color: white;
-            color: black;
+        display: table;
+        text-align: center;
+        border-spacing: 1px;
+        list-style-type: none;
+        text-decoration: none;
+        li {
+          display: table-cell;
+          height: 70px;
+          vertical-align: middle;
+          background-color: #450828;
+          font-family: Arial, Helvetica, sans-serif;
+          font-size: 14px;
+          color: #fff;
+          line-height: 18px;
+          &:nth-child(1) {
+            width: 104px;
+          }
+          .seat-number {
+            text-align: left;
+            padding: 5px 15px;
           }
         }
       }
     }
-  }
-}
-
-.payment_right {
-  width: 25%;
-  padding: 20px;
-  background-color: rgba(#b6d4ae, 0.3);
-  opacity: 0.9;
-  .payment_right_img {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    img {
-      display: flex;
-      width: 60%;
-      height: 250px;
+    .order-clock {
+      vertical-align: bottom;
+      width: auto;
+      max-width: 170px;
+      position: relative;
+      float: right;
+      bottom: 140px;
+      right: 170px;
+      .order-wrap > div {
+        display: inline-block;
+        margin: 0 10px;
+      }
     }
   }
-  p {
-    font-size: 18px;
-  }
 }
 
-:where(.css-dev-only-do-not-override-1me4733).ant-result .ant-result-title,
-:where(.css-dev-only-do-not-override-1me4733).ant-result .ant-result-subtitle {
-  font-size: 30px;
-  color: white;
-  font-weight: bolder;
-}
-:where(.css-dev-only-do-not-override-1me4733).ant-result {
-  padding: 100px;
+.order-content {
+  position: relative;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+  min-height: 800px;
+  height: 100%;
+  overflow: hidden;
+  color: #000;
+  .cinema-name {
+    position: relative;
+    width: 100%;
+    background-color: #ba3469;
+    border-top: 1px solid #fff;
+    padding: 5px 10px;
+    margin-bottom: 25px;
+    text-align: center;
+    h2 {
+      font-family: "Futurab";
+      font-weight: normal;
+      font-size: 28px;
+      color: #fff;
+      text-transform: uppercase;
+    }
+  }
+  .final-content {
+    position: relative;
+    /* display: none; */
+    width: 100%;
+    height: auto;
+    .final-confirm {
+      position: relative;
+      display: block;
+      width: 90%;
+      height: auto;
+      margin: 0 auto;
+      background: #fff;
+      box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.1),
+        0 0 30px rgba(0, 0, 0, 0.3) inset;
+      padding: 40px 0;
+      -webkit-border-radius: 0 50px 0 50px;
+      border-radius: 0 50px 0 50px;
+      text-align: center;
+      z-index: 999;
+      margin: 0 auto 40px auto;
+      padding: 30px 50px;
+      max-width: 900px;
+      p {
+        font-family: "MyriadRegular";
+        font-weight: normal;
+        font-style: italic;
+        font-size: 22px;
+        line-height: 1.2;
+        text-align: center;
+        color: #707070;
+        text-decoration: none;
+        font-weight: normal;
+        font-size: 100%;
+        -webkit-text-size-adjust: none;
+        strong {
+          text-decoration: none;
+          font-family: "MyriadBold";
+          font-weight: normal;
+        }
+      }
+      .confirm-box {
+        position: relative;
+        display: block;
+        width: 100%;
+        .confirm-box > div {
+          display: block;
+          width: 100%;
+          overflow: hidden;
+        }
+        .confirm-film {
+          margin: 0 auto;
+          padding: 30px 0;
+          .confirm-film-pic {
+            float: left;
+            width: auto;
+            max-width: 40%;
+            overflow: hidden;
+            margin: 0 15px 0 0;
+            img {
+              display: block;
+              height: 300px;
+              width: auto;
+              margin-bottom: 20px;
+            }
+          }
+          .confirm-film-text {
+            text-align: left;
+            h3 {
+              font-family: "MyriadBold";
+              font-weight: normal;
+              font-size: 16px;
+              text-transform: uppercase;
+              color: #666;
+              line-height: 1.4;
+            }
+            p {
+              font-family: Arial, Helvetica, sans-serif;
+              font-size: 15px;
+              line-height: 1.6;
+              margin: 10px 0;
+              color: #666;
+              text-decoration: none;
+              font-weight: normal;
+              font-size: 100%;
+              -webkit-text-size-adjust: none;
+            }
+          }
+        }
+      }
+
+      .confirm-total {
+        margin: 30px auto;
+      }
+      .confirm-total-pay {
+        margin: 0 auto;
+        padding: 25px 0;
+        border-top: 1px dotted #000;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .confirm-mark {
+          float: left;
+          width: auto;
+          max-width: 60%;
+          text-align: left;
+          padding: 5px 20px 5px 0;
+          font-family: Arial, Helvetica, sans-serif;
+          font-size: 20px;
+          text-transform: uppercase;
+          line-height: 1.6;
+          color: #666;
+        }
+        .confirm-value {
+          float: right;
+          width: auto;
+          max-width: 40%;
+          padding: 7px 20px 0 0;
+          text-align: right;
+          font-family: Arial, Helvetica, sans-serif;
+          font-size: 25px;
+          font-weight: bolder;
+          line-height: 1.6;
+          color: #444;
+          font-weight: bold;
+        }
+      }
+    }
+  }
 }

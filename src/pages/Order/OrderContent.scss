@@ -169,6 +169,9 @@
       &.occupied {
         background-color: red;
       }
+      &.vip {
+        background-color: rgb(233, 48, 171);
+      }
       &:nth-of-type(2) {
         margin-right: 18px;
       }
@@ -185,12 +188,13 @@
 
 .section-order {
   position: relative;
-  bottom: 150px;
+  bottom: 50px;
   .order-title {
     position: relative;
     width: 100%;
     height: auto;
     overflow: hidden;
+    background-image: url("https://cinestar.com.vn/catalog/view/theme/default/images/bg-footer.jpg");
     .order-wrap {
       width: 90%;
       display: block;

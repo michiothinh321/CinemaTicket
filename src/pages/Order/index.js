@@ -39,6 +39,7 @@ const Order = () => {
     "Y",
     "Z",
   ];
+  const [count, setCount] = useState(0);
   const keyValue = window.location.search;
   const urlParams = new URLSearchParams(keyValue);
   const idRoom = urlParams.get("idRoom");
@@ -96,6 +97,8 @@ const Order = () => {
       console.log(error);
     }
   };
+
+  //THEM GHE
   const handleAddChairs = async (e) => {
     try {
       const result = await ticketAPI.addTicket({
@@ -149,6 +152,7 @@ const Order = () => {
     }
   };
 
+  //MA TRAN
   const arr = new Array();
   for (let i = 0; i < movie.columns; i++) {
     arr[i] = new Array();
@@ -172,70 +176,67 @@ const Order = () => {
           }
         }
       }
-      console.log(chair);
     }
   }
+
+  //CHON GHE
   const handleSetChair = (e, chair) => {
-    if (e.target.className !== "disabled") {
-      if (!enable.includes(e.target.innerHTML)) {
-        if (!chair.vip) {
-          setEnable((pre) => [...pre, e.target.innerHTML]);
-          e.target.className += " selected";
-          setNumberChair((pre) => [...pre, e.target.innerHTML]);
-          setPriceFilm((prev) => +film.price + prev);
-          setDetailTicket((pre) => [
-            ...pre,
-            {
-              price: film.price,
-              chair: e.target.innerHTML,
-            },
-          ]);
-        } else {
-          setEnable((pre) => [...pre, e.target.innerHTML]);
-          e.target.className += " selected";
-          setNumberChair((pre) => [...pre, e.target.innerHTML]);
-          setPriceFilm((prev) => +film.price + prev + parseInt(film.priceVip));
-          setDetailTicket((pre) => [
-            ...pre,
-            {
-              price: +film.price + parseInt(film.priceVip),
-              chair: e.target.innerHTML,
-            },
-          ]);
-        }
+    if (!enable.includes(e.target.innerHTML)) {
+      if (!chair.vip) {
+        setEnable((pre) => [...pre, e.target.innerHTML]);
+        e.target.className += " selected";
+        setNumberChair((pre) => [...pre, e.target.innerHTML]);
+        setPriceFilm((prev) => +film.price + prev);
+        setDetailTicket((pre) => [
+          ...pre,
+          {
+            price: film.price,
+            chair: e.target.innerHTML,
+          },
+        ]);
       } else {
-        if (!chair.vip) {
-          setEnable(
-            enable.filter((item) => !e.target.innerHTML.includes(item))
-          );
-          e.target.className = "cinema-seat";
-          setNumberChair(
-            enable.filter((item) => !e.target.innerHTML.includes(item))
-          );
-          setPriceFilm((prev) => prev - parseInt(film.price));
-          setDetailTicket(
-            detailTicket.filter(
-              (item) => !e.target.innerHTML.includes(item.chair)
-            )
-          );
-        } else {
-          setEnable(
-            enable.filter((item) => !e.target.innerHTML.includes(item))
-          );
-          e.target.className = "cinema-seat";
-          setNumberChair(
-            enable.filter((item) => !e.target.innerHTML.includes(item))
-          );
-          setPriceFilm(
-            (prev) => prev - parseInt(film.price) - parseInt(film.priceVip)
-          );
-          setDetailTicket(
-            detailTicket.filter(
-              (item) => !e.target.innerHTML.includes(item.chair)
-            )
-          );
-        }
+        setEnable((pre) => [...pre, e.target.innerHTML]);
+        e.target.className = "cinema-seat selected";
+        setNumberChair((pre) => [...pre, e.target.innerHTML]);
+        setPriceFilm((prev) => +film.price + prev + parseInt(film.priceVip));
+        setDetailTicket((pre) => [
+          ...pre,
+          {
+            price: +film.price + parseInt(film.priceVip),
+            chair: e.target.innerHTML,
+          },
+        ]);
       }
+      setCount(count + 1);
+    } else {
+      if (!chair.vip) {
+        setEnable(enable.filter((item) => !e.target.innerHTML.includes(item)));
+        e.target.className = "cinema-seat";
+        setNumberChair(
+          enable.filter((item) => !e.target.innerHTML.includes(item))
+        );
+        setPriceFilm((prev) => prev - parseInt(film.price));
+        setDetailTicket(
+          detailTicket.filter(
+            (item) => !e.target.innerHTML.includes(item.chair)
+          )
+        );
+      } else {
+        setEnable(enable.filter((item) => !e.target.innerHTML.includes(item)));
+        e.target.className = "cinema-seat vip";
+        setNumberChair(
+          enable.filter((item) => !e.target.innerHTML.includes(item))
+        );
+        setPriceFilm(
+          (prev) => prev - parseInt(film.price) - parseInt(film.priceVip)
+        );
+        setDetailTicket(
+          detailTicket.filter(
+            (item) => !e.target.innerHTML.includes(item.chair)
+          )
+        );
+      }
+      setCount(count - 1);
     }
   };
   return (
@@ -245,36 +246,43 @@ const Order = () => {
           <div className="order-wrap">
             <div className="order-overview">
               <h2>
-                <strong>Tên phim</strong>
+                <strong>Tên phim: </strong>
                 <br></br>
-                <span>Name phim</span>
+                <span>{film.nameFilm}</span>
               </h2>
               <ul className="about-ticket">
                 <li>
                   <p className="caption">Chọn suất chiếu</p>
-                  <p className="value">14:15</p>
+                  <p className="value">{film.timeStart}</p>
                 </li>
                 <li>
-                  <p className="caption">Chọn suất chiếu</p>
-                  <p className="value">14:15</p>
+                  <p className="caption">Ngày</p>
+                  <p className="value">
+                    {film.date?.slice(0, 10).split("-").reverse().join("/")}
+                  </p>
                 </li>
                 <li>
-                  <p className="caption">Chọn suất chiếu</p>
-                  <p className="value">14:15</p>
+                  <p className="caption">Số lượng</p>
+                  <p className="value">{`${count} Vé`}</p>
                 </li>
                 <li>
-                  <p className="caption">Chọn suất chiếu</p>
-                  <p className="value">14:15</p>
+                  <p className="caption">Tổng tiền</p>
+                  <p className="value">
+                    {priceFilm.toLocaleString("vi", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
+                  </p>
                 </li>
               </ul>
               <ul className="about-seat">
                 <li>Số ghế</li>
-                <li className="seat-number"></li>
+                <li className="seat-number">{numberChair.join(", ")}</li>
               </ul>
             </div>
-            <div className="order-clock">
+            {/* <div className="order-clock">
               <span className="title">Thời gian giữ ghế</span>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="cinema-content">
@@ -306,7 +314,11 @@ const Order = () => {
                         if (chair.vip) {
                           return (
                             <div
-                              className="cinema-seat occupied"
+                              className={
+                                chair.status
+                                  ? "cinema-seat occupied"
+                                  : "cinema-seat vip"
+                              }
                               key={indexChair}
                               onClick={(e) => handleSetChair(e, chair)}
                             >
@@ -316,7 +328,11 @@ const Order = () => {
                         } else {
                           return (
                             <div
-                              className="cinema-seat"
+                              className={
+                                chair.status
+                                  ? "cinema-seat occupied"
+                                  : "cinema-seat"
+                              }
                               key={indexChair}
                               onClick={(e) => handleSetChair(e, chair)}
                             >
@@ -351,12 +367,17 @@ const Order = () => {
                 value="Chọn Đồ Ăn"
                 style={{ borderRadius: "25px 0 25px 0" }}
               />
-              <input
-                type="button"
-                className="cinema-next disable"
-                value="Thanh toán"
-                style={{ WebkitBorderRadius: "30px 30px 30px 0" }}
-              />
+              <Link
+                to={`/payment?idRoom=${idRoom}&idFilm=${idFilm}&idShowTime=${idShowTime}`}
+              >
+                <input
+                  type="button"
+                  className={count > 0 ? "cinema-next" : "cinema-next disable"}
+                  value="Thanh toán"
+                  style={{ WebkitBorderRadius: "30px 30px 30px 0" }}
+                  onClick={handleAddChairs}
+                />
+              </Link>
             </div>
           </div>
         </div>
