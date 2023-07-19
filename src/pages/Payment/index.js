@@ -140,7 +140,7 @@ const PaymentContent = () => {
   // };
   return (
     <>
-      {tickets.map((ticket) => {
+      {/* {tickets.map((ticket) => {
         if (!ticket.checkout) {
           return (
             <div>
@@ -190,7 +190,7 @@ const PaymentContent = () => {
                   </div>
                   {/* <div className="order-clock">
               <span className="title">Thời gian giữ ghế</span>
-            </div> */}
+            </div> 
                 </div>
               </div>
               <div className="order-content">
@@ -285,9 +285,9 @@ const PaymentContent = () => {
             </div>
           );
         }
-      })}
-
-      {/* <div className="payment">
+      })} 
+      
+       <div className="payment">
         <div className="payment_left">
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <h2>THANH TOÁN</h2>

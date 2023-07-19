@@ -53,7 +53,7 @@ export default function Sidebar() {
     } else if (e.key === "movie") {
       navigate("/movie");
     } else if (e.key === "theater") {
-      navigate("/theater");
+      navigate("/area");
     } else if (e.key === "category") {
       navigate("/category");
     }

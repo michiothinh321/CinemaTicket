@@ -239,6 +239,9 @@ const Order = () => {
       setCount(count - 1);
     }
   };
+  const LineLeft = movie.left;
+  const LineRight = movie.right;
+
   return (
     <>
       <div className="section-order">

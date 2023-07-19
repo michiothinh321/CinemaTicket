@@ -10,6 +10,8 @@ export default function Room() {
   const [columns, setColumns] = useState("");
   const [rows, setRows] = useState("");
   const [room, setRoom] = useState([]);
+  const [lineLeft, setLineLeft] = useState("");
+  const [lineRight, setLineRight] = useState("");
   const [api, contextHolder] = notification.useNotification();
   const [fistNameRoom, setFirstNameRoom] = useState("");
   const keyValue = window.location.search;
@@ -31,6 +33,8 @@ export default function Room() {
           columns,
           rows,
           nameRoom: name,
+          left: lineLeft,
+          right: lineRight,
         });
         if (result.status === 200) {
           api.open({
@@ -173,6 +177,28 @@ export default function Room() {
                 }}
               />
             </Form.Item>
+            <Form.Item label="Lề Trái">
+              <Input
+                placeholder="Lề Trái"
+                id="left"
+                name="left"
+                value={lineLeft}
+                onChange={(e) => {
+                  setLineLeft(e.target.value);
+                }}
+              />
+            </Form.Item>
+            <Form.Item label="Lề Phải">
+              <Input
+                placeholder="Lề Phải"
+                id="right"
+                name="right"
+                value={lineRight}
+                onChange={(e) => {
+                  setLineRight(e.target.value);
+                }}
+              />
+            </Form.Item>
           </Form>
         </Modal>
         <table>
@@ -182,6 +208,8 @@ export default function Room() {
               <th>Tên Phòng</th>
               <th>Số Hàng</th>
               <th>Số Cột</th>
+              <th>Lề Trái</th>
+              <th>Lề Phải</th>
               <th>Hành động</th>
             </tr>
           </thead>
@@ -193,6 +221,8 @@ export default function Room() {
                   <td>{room.nameRoom}</td>
                   <td>{room.columns}</td>
                   <td>{room.rows}</td>
+                  <td>{room.left}</td>
+                  <td>{room.right}</td>
                   <td>
                     <Button type="primary" htmlType="submit">
                       Sửa Phòng
