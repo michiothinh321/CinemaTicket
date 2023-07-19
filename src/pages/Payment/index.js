@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+
 import {
   ticket as ticketAPI,
   chair as chairAPI,
@@ -140,6 +143,27 @@ const PaymentContent = () => {
   // };
   return (
     <>
+      <PayPalScriptProvider options={{ clientId: "test" }}>
+        <PayPalButtons
+          createOrder={(data, actions) => {
+            return actions.order.create({
+              purchase_units: [
+                {
+                  amount: {
+                    value: "1.99",
+                  },
+                },
+              ],
+            });
+          }}
+          onApprove={(data, actions) => {
+            return actions.order.capture().then((details) => {
+              const name = details.payer.name.given_name;
+              navigate("/paymentsuccess");
+            });
+          }}
+        />
+      </PayPalScriptProvider>
       {/* {tickets.map((ticket) => {
         if (!ticket.checkout) {
           return (
