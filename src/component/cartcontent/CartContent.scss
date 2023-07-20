@@ -83,18 +83,26 @@
             transition: all 0.3s ease-in-out;
             z-index: 1;
           }
-          h3 {
+          select {
             display: block;
-            padding: 0 40px 0 20px;
+            padding: 10px 20px;
             font-family: Arial, Helvetica, sans-serif;
             font-weight: normal;
             font-size: 15px;
-            color: #fff;
+            width: 80%;
+            margin: 0 auto;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.02);
             text-align: left;
             white-space: nowrap;
+            border: none;
+            outline: none;
             text-overflow: ellipsis;
             overflow: hidden;
             text-transform: uppercase;
+            option {
+              color: black;
+            }
           }
         }
         .select-box {

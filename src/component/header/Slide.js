@@ -24,6 +24,7 @@ const Slide = () => {
           </a>
         </div>
       </div>
+
       <Carousel autoplay>
         <div>
           <img className="slide_img" src={km1} alt="" />

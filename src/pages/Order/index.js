@@ -239,8 +239,8 @@ const Order = () => {
       setCount(count - 1);
     }
   };
-  const LineLeft = movie.left;
-  const LineRight = movie.right;
+  const lineLeft = movie.left;
+  const lineRight = movie.right;
 
   return (
     <>
@@ -298,17 +298,6 @@ const Order = () => {
               className="cinema-wrap seat-scroll "
               style={{ maxWidth: "1360px" }}
             >
-              {/* <div className="cinema-chair">
-                <div className="cinema-row">
-                  <div className="cinema-seat occupied">A1</div>
-                  <div className="cinema-seat ">A2</div>
-                  <div className="cinema-seat ">A3</div>
-                  <div className="cinema-seat occupied">A4</div>
-                  <div className="cinema-seat ">A5</div>
-                  <div className="cinema-seat ">A6</div>
-                  <div className="cinema-seat ">A6</div>
-                </div> */}
-
               <div className="cinema-chair">
                 {arr.map((chairs, indexChairs) => {
                   return (
@@ -319,8 +308,8 @@ const Order = () => {
                             <div
                               className={
                                 chair.status
-                                  ? "cinema-seat occupied"
-                                  : "cinema-seat vip"
+                                  ? `cinema-seat occupied seat-left${lineLeft} seat-right1 `
+                                  : `cinema-seat vip seat-left${lineLeft} seat-right1 `
                               }
                               key={indexChair}
                               onClick={(e) => handleSetChair(e, chair)}
@@ -333,8 +322,8 @@ const Order = () => {
                             <div
                               className={
                                 chair.status
-                                  ? "cinema-seat occupied"
-                                  : "cinema-seat"
+                                  ? `cinema-seat occupied seat-left${lineLeft} seat-right1`
+                                  : `cinema-seat seat-left${lineLeft} seat-right1`
                               }
                               key={indexChair}
                               onClick={(e) => handleSetChair(e, chair)}

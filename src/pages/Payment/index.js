@@ -27,10 +27,12 @@ const PaymentContent = () => {
   // const timer = () => setSeconds((seconds) => seconds - 1);
 
   useEffect(() => {
-    (async () => {
-      await getTicket();
-    })();
-  }, []);
+    if (idRoom) {
+      (async () => {
+        await getTicket();
+      })();
+    }
+  }, [idRoom]);
   const getTicket = async () => {
     try {
       const result = await ticketAPI.getTicket({ email: user.email });
@@ -143,10 +145,10 @@ const PaymentContent = () => {
   // };
   return (
     <>
-      {tickets.map((ticket) => {
+      {tickets.map((ticket, index) => {
         if (!ticket.checkout) {
           return (
-            <div>
+            <div key={index}>
               <div className="order-title">
                 <div className="order-wrap">
                   <div className="order-overview">
@@ -172,7 +174,7 @@ const PaymentContent = () => {
                       </li>
                       <li>
                         <p className="caption">Số lượng</p>
-                        <p className="value">NAME</p>
+                        <p className="value">{ticket.chairs.length}</p>
                       </li>
                       <li>
                         <p className="caption">Tổng tiền</p>
@@ -203,25 +205,29 @@ const PaymentContent = () => {
                 <div className="final-content">
                   <div className="final-confirm">
                     <p>
-                      Cảm ơn quý khách đã đến với <strong>Cinestar</strong> !
+                      Cảm ơn quý khách đã đến với <strong>PQT CINEMA</strong> !
                       <br /> Xin quý khách vui lòng kiểm tra lại thông tin đặt
                       vé{" "}
                     </p>
                     <div className="confirm-box">
                       <div className="confirm-film">
                         <div className="confirm-film-pic">
-                          <img
-                            src="https://cinestar.com.vn/pictures/Cinestar/07-2023/insidious-quy-quyet-cua-do-vo-dinh.jpg"
-                            alt=""
-                          />
+                          <img src={ticket.picture} alt="" />
                         </div>
                         <div className="confirm-film-text">
-                          <h3>QUỶ QUYỆT: CỬA ĐỎ VÔ ĐỊNH (T16)</h3>
+                          <h3>{ticket.nameFilm}</h3>
                           <p>
-                            Ngày chiếu: <strong>17/07/2023</strong>
+                            Ngày chiếu:{" "}
+                            <strong>
+                              {ticket.date
+                                ?.slice(0, 10)
+                                .split("-")
+                                .reverse()
+                                .join("/")}
+                            </strong>
                           </p>
                           <p>
-                            Xuất chiếu: <strong>19:30</strong>
+                            Xuất chiếu: <strong>{ticket.timeStart}</strong>
                           </p>
                           <p>
                             <span className="icon-"></span>
