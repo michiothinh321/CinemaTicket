@@ -22,6 +22,7 @@ const Content = () => {
   const movieRef = useRef();
   const [movies, setMovies] = useState([]);
   const [isHovering, setIsHovering] = useState(false);
+  const [movieNow, setMovieNow] = useState(true);
 
   //SLIDER
   const handleScrollRight = () => {
@@ -91,6 +92,12 @@ const Content = () => {
   };
   //END MOVIE LIST
 
+  const handleMovieNow = (e) => {
+    setMovieNow(true);
+  };
+  const handleMovieFuture = (e) => {
+    setMovieNow(false);
+  };
   return (
     <>
       <div className="content-page">
@@ -112,52 +119,68 @@ const Content = () => {
             </ul>
           </div>
         </div>
-        <div className="sub-tab">
-          <div
-            className="movie-slider"
-            style={{ gridTemplateColumns: `repeat(${movies.length}, 250px)` }}
-            ref={sliderRef}
-            draggable="true"
-            onDragStart={onDragStart}
-            onDragEnd={onDragEnd}
-            onDragEnter={onDragEnter}
-          >
-            {movies.map((movie, index) => {
-              return (
-                <div
-                  key={index}
-                  className="movieItem"
-                  ref={movieRef}
-                  onMouseOver={handleMouseOver}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <img src={`${movie.picture}`} alt="" draggable="false"></img>
-                  <div className="movieName">{`${movie.nameFilm}`}</div>
-                  {isHovering ? (
-                    <>
-                      <div className="movie-show">
-                        <Link
-                          to={`/ticket?idFilm=${movie._id}`}
-                          className="buyTicket"
-                        >
-                          Mua vé
-                        </Link>
-                      </div>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </div>
-              );
-            })}
+        <div className="fillterMovie">
+          <div className="movieNow" onClick={handleMovieNow}>
+            PHIM ĐANG CHIẾU
           </div>
-          <div className="btnLeft" onClick={handleScrollLeft}>
-            <FiChevronLeft />
-          </div>
-          <div className="btnRight" onClick={handleScrollRight}>
-            <FiChevronRight />
+          <div className="movieFuture" onClick={handleMovieFuture}>
+            PHIM SẮP CHIẾU
           </div>
         </div>
+        {movieNow ? (
+          <div className="sub-tab">
+            <div
+              className="movie-slider"
+              style={{ gridTemplateColumns: `repeat(${movies.length}, 250px)` }}
+              ref={sliderRef}
+              draggable="true"
+              onDragStart={onDragStart}
+              onDragEnd={onDragEnd}
+              onDragEnter={onDragEnter}
+            >
+              {movies.map((movie, index) => {
+                return (
+                  <div
+                    key={index}
+                    className="movieItem"
+                    ref={movieRef}
+                    onMouseOver={handleMouseOver}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <img
+                      src={`${movie.picture}`}
+                      alt=""
+                      draggable="false"
+                    ></img>
+                    <div className="movieName">{`${movie.nameFilm}`}</div>
+                    {isHovering ? (
+                      <>
+                        <div className="movie-show">
+                          <Link
+                            to={`/ticket?idFilm=${movie._id}`}
+                            className="buyTicket"
+                          >
+                            Mua vé
+                          </Link>
+                        </div>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+            <div className="btnLeft" onClick={handleScrollLeft}>
+              <FiChevronLeft />
+            </div>
+            <div className="btnRight" onClick={handleScrollRight}>
+              <FiChevronRight />
+            </div>
+          </div>
+        ) : (
+          "phim dang chieu"
+        )}
         <div className="movie-content"></div>
         <div className="promotion-content"></div>
       </div>

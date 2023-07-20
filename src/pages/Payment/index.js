@@ -73,49 +73,49 @@ const PaymentContent = () => {
   // //   const id = setInterval(timer, 1000);
   // //   return () => clearInterval(id);
   // // }, [seconds, minutes]);
-  // const handleAddBill = async (e) => {
-  //   try {
-  //     ticket.map(async (ticket) => {
-  //       if (!ticket.checkout) {
-  //         const resultTicket = await ticketAPI.checkoutTicket({
-  //           id: ticket._id,
-  //         });
-  //       }
-  //     });
-  //     chair.map(async (chair) => {
-  //       if (!chair.checkout) {
-  //         const resultChair = await chairAPI.checkoutChair({
-  //           id: chair._id,
-  //         });
-  //       }
-  //     });
-  //     detail.map(async (e) => {
-  //       ticket.map(async (value) => {
-  //         if (!e.checkout && !value.checkout) {
-  //           const details = {
-  //             idTicket: (e.idTicket = value._id),
-  //             id: e._id,
-  //           };
-  //           const resultDetail = await detailTicketAPI.editDetailTicket({
-  //             details,
-  //           });
-  //         }
-  //       });
-  //     });
-  //     // if (result.status === 200) {
-  //     //   api.open({
-  //     //     type: "success",
-  //     //     message: "Add Film successfully.",
-  //     //   });
-  //     // }
-  //   } catch (error) {
-  //     // api.open({
-  //     //   type: "error",
-  //     //   message: "Film is exsist.",
-  //     // });
-  //     console.log({ error });
-  //   }
-  // };
+  const handleAddBill = async (e) => {
+    try {
+      tickets.map(async (ticket) => {
+        if (!ticket.checkout) {
+          const resultTicket = await ticketAPI.checkoutTicket({
+            id: ticket._id,
+          });
+        }
+      });
+      chairs.map(async (chair) => {
+        if (!chair.checkout) {
+          const resultChair = await chairAPI.checkoutChair({
+            id: chair._id,
+          });
+        }
+      });
+      details.map(async (e) => {
+        tickets.map(async (value) => {
+          if (!e.checkout && !value.checkout) {
+            const details = {
+              idTicket: (e.idTicket = value._id),
+              id: e._id,
+            };
+            const resultDetail = await detailTicketAPI.editDetailTicket({
+              details,
+            });
+          }
+        });
+      });
+      // if (result.status === 200) {
+      //   api.open({
+      //     type: "success",
+      //     message: "Add Film successfully.",
+      //   });
+      // }
+    } catch (error) {
+      // api.open({
+      //   type: "error",
+      //   message: "Film is exsist.",
+      // });
+      console.log({ error });
+    }
+  };
   // const handleDeleteTicket = async () => {
   //   ticket.map(async (ticket) => {
   //     if (!ticket.checkout) {
@@ -143,28 +143,7 @@ const PaymentContent = () => {
   // };
   return (
     <>
-      <PayPalScriptProvider options={{ clientId: "test" }}>
-        <PayPalButtons
-          createOrder={(data, actions) => {
-            return actions.order.create({
-              purchase_units: [
-                {
-                  amount: {
-                    value: "1.99",
-                  },
-                },
-              ],
-            });
-          }}
-          onApprove={(data, actions) => {
-            return actions.order.capture().then((details) => {
-              const name = details.payer.name.given_name;
-              navigate("/paymentsuccess");
-            });
-          }}
-        />
-      </PayPalScriptProvider>
-      {/* {tickets.map((ticket) => {
+      {tickets.map((ticket) => {
         if (!ticket.checkout) {
           return (
             <div>
@@ -212,9 +191,9 @@ const PaymentContent = () => {
                       </li>
                     </ul>
                   </div>
-                  {/* <div className="order-clock">
-              <span className="title">Thời gian giữ ghế</span>
-            </div> 
+                  <div className="order-clock">
+                    <span className="title">Thời gian giữ ghế</span>
+                  </div>
                 </div>
               </div>
               <div className="order-content">
@@ -303,15 +282,38 @@ const PaymentContent = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="final-form"></div>
+                  <div className="final-form" style={{ marginLeft: "300px" }}>
+                    <PayPalScriptProvider options={{ clientId: "test" }}>
+                      <PayPalButtons
+                        createOrder={(data, actions) => {
+                          return actions.order.create({
+                            purchase_units: [
+                              {
+                                amount: {
+                                  value: ticket.price,
+                                },
+                              },
+                            ],
+                          });
+                        }}
+                        onApprove={(data, actions) => {
+                          return actions.order.capture().then((details) => {
+                            const name = details.payer.name.given_name;
+                            handleAddBill();
+                            navigate("/paysuccess");
+                          });
+                        }}
+                      />
+                    </PayPalScriptProvider>
+                  </div>
                 </div>
               </div>
             </div>
           );
         }
-      })} 
-      
-       <div className="payment">
+      })}
+
+      {/* <div className="payment">
         <div className="payment_left">
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <h2>THANH TOÁN</h2>
@@ -398,7 +400,7 @@ const PaymentContent = () => {
             );
           }
         })}
-      </div> */}
+      </div>  */}
     </>
   );
 };

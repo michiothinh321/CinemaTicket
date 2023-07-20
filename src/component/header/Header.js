@@ -61,7 +61,7 @@ function Header() {
       <header className="header">
         <div className="header__content">
           <Link to="/" className="header__content__logo">
-            Navbar
+            PQT CINEMA
           </Link>
           <nav
             className={`${"header__content__nav"} 
@@ -90,14 +90,7 @@ function Header() {
                   <Link to="/">Lịch chiếu</Link>
                 </li>
                 <li>
-                  <Link to="/">Rạp giá</Link>
-                </li>
-                <li>
-                  <Link to="/">Khuyễn mãi</Link>
-                </li>
-
-                <li>
-                  <Link to="/">Hỏi đáp</Link>
+                  <Link to="/">Rạp giá & Khuyễn mãi</Link>
                 </li>
                 <li>
                   <Link to="/">Liên hệ</Link>

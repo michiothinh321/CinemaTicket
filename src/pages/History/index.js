@@ -38,6 +38,7 @@ export default function History() {
       console.log(error);
     }
   };
+  console.log(ticket);
   useEffect(() => {
     if (idTicket) {
       (async () => {

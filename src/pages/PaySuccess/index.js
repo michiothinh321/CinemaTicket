@@ -10,6 +10,7 @@ const PaySuccess = () => {
   return (
     <>
       <Result
+        style={{ background: "white" }}
         iconFontSize="80"
         status="success"
         title="Thanh toán thành công"

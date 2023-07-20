@@ -1,3 +1,30 @@
+h1 {
+  color: black;
+  margin-top: 40px;
+  margin-left: 20px;
+}
+.card {
+  width: 250px;
+  height: 150px;
+  //   margin: 0 10px;
+  &.title1 {
+    background-image: linear-gradient(to bottom, #ffd51a 50%, #fac815 50%);
+  }
+  &.title2 {
+    background-image: linear-gradient(to bottom, #fc0b0b 50%, #f73535 50%);
+  }
+  &.title3 {
+    background-image: linear-gradient(
+      to bottom,
+      #008a9c 50%,
+      rgb(56, 182, 231) 50%
+    );
+  }
+  &.title4 {
+    background-image: linear-gradient(to bottom, #40fc07 50%, #46f355 50%);
+  }
+  //   background-image: -o-linear-gradient(bottom, #ffd51a 50%, #fac815 50%);
+}
 // .admin_left {
 //   width: 15%;
 //   background-color: #333;
