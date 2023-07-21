@@ -239,8 +239,6 @@ const Order = () => {
       setCount(count - 1);
     }
   };
-  const lineLeft = movie.left;
-  const lineRight = movie.right;
 
   return (
     <>
@@ -308,8 +306,8 @@ const Order = () => {
                             <div
                               className={
                                 chair.status
-                                  ? `cinema-seat occupied seat-left${lineLeft} seat-right1 `
-                                  : `cinema-seat vip seat-left${lineLeft} seat-right1 `
+                                  ? `cinema-seat occupied seat-left${movie.left} seat-right${movie.right} `
+                                  : `cinema-seat vip seat-left${movie.left} seat-right${movie.right} `
                               }
                               key={indexChair}
                               onClick={(e) => handleSetChair(e, chair)}
@@ -322,8 +320,8 @@ const Order = () => {
                             <div
                               className={
                                 chair.status
-                                  ? `cinema-seat occupied seat-left${lineLeft} seat-right1`
-                                  : `cinema-seat seat-left${lineLeft} seat-right1`
+                                  ? `cinema-seat occupied seat-left${movie.left} seat-right${movie.right}`
+                                  : `cinema-seat seat-left${movie.left} seat-right${movie.right}`
                               }
                               key={indexChair}
                               onClick={(e) => handleSetChair(e, chair)}

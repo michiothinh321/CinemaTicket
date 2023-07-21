@@ -79,7 +79,7 @@ export default function Animation() {
     <>
       {contextHolder}
       <div className="admin_right">
-        <h1>Quản Lý Thể Loại</h1>
+        <h1>Quản Lý Animation</h1>
         <Link to="/category">
           <Button
             type="primary"

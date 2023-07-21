@@ -23,9 +23,6 @@ const Main = () => {
             <li>
               <img src={logo2} alt="" />
             </li>
-            <li>
-              <img src={logo3} alt="" />
-            </li>
           </ul>
         </div>
         <img className="main_event_center" src={logo} alt="" />

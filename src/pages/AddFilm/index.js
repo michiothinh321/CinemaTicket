@@ -217,7 +217,7 @@ export default function AddFilm() {
           </Form.Item>
           <Form.Item label="Trailer">
             <input
-              type="text"
+              type="file"
               id="file"
               name="file"
               value={trailer}

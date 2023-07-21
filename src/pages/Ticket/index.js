@@ -43,6 +43,14 @@ const Ticket = () => {
     }
   };
 
+  const groupedData = film.reduce((groups, item) => {
+    const { nameTheater } = item;
+    if (!groups[nameTheater]) {
+      groups[nameTheater] = [];
+    }
+    groups[nameTheater].push(item);
+    return groups;
+  }, {});
   // const cats = film.reduce((catsSoFar, { date, nameTheater, timeStart }) => {
   //   if (!catsSoFar[nameTheater]) catsSoFar[nameTheater] = [];
   //   catsSoFar[nameTheater].push({
@@ -51,6 +59,7 @@ const Ticket = () => {
   //   });
   //   return catsSoFar;
   // }, []);
+  // console.log(cats);
   // const array = [];
   // for (let i = 0; i < film.length; i++) {
   //   if (array.indexOf(film[i].nameTheater) === -1) {
@@ -99,9 +108,13 @@ const Ticket = () => {
                           <div className="row">
                             <div className="row-date" data-date="16/07/2023">
                               <span>
-                                12/5
+                                {e.date
+                                  ?.slice(6, 10)
+                                  .split("-")
+                                  .reverse()
+                                  .join("/")}
                                 <br />
-                                2023
+                                {e.date?.slice(0, 4)}
                               </span>
                             </div>
                             <div className="row-hour">
@@ -122,6 +135,19 @@ const Ticket = () => {
                         </div>
                       );
                     })}
+                    <div className="container">
+                      <h2>React Js group array of object by key(category)</h2>
+                      {Object.entries(groupedData).map(([category, items]) => (
+                        <div key={category}>
+                          <h3>{category}</h3>
+                          <ul>
+                            {items.map((item, index) => (
+                              <li key={index}>{item.date}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
                     {/* {array.map((e, index) => {
                       return (
                         <div

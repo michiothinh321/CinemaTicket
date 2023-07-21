@@ -296,7 +296,7 @@ const PaymentContent = () => {
                             purchase_units: [
                               {
                                 amount: {
-                                  value: ticket.price,
+                                  value: "1.99",
                                 },
                               },
                             ],
