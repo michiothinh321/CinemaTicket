@@ -7,6 +7,7 @@ import {
   room as roomAPI,
   showtime as showtimeAPI,
 } from "../../API";
+import { Link } from "react-router-dom";
 
 const CartContent = () => {
   const [movies, setMovies] = useState([]);
@@ -96,7 +97,15 @@ const CartContent = () => {
                   <option>Chọn ngày</option>
                   {showtimes.map((showtime, index) => {
                     if (showtime.nameTheater.includes(nameTheater)) {
-                      return <option key={index}>{showtime.date}</option>;
+                      return (
+                        <option key={index} value={showtime.date}>
+                          {showtime.date
+                            ?.slice(0, 10)
+                            .split("-")
+                            .reverse()
+                            .join("/")}
+                        </option>
+                      );
                     }
                   })}
                 </select>
@@ -108,7 +117,15 @@ const CartContent = () => {
                   <option>Chọn suất chiếu</option>
                   {showtimes.map((showtime, index) => {
                     if (showtime.date.includes(dateMovie)) {
-                      return <option key={index}>{showtime.timeStart}</option>;
+                      return (
+                        <>
+                          <option key={index} value={showtime.timeStart}>
+                            <button onClick={(e) => console.log(e)}>
+                              {showtime.timeStart}
+                            </button>
+                          </option>
+                        </>
+                      );
                     }
                   })}
                 </select>

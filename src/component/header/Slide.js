@@ -5,20 +5,46 @@ import km2 from "../image/km2.jpg";
 import km3 from "../image/km3.jpg";
 import km4 from "../image/km4.jpg";
 import { Carousel } from "antd";
+import { user as userAPI } from "../../API";
+import userSlice from "../../redux/userSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 const Slide = () => {
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const handleLogout = async () => {
+    try {
+      const result = await userAPI.logout();
+      dispatch(userSlice.actions.setUser(null));
+    } catch (error) {}
+  };
+
   return (
     <>
       <div className="register-content">
         <div className="register-wrap">
-          <ul>
-            <li className="btn-register">
-              <a href="/">Đăng ký thành viên</a>
-            </li>
-            <li className="btn-login">
-              <a href="/">Đăng nhập</a>
-            </li>
-          </ul>
+          {user ? (
+            <ul>
+              <li className="btn-info">
+                <button className="btn-info">{user.name}</button>
+              </li>
+              <li className="btn-logout">
+                <button className="btn-logout" onClick={handleLogout}>
+                  Đăng Xuất
+                </button>
+              </li>
+            </ul>
+          ) : (
+            <ul>
+              <li className="btn-register">
+                <a href="/login">Đăng ký thành viên</a>
+              </li>
+              <li className="btn-login">
+                <a href="/login">Đăng nhập</a>
+              </li>
+            </ul>
+          )}
           <a href="/" className="hotline">
             028 7300 8881
           </a>

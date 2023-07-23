@@ -21,3 +21,5 @@ export { default as PaySuccess } from "./PaySuccess";
 export { default as ManagerTicket } from "./ManagerTicket";
 export { default as SearchMovie } from "./SearchMovie";
 export { default as Showtime } from "./Showtime";
+export { default as KhuyenMai } from "./KhuyenMai";
+export { default as LienHe } from "./LienHe";

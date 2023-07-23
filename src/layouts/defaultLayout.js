@@ -11,7 +11,7 @@ function DefaultLayout({ children }) {
     >
       <Header />
       <div style={{ flex: "1", margin: "150px 0" }}>{children}</div>
-      <Main />
+      {/* <Main /> */}
       <Footer />
     </div>
   );

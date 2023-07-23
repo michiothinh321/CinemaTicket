@@ -10,7 +10,7 @@ const Home = () => {
       <Slide />
       <CartContent />
       <Content />
-      <Main />
+      {/* <Main /> */}
     </div>
   );
 };

@@ -49,6 +49,27 @@
           color: #e00d7a;
         }
       }
+      .btn-info {
+        background: url(../image/icon-register.png) no-repeat left 1px;
+        padding: 25px 0 23px 71px;
+        display: block;
+        text-decoration: none;
+        font-size: 24px;
+        font-weight: bold;
+        color: #e00d7a;
+        cursor: pointer;
+      }
+
+      .btn-logout {
+        background: url(../image/icon-login.png) no-repeat left top;
+        padding: 25px 0 23px 42px;
+        display: block;
+        text-decoration: none;
+        font-size: 24px;
+        font-weight: bold;
+        color: #e00d7a;
+        cursor: pointer;
+      }
     }
   }
   .hotline {

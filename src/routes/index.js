@@ -22,6 +22,8 @@ import {
   ManagerTicket,
   SearchMovie,
   Showtime,
+  KhuyenMai,
+  LienHe,
 } from "../pages";
 import { DefaultLayout, AdminLayout } from "../layouts";
 const PrivateRoutes = ({ children }) => {
@@ -42,6 +44,16 @@ const publicRoutes = [
     path: "/ticket",
     layout: DefaultLayout,
     component: Ticket,
+  },
+  {
+    path: "/lienhe",
+    layout: DefaultLayout,
+    component: LienHe,
+  },
+  {
+    path: "/khuyenmai",
+    layout: DefaultLayout,
+    component: KhuyenMai,
   },
   {
     path: "/paysuccess",
@@ -135,7 +147,7 @@ const publicRoutes = [
   },
   {
     path: "/detailsfilm",
-    layout: AdminLayout,
+    layout: DefaultLayout,
     component: DetailsFilm,
   },
   {

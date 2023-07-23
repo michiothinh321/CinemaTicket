@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import "./Search.scss";
 import logo from "../../component/image/jujutsu-kaisen-chu-thuat-hoi-chien.png";
 import { useViewPort } from "../../component/Hook";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { movie as movieAPI } from "../../API";
 
 function SearchMovie(props) {
@@ -12,7 +12,7 @@ function SearchMovie(props) {
   const [searchParams] = useSearchParams();
   const [searchMovies, setSearchMovies] = useState([]);
   const keywords = searchParams.get("keywords");
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (keywords) {
       (async () => {
@@ -30,6 +30,9 @@ function SearchMovie(props) {
     }
   };
 
+  const handleDetailFilm = (e) => {
+    navigate(`/detailsFilm?idFilm=${e._id}`);
+  };
   return (
     <div className="searchPane">
       {searchMovies && searchMovies.length > 0 ? (
@@ -53,7 +56,11 @@ function SearchMovie(props) {
             {searchMovies.map((item, index) => {
               if (item.nameFilm.toLowerCase().includes(keywords)) {
                 return (
-                  <div className="movieItem" key={index}>
+                  <div
+                    className="movieItem"
+                    key={index}
+                    onClick={() => handleDetailFilm(item)}
+                  >
                     <img src={item.picture} alt="" />
                     <span>{item.nameFilm}</span>
                   </div>
@@ -64,7 +71,7 @@ function SearchMovie(props) {
         </>
       ) : (
         <div className="notFound">
-          <h1>Không tìm thấy Phim</h1>
+          <h1 style={{ color: "white" }}>Không tìm thấy Phim</h1>
         </div>
       )}
     </div>

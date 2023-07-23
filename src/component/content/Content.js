@@ -157,6 +157,19 @@ const Content = () => {
                       <>
                         <div className="movie-show">
                           <Link
+                            style={{
+                              marginBottom: "50px",
+                              background: "#e00d7a",
+                              borderRadius: "30px 30px 0 30px",
+                              textDecoration: "none",
+                            }}
+                            to={`/detailsfilm?idFilm=${movie._id}`}
+                            className="buyTicket"
+                          >
+                            Chi tiết phim
+                          </Link>
+                          <Link
+                            style={{ textDecoration: "none" }}
                             to={`/ticket?idFilm=${movie._id}`}
                             className="buyTicket"
                           >

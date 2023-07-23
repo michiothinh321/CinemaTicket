@@ -90,10 +90,10 @@ function Header() {
                   <Link to="/">Lịch chiếu</Link>
                 </li>
                 <li>
-                  <Link to="/">Rạp giá & Khuyễn mãi</Link>
+                  <Link to="/khuyenmai">Rạp giá & Khuyễn mãi</Link>
                 </li>
                 <li>
-                  <Link to="/">Liên hệ</Link>
+                  <Link to="/lienhe">Liên hệ</Link>
                 </li>
               </ul>
             </div>
