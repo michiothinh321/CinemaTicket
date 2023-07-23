@@ -21,6 +21,7 @@ import {
   PaySuccess,
   ManagerTicket,
   SearchMovie,
+  Showtime,
 } from "../pages";
 import { DefaultLayout, AdminLayout } from "../layouts";
 const PrivateRoutes = ({ children }) => {
@@ -111,6 +112,11 @@ const publicRoutes = [
     path: "/addfilm",
     layout: AdminLayout,
     component: AddFilm,
+  },
+  {
+    path: "/addshowtime",
+    layout: AdminLayout,
+    component: Showtime,
   },
   {
     path: "/editfilm",

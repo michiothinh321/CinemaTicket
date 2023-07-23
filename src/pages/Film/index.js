@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./PageAdmin.scss";
+import "./Film.scss";
 import { Link } from "react-router-dom";
 import {
   notification,
@@ -217,25 +217,24 @@ export default function Film() {
   const onChange = (e) => {
     setValue(e.target.value);
   };
-  console.log(idArea);
   return (
     <>
       {contextHolder}
       <div className="admin_right">
-        <h1>Quản lý phim</h1>
         <Link to="/addfilm">
           <Button type="primary" htmlType="submit">
             Thêm phim
           </Button>
         </Link>
-        <table>
+        <table style={{ color: "black", border: "1px solid black" }}>
           <thead>
             <tr>
-              <th>Id</th>
+              <th>STT</th>
               <th>Tên Phim</th>
               <th>Hình Ảnh</th>
               <th>Ngày công chiếu</th>
               <th>Thời lượng</th>
+              <th>Mô tả</th>
               <th>Thể loại</th>
               <th>Animation</th>
               <th>Hành động</th>
@@ -260,6 +259,7 @@ export default function Film() {
                         {film.date?.slice(0, 10).split("-").reverse().join("-")}
                       </td>
                       <td>{film.time}</td>
+                      <td>{film.content}</td>
                       <td>{film.genres.join(" , ")}</td>
                       <td>{film.animation.join(" , ")}</td>
                       <td>
@@ -299,7 +299,9 @@ export default function Film() {
                         {film.date?.slice(0, 10).split("-").reverse().join("-")}
                       </td>
                       <td>{film.time}</td>
+                      <td>{film.content}</td>
                       <td>{film.genres}</td>
+
                       <td>{film.animation.join(" , ")}</td>
                       <td>
                         <Link to={`/editfilm?idFilm=${film._id}`}>

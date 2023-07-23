@@ -1,0 +1,140 @@
+// // .admin_page {
+// //   background-color: white;
+// //   width: 100%;
+// //   display: flex;
+// // }
+// // .admin_left {
+// //   width: 15%;
+// //   background-color: #333;
+// //   ul {
+// //     li {
+// //       list-style-type: none;
+// //       margin-bottom: 20px;
+// //     }
+// //     li:first-child {
+// //       margin: 50px 0;
+// //     }
+// //   }
+// // }
+// // .admin_right {
+// //   padding: 50px 100px;
+// //   width: 85%;
+// //   color: black;
+// //   table {
+// //     img {
+// //       width: 150px;
+// //       height: 200px;
+// //       object-fit: cover;
+// //     }
+// //   }
+// //   table,
+// //   th,
+// //   td {
+// //     border: 1px solid black;
+// //     border-collapse: collapse;
+// //     margin: 0 auto;
+// //     font-size: 18px;
+// //     text-align: left;
+// //     padding: 10px 20px;
+// //   }
+// //   table {
+// //     width: 100%;
+// //     margin-top: 50px;
+// //   }
+// //   .btn_film {
+// //     margin: 2px;
+// //     padding: 5px 10px;
+// //     background-color: black;
+// //     color: white;
+// //   }
+// //   .btn_film:hover {
+// //     background-color: gray;
+// //     color: yellow;
+// //     cursor: pointer;
+// //   }
+// // }
+
+// table {
+//   img {
+//     width: 150px;
+//     height: 200px;
+//     object-fit: cover;
+//   }
+//   td {
+//     width: 25%;
+//   }
+// }
+// table,
+// th,
+// td {
+//   border: 1px solid black;
+//   border-collapse: collapse;
+//   margin: 0 auto;
+//   font-size: 18px;
+//   text-align: left;
+//   padding: 10px 20px;
+// }
+
+.showtime {
+  display: flex;
+  margin: 20px;
+  .form {
+    display: flex;
+    .formLeft {
+      display: flex;
+      flex-direction: column;
+    }
+    .formRight {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+  select {
+    display: block;
+    padding: 10px 20px;
+    font-weight: normal;
+    font-size: 15px;
+    width: 400px;
+    margin: 10px;
+    font-weight: bolder;
+    background-color: rgba(0, 0, 0, 0.2);
+    text-align: left;
+    white-space: nowrap;
+    border: none;
+    outline: none;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-transform: uppercase;
+  }
+  img {
+    width: 300px;
+    height: 350px;
+    border-radius: 20px;
+    margin-left: 20px;
+  }
+}
+
+main.table {
+  display: flex;
+  justify-content: center;
+  width: 82vw;
+  height: 90vh;
+  background-color: #fff5;
+  margin-left: 5px;
+  th {
+    width: 250px;
+  }
+  table,
+  th,
+  td {
+    border: 1px solid black;
+    padding: 1rem;
+    border-collapse: collapse;
+  }
+  thead th {
+    position: sticky;
+    top: 0;
+    left: 0;
+    background-color: #d5d1defe;
+  }
+}

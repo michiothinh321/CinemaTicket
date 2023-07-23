@@ -22,19 +22,20 @@ function getItem(label, key, icon, children, type) {
 
 const items = [
   getItem(
-    "** Trang chủ **",
+    "**---- TRANG CHỦ ----**",
     "home",
     null,
-    [getItem("Trang chủ", "home"), getItem("Thống kê", "admin")],
+    [getItem("Về trang chủ", "home"), getItem("Thống kê", "admin")],
     "group"
   ),
   getItem(
-    "** Quản lý **",
+    "**---- QUẢN LÝ ----**",
     "user",
     null,
     [
       getItem("Người dùng", "user"),
       getItem("Phim", "movie"),
+      getItem("Thêm suất chiếu", "showtime"),
       getItem("Rạp chiếu", "theater"),
       getItem("Thể loại", "category"),
     ],
@@ -56,6 +57,8 @@ export default function Sidebar() {
       navigate("/area");
     } else if (e.key === "category") {
       navigate("/category");
+    } else if (e.key === "showtime") {
+      navigate("/addshowtime");
     }
   };
 
