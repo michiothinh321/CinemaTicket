@@ -479,7 +479,7 @@ export default function Film() {
                                 </select>
                               )}
                             </Form.Item>
-                            <Form.Item label="Giá ghế vip">
+                            <Form.Item label="Phụ thu ghế vip">
                               <select
                                 onChange={(e) => setPriceVip(e.target.value)}
                                 value={priceVip}

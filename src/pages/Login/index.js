@@ -42,25 +42,24 @@ export default function Login() {
   const handleDateOfBirthChange = (e) => {
     setDateOfBirth(e.target.value);
   };
-  function underAgeValidate(birthday){
+  function underAgeValidate(birthday) {
     // it will accept two types of format yyyy-mm-dd and yyyy/mm/dd
     var optimizedBirthday = birthday.replace(/-/g, "/");
-  
+
     //set date based on birthday at 01:00:00 hours GMT+0100 (CET)
     var myBirthday = new Date(optimizedBirthday);
-  
+
     // set current day on 01:00:00 hours GMT+0100 (CET)
-    var currentDate = new Date().toJSON().slice(0,10)+' 01:00:00';
-  
+    var currentDate = new Date().toJSON().slice(0, 10) + " 01:00:00";
+
     // calculate age comparing current date and borthday
-    var myAge = ~~((Date.now(currentDate) - myBirthday) / (31557600000));
-    if(myAge < 12) {
-             return false;
-          }else{
-        return true;
+    var myAge = ~~((Date.now(currentDate) - myBirthday) / 31557600000);
+    if (myAge < 12 || myAge > 80) {
+      return false;
+    } else {
+      return true;
     }
-  
-  } 
+  }
   const validateAll = () => {
     const msg = {};
     if (isEmpty(fullName)) {
@@ -83,16 +82,17 @@ export default function Login() {
     if (isEmpty(dateOfBirth)) {
       msg.dateOfBirth = "Vui lòng chọn ngày sinh";
     }
-    if(!underAgeValidate(dateOfBirth)){
+    if (!underAgeValidate(dateOfBirth)) {
       msg.dateOfBirth = "Bạn chưa đủ tuổi đăng ký";
     }
-
+    if (!dateOfBirth) {
+      msg.dateOfBirth = "Ngày tháng không hợp lệ";
+    }
     setValidation(msg);
     if (Object.keys(msg).length > 0) return false;
     return true;
   };
 
-  
   const register = async (e) => {
     e.preventDefault();
 
@@ -148,7 +148,6 @@ export default function Login() {
       return { ...pre, [key]: value };
     });
   };
-
   return (
     <>
       {contextHolder}
@@ -180,11 +179,7 @@ export default function Login() {
                   }}
                 />
               </div>
-              <button
-                className="btn_log"
-                type="submit"
-                onClick={login}
-              >
+              <button className="btn_log" type="submit" onClick={login}>
                 Đăng nhập
               </button>
             </form>

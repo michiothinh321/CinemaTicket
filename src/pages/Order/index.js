@@ -239,7 +239,6 @@ const Order = () => {
       setCount(count - 1);
     }
   };
-
   return (
     <>
       <div className="section-order">
@@ -351,12 +350,12 @@ const Order = () => {
                 style={{ WebkitBorderRadius: "30px 30px 0px 30px" }}
                 value="Quay lại"
               />
-              <input
+              {/* <input
                 type="button"
                 className="cons-chose"
                 value="Chọn Đồ Ăn"
                 style={{ borderRadius: "25px 0 25px 0" }}
-              />
+              /> */}
               <Link
                 to={`/payment?idRoom=${idRoom}&idFilm=${idFilm}&idShowTime=${idShowTime}`}
               >

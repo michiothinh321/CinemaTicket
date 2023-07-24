@@ -46,14 +46,14 @@
 .form_right {
   background-color: #333333;
   opacity: 0.8;
-  color: yellow;
+  color: white;
   padding: 20px 30px;
   border-radius: 20px;
 }
 
 .btn_log {
   background: white;
-  color: red;
+  color: black;
   font-size: 18px;
   padding: 10px;
   font-weight: bold;
@@ -62,4 +62,9 @@
   cursor: pointer;
   background-color: black;
   color: white;
+}
+p {
+  color: red;
+  font-size: 16px;
+  font-weight: bold;
 }

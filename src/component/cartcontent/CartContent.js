@@ -8,7 +8,7 @@ import {
   showtime as showtimeAPI,
 } from "../../API";
 import { Link } from "react-router-dom";
-
+import { DownOutlined } from "@ant-design/icons";
 const CartContent = () => {
   const [movies, setMovies] = useState([]);
   const [showtimes, setShowtimes] = useState([]);
@@ -117,9 +117,17 @@ const CartContent = () => {
               </div>
             </div>
             <div className="select-list">
-              <div className="select-header">
-                <div className="select" onClick={handleRemoveNone}>
+              <div className="select-header" onClick={handleRemoveNone}>
+                <div className="select">
                   <h3>Chọn suất chiếu</h3>
+                  <DownOutlined
+                    style={{
+                      position: "absolute",
+                      top: "13px",
+                      right: "16px",
+                      fontSize: "14px",
+                    }}
+                  />
                   <div className={flag ? "select__box" : "select__box none"}>
                     <div>
                       <div>

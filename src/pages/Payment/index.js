@@ -255,22 +255,24 @@ const PaymentContent = () => {
                           </tr>
                           <tr>
                             {details.map((detail, index) => {
-                              return (
-                                <td
-                                  key={index}
-                                  style={{
-                                    border: "1px solid black",
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    padding: "5px 12px",
-                                    fontWeight: "bolder",
-                                    margin: "2px 0",
-                                  }}
-                                >
-                                  <div>{detail.detail.chair}</div>
-                                  <div>{detail.detail.price}</div>
-                                </td>
-                              );
+                              if (!detail.checkout) {
+                                return (
+                                  <td
+                                    key={index}
+                                    style={{
+                                      border: "1px solid black",
+                                      display: "flex",
+                                      justifyContent: "space-between",
+                                      padding: "5px 12px",
+                                      fontWeight: "bolder",
+                                      margin: "2px 0",
+                                    }}
+                                  >
+                                    <div>{detail.detail.chair}</div>
+                                    <div>{detail.detail.price}</div>
+                                  </td>
+                                );
+                              }
                             })}
                           </tr>
                         </table>
