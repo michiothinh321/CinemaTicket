@@ -184,7 +184,7 @@ const Order = () => {
     if (!enable.includes(e.target.innerHTML)) {
       if (!chair.vip) {
         setEnable((pre) => [...pre, e.target.innerHTML]);
-        e.target.className += " selected";
+        e.target.className += ` selected seat-left${movie.left} seat-right${movie.right}`;
         setNumberChair((pre) => [...pre, e.target.innerHTML]);
         setPriceFilm((prev) => +film.price + prev);
         setDetailTicket((pre) => [
@@ -196,7 +196,7 @@ const Order = () => {
         ]);
       } else {
         setEnable((pre) => [...pre, e.target.innerHTML]);
-        e.target.className = "cinema-seat selected";
+        e.target.className = `cinema-seat selected seat-left${movie.left} seat-right${movie.right}`;
         setNumberChair((pre) => [...pre, e.target.innerHTML]);
         setPriceFilm((prev) => +film.price + prev + parseInt(film.priceVip));
         setDetailTicket((pre) => [
@@ -211,7 +211,7 @@ const Order = () => {
     } else {
       if (!chair.vip) {
         setEnable(enable.filter((item) => !e.target.innerHTML.includes(item)));
-        e.target.className = "cinema-seat";
+        e.target.className = `cinema-seat seat-left${movie.left} seat-right${movie.right}`;
         setNumberChair(
           enable.filter((item) => !e.target.innerHTML.includes(item))
         );
@@ -223,7 +223,7 @@ const Order = () => {
         );
       } else {
         setEnable(enable.filter((item) => !e.target.innerHTML.includes(item)));
-        e.target.className = "cinema-seat vip";
+        e.target.className = `cinema-seat vip seat-left${movie.left} seat-right${movie.right}`;
         setNumberChair(
           enable.filter((item) => !e.target.innerHTML.includes(item))
         );

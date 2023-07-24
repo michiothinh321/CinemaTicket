@@ -23,3 +23,4 @@ export { default as SearchMovie } from "./SearchMovie";
 export { default as Showtime } from "./Showtime";
 export { default as KhuyenMai } from "./KhuyenMai";
 export { default as LienHe } from "./LienHe";
+export { default as Profile } from "./Profile";

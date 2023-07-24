@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./khuyenmai.scss";
+import Slide from "../../component/header/Slide";
+import CartContent from "../../component/cartcontent/CartContent";
 const KhuyenMai = () => {
   return (
     <>
+      <Slide />
+      <CartContent />
       <div className="promotion-list-content">
         <div className="section-title">
           <h2>Các Ưu đãi</h2>

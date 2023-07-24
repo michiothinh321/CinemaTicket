@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./History.scss";
-import { Button, Modal, QRCode, Space } from "antd";
 import { useSelector } from "react-redux";
+import { Button, Modal, QRCode, Space } from "antd";
 import {
   ticket as ticketAPI,
   detailTicket as detailTicketAPI,

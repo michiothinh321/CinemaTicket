@@ -269,3 +269,27 @@
     }
   }
 }
+.cinema-btn {
+  display: block;
+  width: 100%;
+  height: auto;
+  padding: 30px 0;
+  input[type="button"] {
+    font-family: "Futurab";
+    font-weight: normal;
+    font-size: 22px;
+    text-transform: uppercase;
+    background-color: #f37520;
+    color: #fff;
+    padding: 10px 30px;
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    border: none;
+    margin: 5px;
+  }
+  .disable {
+    cursor: no-drop;
+    opacity: 0.7;
+  }
+}

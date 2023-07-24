@@ -76,7 +76,7 @@ function Header() {
                       id="qsearch"
                       type="text"
                       className="search-field"
-                      placeholder="Tìm kiếm..."
+                      placeholder="Tên phim,diễn viên, đạo diễn..."
                       onChange={handleChangeInput}
                     />
                   </form>

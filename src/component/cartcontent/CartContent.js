@@ -53,6 +53,11 @@ const CartContent = () => {
   const handleSetDate = (e) => {
     setDateMovie(e.target.value);
   };
+  const [flag, setFlag] = useState(false);
+  const handleRemoveNone = () => {
+    setFlag(!flag);
+  };
+
   return (
     <>
       <div className="card_content">
@@ -113,22 +118,47 @@ const CartContent = () => {
             </div>
             <div className="select-list">
               <div className="select-header">
-                <select>
+                <div className="select" onClick={handleRemoveNone}>
+                  <h3>Chọn suất chiếu</h3>
+                  <div className={flag ? "select__box" : "select__box none"}>
+                    <div>
+                      <div>
+                        <ul>
+                          {showtimes.map((showtime, index) => {
+                            if (showtime.date.includes(dateMovie)) {
+                              return (
+                                <>
+                                  <li className="show ">
+                                    <Link
+                                      to={`/order?idRoom=${showtime.idRoom}&idFilm=${showtime.idFilm}&idShowTime=${showtime._id}`}
+                                    >
+                                      {" "}
+                                      <h3>{showtime.timeStart}</h3>
+                                    </Link>
+                                  </li>
+                                </>
+                              );
+                            }
+                          })}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/* <select>
                   <option>Chọn suất chiếu</option>
                   {showtimes.map((showtime, index) => {
                     if (showtime.date.includes(dateMovie)) {
                       return (
                         <>
                           <option key={index} value={showtime.timeStart}>
-                            <button onClick={(e) => console.log(e)}>
-                              {showtime.timeStart}
-                            </button>
+                            {showtime.timeStart}
                           </option>
                         </>
                       );
                     }
                   })}
-                </select>
+                </select> */}
               </div>
             </div>
           </div>

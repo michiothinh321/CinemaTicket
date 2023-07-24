@@ -3,6 +3,8 @@ import { showtime as showtimeAPI, movie as movieAPI } from "../../API";
 import { notification, Button } from "antd";
 import { Link } from "react-router-dom";
 import "./detailsfilm.scss";
+import Slide from "../../component/header/Slide";
+import CartContent from "../../component/cartcontent/CartContent";
 
 export default function DetailsFilm() {
   // const keyValue = window.location.search;
@@ -99,6 +101,8 @@ export default function DetailsFilm() {
   };
   return (
     <>
+      <Slide />
+      <CartContent />
       <div className="film-details-content">
         <div className="film-details-wrap">
           <div className="film-item t-2d">

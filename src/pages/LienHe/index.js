@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./lienhe.scss";
+import Slide from "../../component/header/Slide";
+import CartContent from "../../component/cartcontent/CartContent";
 const LienHe = () => {
   return (
     <>
+      <Slide />
+      <CartContent />
       <div className="section-title">
         <h2>GỬI NỘI DUNG LIÊN HỆ</h2>
       </div>

@@ -118,31 +118,31 @@ const PaymentContent = () => {
       console.log({ error });
     }
   };
-  // const handleDeleteTicket = async () => {
-  //   ticket.map(async (ticket) => {
-  //     if (!ticket.checkout) {
-  //       const resultTicket = await ticketAPI.deleteTicket({
-  //         id: ticket._id,
-  //       });
-  //     }
-  //   });
-  //   chair.map(async (chair) => {
-  //     if (!chair.checkout) {
-  //       const resultChair = await chairAPI.deleteChair({
-  //         id: chair._id,
-  //       });
-  //     }
-  //   });
-  //   detail.map(async (e) => {
-  //     ticket.map(async (value) => {
-  //       if (!e.checkout && !value.checkout) {
-  //         const resultDetail = await detailTicketAPI.deleteDetailTicket({
-  //           id: e._id,
-  //         });
-  //       }
-  //     });
-  //   });
-  // };
+  const handleDeleteTicket = async () => {
+    tickets.map(async (ticket) => {
+      if (!ticket.checkout) {
+        const resultTicket = await ticketAPI.deleteTicket({
+          id: ticket._id,
+        });
+      }
+    });
+    chairs.map(async (chair) => {
+      if (!chair.checkout) {
+        const resultChair = await chairAPI.deleteChair({
+          id: chair._id,
+        });
+      }
+    });
+    details.map(async (e) => {
+      tickets.map(async (value) => {
+        if (!e.checkout && !value.checkout) {
+          const resultDetail = await detailTicketAPI.deleteDetailTicket({
+            id: e._id,
+          });
+        }
+      });
+    });
+  };
   return (
     <>
       {tickets.map((ticket, index) => {
@@ -286,6 +286,19 @@ const PaymentContent = () => {
                           </span>
                         </div>
                       </div>
+                    </div>
+                    <div className="cinema-btn">
+                      <Link
+                        to={`/order?idRoom=${idRoom}&idFilm=${idFilm}&idShowTime=${idShowTime}`}
+                      >
+                        <input
+                          type="button"
+                          className={"cinema-next"}
+                          value="Quay lại"
+                          style={{ WebkitBorderRadius: "30px 30px 30px 0" }}
+                          onClick={handleDeleteTicket}
+                        />
+                      </Link>
                     </div>
                   </div>
                   <div className="final-form" style={{ marginLeft: "300px" }}>

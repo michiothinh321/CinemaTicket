@@ -54,7 +54,38 @@ function SearchMovie(props) {
             }}
           >
             {searchMovies.map((item, index) => {
-              if (item.nameFilm.toLowerCase().includes(keywords)) {
+              if (
+                item.nameFilm.includes(keywords) ||
+                item.nameFilm.toLowerCase().includes(keywords)
+              ) {
+                return (
+                  <div
+                    className="movieItem"
+                    key={index}
+                    onClick={() => handleDetailFilm(item)}
+                  >
+                    <img src={item.picture} alt="" />
+                    <span>{item.nameFilm}</span>
+                  </div>
+                );
+              } else if (
+                item.actors.includes(keywords) ||
+                item.actors.toLowerCase().includes(keywords)
+              ) {
+                return (
+                  <div
+                    className="movieItem"
+                    key={index}
+                    onClick={() => handleDetailFilm(item)}
+                  >
+                    <img src={item.picture} alt="" />
+                    <span>{item.nameFilm}</span>
+                  </div>
+                );
+              } else if (
+                item.directors.includes(keywords) ||
+                item.directors.toLowerCase().includes(keywords)
+              ) {
                 return (
                   <div
                     className="movieItem"

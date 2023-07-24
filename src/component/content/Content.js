@@ -98,6 +98,7 @@ const Content = () => {
   const handleMovieFuture = (e) => {
     setMovieNow(false);
   };
+
   return (
     <>
       <div className="content-page">
@@ -139,49 +140,53 @@ const Content = () => {
               onDragEnter={onDragEnter}
             >
               {movies.map((movie, index) => {
-                return (
-                  <div
-                    key={index}
-                    className="movieItem"
-                    ref={movieRef}
-                    onMouseOver={handleMouseOver}
-                    onMouseLeave={handleMouseLeave}
-                  >
-                    <img
-                      src={`${movie.picture}`}
-                      alt=""
-                      draggable="false"
-                    ></img>
-                    <div className="movieName">{`${movie.nameFilm}`}</div>
-                    {isHovering ? (
-                      <>
-                        <div className="movie-show">
-                          <Link
-                            style={{
-                              marginBottom: "50px",
-                              background: "#e00d7a",
-                              borderRadius: "30px 30px 0 30px",
-                              textDecoration: "none",
-                            }}
-                            to={`/detailsfilm?idFilm=${movie._id}`}
-                            className="buyTicket"
-                          >
-                            Chi tiết phim
-                          </Link>
-                          <Link
-                            style={{ textDecoration: "none" }}
-                            to={`/ticket?idFilm=${movie._id}`}
-                            className="buyTicket"
-                          >
-                            Mua vé
-                          </Link>
-                        </div>
-                      </>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                );
+                if (
+                  parseInt(movie.date.slice(5, 7)) <=
+                  new Date().getMonth() + 1
+                )
+                  return (
+                    <div
+                      key={index}
+                      className="movieItem"
+                      ref={movieRef}
+                      onMouseOver={handleMouseOver}
+                      onMouseLeave={handleMouseLeave}
+                    >
+                      <img
+                        src={`${movie.picture}`}
+                        alt=""
+                        draggable="false"
+                      ></img>
+                      <div className="movieName">{`${movie.nameFilm}`}</div>
+                      {isHovering ? (
+                        <>
+                          <div className="movie-show">
+                            <Link
+                              style={{
+                                marginBottom: "50px",
+                                background: "#e00d7a",
+                                borderRadius: "30px 30px 0 30px",
+                                textDecoration: "none",
+                              }}
+                              to={`/detailsfilm?idFilm=${movie._id}`}
+                              className="buyTicket"
+                            >
+                              Chi tiết phim
+                            </Link>
+                            <Link
+                              style={{ textDecoration: "none" }}
+                              to={`/ticket?idFilm=${movie._id}`}
+                              className="buyTicket"
+                            >
+                              Mua vé
+                            </Link>
+                          </div>
+                        </>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                  );
               })}
             </div>
             <div className="btnLeft" onClick={handleScrollLeft}>
@@ -192,7 +197,61 @@ const Content = () => {
             </div>
           </div>
         ) : (
-          "phim dang chieu"
+          <div className="sub-tab">
+            <div
+              className="movie-slider"
+              style={{ gridTemplateColumns: `repeat(${movies.length}, 250px)` }}
+              ref={sliderRef}
+              draggable="true"
+              onDragStart={onDragStart}
+              onDragEnd={onDragEnd}
+              onDragEnter={onDragEnter}
+            >
+              {movies.map((movie, index) => {
+                if (
+                  parseInt(movie.date.slice(5, 7)) >
+                  new Date().getMonth() + 1
+                )
+                  return (
+                    <div
+                      key={index}
+                      className="movieItem"
+                      ref={movieRef}
+                      onMouseOver={handleMouseOver}
+                      onMouseLeave={handleMouseLeave}
+                    >
+                      <img
+                        src={`${movie.picture}`}
+                        alt=""
+                        draggable="false"
+                      ></img>
+                      <div className="movieName">{`${movie.nameFilm}`}</div>
+                      {isHovering ? (
+                        <>
+                          <div className="movie-show">
+                            <Link
+                              style={{ textDecoration: "none" }}
+                              to={`/detailsFilm?idFilm=${movie._id}`}
+                              className="buyTicket"
+                            >
+                              Chi tiết
+                            </Link>
+                          </div>
+                        </>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                  );
+              })}
+            </div>
+            <div className="btnLeft" onClick={handleScrollLeft}>
+              <FiChevronLeft />
+            </div>
+            <div className="btnRight" onClick={handleScrollRight}>
+              <FiChevronRight />
+            </div>
+          </div>
         )}
         <div className="movie-content"></div>
         <div className="promotion-content"></div>

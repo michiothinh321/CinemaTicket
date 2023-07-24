@@ -8,6 +8,7 @@ import { Carousel } from "antd";
 import { user as userAPI } from "../../API";
 import userSlice from "../../redux/userSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Slide = () => {
   const user = useSelector((state) => state.user);
@@ -27,7 +28,7 @@ const Slide = () => {
           {user ? (
             <ul>
               <li className="btn-info">
-                <button className="btn-info">{user.name}</button>
+                <a href={`/profile?idUser=${user._id}`}>{user.name}</a>
               </li>
               <li className="btn-logout">
                 <button className="btn-logout" onClick={handleLogout}>

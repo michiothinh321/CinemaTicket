@@ -24,6 +24,7 @@ import {
   Showtime,
   KhuyenMai,
   LienHe,
+  Profile,
 } from "../pages";
 import { DefaultLayout, AdminLayout } from "../layouts";
 const PrivateRoutes = ({ children }) => {
@@ -54,6 +55,11 @@ const publicRoutes = [
     path: "/khuyenmai",
     layout: DefaultLayout,
     component: KhuyenMai,
+  },
+  {
+    path: "/profile",
+    layout: DefaultLayout,
+    component: Profile,
   },
   {
     path: "/paysuccess",
