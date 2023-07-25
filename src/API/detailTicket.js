@@ -18,9 +18,9 @@ const detailTicket = {
     const url = API_BASE_URL + `/detailticket/${id}`;
     return await axios.delete(url);
   },
-  editDetailTicket: async ({ detail }) => {
-    const url = API_BASE_URL + `/detailticket/${detail.id}`;
-    return await axios.put(url, detail);
+  editDetailTicket: async ({ details }) => {
+    const url = API_BASE_URL + `/detailticket/${details.id}`;
+    return await axios.put(url, details);
   },
 };
 

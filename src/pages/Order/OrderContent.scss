@@ -168,6 +168,7 @@
       }
       &.occupied {
         background-color: red;
+        cursor: no-drop;
       }
       &.vip {
         background-color: rgb(233, 48, 171);

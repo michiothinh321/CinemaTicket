@@ -9,6 +9,7 @@ import {
   ticket as ticketAPI,
   chair as chairAPI,
   detailTicket as detailTicketAPI,
+  paypal as paypalAPI,
 } from "../../API";
 import "./PaymentContent.scss";
 const PaymentContent = () => {
@@ -19,90 +20,85 @@ const PaymentContent = () => {
   const idFilm = urlParams.get("idFilm");
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
-  const [tickets, setTickets] = useState([]);
-  const [chairs, setChairs] = useState([]);
-  const [details, setDetails] = useState([]);
-  // const [seconds, setSeconds] = useState(59);
-  // const [minutes, setMinutes] = useState(2);
-  // const timer = () => setSeconds((seconds) => seconds - 1);
+  const [ticket, setTicket] = useState([]);
+  const [chair, setChair] = useState([]);
+  const [detail, setDetail] = useState([]);
+  const [sdkReady, setSdkReady] = useState(false);
+  const [seconds, setSeconds] = useState(59);
+  const [minutes, setMinutes] = useState(2);
+  const timer = () => setSeconds((seconds) => seconds - 1);
 
   useEffect(() => {
-    if (idRoom) {
+    if (ticket) {
       (async () => {
         await getTicket();
       })();
     }
-  }, [idRoom]);
+  }, [ticket]);
   const getTicket = async () => {
     try {
       const result = await ticketAPI.getTicket({ email: user.email });
       const result1 = await chairAPI.getChair({ idRoom });
 
-      setTickets(result.data);
-      setChairs(result1.data);
+      setTicket(result.data);
+      setChair(result1.data);
     } catch (error) {
       console.log(error);
     }
   };
+
   useEffect(() => {
-    if (tickets) {
+    if (ticket) {
       (async () => {
         await getDetail();
       })();
     }
-  }, [tickets]);
+  }, [ticket]);
   const getDetail = async () => {
     try {
       const result = await detailTicketAPI.getDetailTicket({
         idShowTime,
       });
-      setDetails(result.data);
+      setDetail(result.data);
     } catch (error) {
       console.log(error);
     }
   };
+  // useEffect(() => {
+  //   if (seconds <= 0 && minutes > 0) {
+  //     setMinutes((minutes) => minutes - 1);
+  //     setSeconds(59);
+  //   }
+  //   if (minutes <= 0 && seconds <= 0) {
+  //     navigate("/");
+  //     return;
+  //   }
 
-  // // useEffect(() => {
-  // //   if (seconds <= 0 && minutes > 0) {
-  // //     setMinutes((minutes) => minutes - 1);
-  // //     setSeconds(59);
-  // //   }
-  // //   if (minutes <= 0 && seconds <= 0) {
-  // //     navigate("/");
-  // //     return;
-  // //   }
-
-  // //   const id = setInterval(timer, 1000);
-  // //   return () => clearInterval(id);
-  // // }, [seconds, minutes]);
-  const handleAddBill = async (e) => {
+  //   const id = setInterval(timer, 1000);
+  //   return () => clearInterval(id);
+  // }, [seconds, minutes]);
+  const handleAddBill = async (idTicket) => {
     try {
-      tickets.map(async (ticket) => {
-        if (!ticket.checkout) {
-          const resultTicket = await ticketAPI.checkoutTicket({
-            id: ticket._id,
-          });
-        }
+      const resultTicket = await ticketAPI.checkoutTicket({
+        id: idTicket,
       });
-      chairs.map(async (chair) => {
+      chair.map(async (chair) => {
         if (!chair.checkout) {
           const resultChair = await chairAPI.checkoutChair({
             id: chair._id,
           });
         }
       });
-      details.map(async (e) => {
-        tickets.map(async (value) => {
-          if (!e.checkout && !value.checkout) {
-            const details = {
-              idTicket: (e.idTicket = value._id),
-              id: e._id,
-            };
-            const resultDetail = await detailTicketAPI.editDetailTicket({
-              details,
-            });
-          }
-        });
+      detail.map(async (e) => {
+        if (!e.checkout) {
+          const details = {
+            idTicket: idTicket,
+            id: e._id,
+          };
+          const resultDetail = await detailTicketAPI.editDetailTicket({
+            details,
+          });
+        }
       });
       // if (result.status === 200) {
       //   api.open({
@@ -119,22 +115,22 @@ const PaymentContent = () => {
     }
   };
   const handleDeleteTicket = async () => {
-    tickets.map(async (ticket) => {
+    ticket.map(async (ticket) => {
       if (!ticket.checkout) {
         const resultTicket = await ticketAPI.deleteTicket({
           id: ticket._id,
         });
       }
     });
-    chairs.map(async (chair) => {
+    chair.map(async (chair) => {
       if (!chair.checkout) {
         const resultChair = await chairAPI.deleteChair({
           id: chair._id,
         });
       }
     });
-    details.map(async (e) => {
-      tickets.map(async (value) => {
+    detail.map(async (e) => {
+      ticket.map(async (value) => {
         if (!e.checkout && !value.checkout) {
           const resultDetail = await detailTicketAPI.deleteDetailTicket({
             id: e._id,
@@ -143,9 +139,44 @@ const PaymentContent = () => {
       });
     });
   };
+
+  useEffect(() => {
+    (async () => {
+      await addPaypalScript();
+    })();
+  }, []);
+  const addPaypalScript = async () => {
+    try {
+      const { data } = await paypalAPI.getConfig();
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = `https://www.paypal.com/sdk/js?client-id=${data.data}`;
+      script.async = true;
+      script.onload = () => {
+        setSdkReady(true);
+      };
+      document.body.appendChild(script);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
-      {tickets.map((ticket, index) => {
+      {ticket.map((ticket) => {
+        if (!ticket.checkout) {
+          return (
+            <Link key={ticket._id} to={`/paysuccess`}>
+              <button
+                className="pay_btn_main"
+                onClick={() => handleAddBill(ticket._id)}
+              >
+                THANH TOÁN
+              </button>
+            </Link>
+          );
+        }
+      })}
+      {ticket.map((ticket, index) => {
         if (!ticket.checkout) {
           return (
             <div key={index}>
@@ -254,7 +285,7 @@ const PaymentContent = () => {
                             </th>
                           </tr>
                           <tr>
-                            {details.map((detail, index) => {
+                            {detail.map((detail, index) => {
                               if (!detail.checkout) {
                                 return (
                                   <td
@@ -320,7 +351,7 @@ const PaymentContent = () => {
                         onApprove={(data, actions) => {
                           return actions.order.capture().then((details) => {
                             const name = details.payer.name.given_name;
-                            handleAddBill();
+                            handleAddBill(ticket._id);
                             navigate("/paysuccess");
                           });
                         }}
@@ -335,7 +366,7 @@ const PaymentContent = () => {
       })}
 
       {/* <div className="payment">
-        <div className="payment_left">
+          <div className="payment_left">
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <h2>THANH TOÁN</h2>
             <h2>

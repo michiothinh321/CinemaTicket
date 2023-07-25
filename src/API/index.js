@@ -9,3 +9,4 @@ export { default as showtime } from "./showtime";
 export { default as ticket } from "./ticket";
 export { default as chair } from "./chair";
 export { default as detailTicket } from "./detailTicket";
+export { default as paypal } from "./paypal";
