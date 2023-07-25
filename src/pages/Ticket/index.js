@@ -44,29 +44,24 @@ const Ticket = () => {
   };
 
   const groupedData = film.reduce((groups, item) => {
-    const { nameTheater } = item;
+    const { nameTheater, date } = item;
     if (!groups[nameTheater]) {
       groups[nameTheater] = [];
     }
-    groups[nameTheater].push(item);
+
+    groups[nameTheater].push({ item, date });
+
     return groups;
   }, {});
-  // const cats = film.reduce((catsSoFar, { date, nameTheater, timeStart }) => {
-  //   if (!catsSoFar[nameTheater]) catsSoFar[nameTheater] = [];
-  //   catsSoFar[nameTheater].push({
-  //     time: timeStart,
-  //     date: date,
-  //   });
-  //   return catsSoFar;
-  // }, []);
-  // console.log(cats);
-  // const array = [];
-  // for (let i = 0; i < film.length; i++) {
-  //   if (array.indexOf(film[i].nameTheater) === -1) {
-  //     array.push(film[i].nameTheater);
-  //   }
-  // }
 
+  Object.entries(groupedData).map(([nameTheater, items]) => {
+    items.map((item) => {
+      console.log(
+        parseInt(item.item.date.slice(8, 10)) < new Date().getDate() ||
+          parseInt(item.item.date.slice(5, 7)) < new Date().getMonth()
+      );
+    });
+  });
   return (
     <>
       <Slide />
@@ -93,61 +88,62 @@ const Ticket = () => {
                 <img src={movie.picture} alt={movie.nameFilm} />
               </div>
               <div className="film-item-txt">
-                <h3>{movie.nameFilm}</h3>
+                <h3>TÊN PHIM: {movie.nameFilm}</h3>
                 <div className="schedule-block">
                   <div className="schedule-block-load">
-                    {film.map((e) => {
-                      return (
-                        <div
-                          key={e._id}
-                          className="cinema-item"
-                          cine-id="667c7727-857e-4aac-8aeb-771a8f86cd14"
-                          cine-name={e}
-                        >
-                          <h4>Rạp chiếu phim: {e.nameTheater}</h4>
-                          <div className="row">
-                            <div className="row-date" data-date="16/07/2023">
-                              <span>
-                                {e.date
-                                  ?.slice(6, 10)
-                                  .split("-")
-                                  .reverse()
-                                  .join("/")}
-                                <br />
-                                {e.date?.slice(0, 4)}
-                              </span>
+                    {
+                      <div className="container">
+                        {Object.entries(groupedData).map(
+                          ([nameTheater, items]) => (
+                            <div key={nameTheater}>
+                              <div
+                                className="cinema-item"
+                                cine-id="667c7727-857e-4aac-8aeb-771a8f86cd14"
+                              >
+                                <h4>Rạp chiếu phim: {nameTheater}</h4>
+                              </div>
+                              <div className="row-date"></div>
+                              <div style={{ display: "flex" }}>
+                                {items.map((item, index) =>
+                                  parseInt(item.item.date.slice(8, 10)) <
+                                    new Date().getDate() ||
+                                  parseInt(item.item.date.slice(5, 7)) <
+                                    new Date().getMonth() ? (
+                                    ""
+                                  ) : (
+                                    <div
+                                      key={index}
+                                      className="cinema-item"
+                                      cine-id="667c7727-857e-4aac-8aeb-771a8f86cd14"
+                                    >
+                                      <div className="row">
+                                        <div className="row-hour">
+                                          <ul>
+                                            <Link
+                                              to={`/order?timeStart=${item.item.timeStart}&idRoom=${item.item.idRoom}&idFilm=${item.item.idFilm}&idShowTime=${item.item._id}`}
+                                            >
+                                              <li data-id="50c8c44e-e7a6-4b8e-b1fa-f4bb99a71458">
+                                                {`${item.item.date
+                                                  .slice(0, 10)
+                                                  .split("-")
+                                                  .reverse()
+                                                  .join("/")} , ${
+                                                  item.item.timeStart
+                                                }`}
+                                              </li>
+                                            </Link>
+                                          </ul>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  )
+                                )}
+                              </div>
                             </div>
-                            <div className="row-hour">
-                              <ul>
-                                <Link
-                                  to={`/order?idRoom=${e.idRoom}&idFilm=${e.idFilm}&idShowTime=${e._id}`}
-                                >
-                                  <li
-                                    data-id="50c8c44e-e7a6-4b8e-b1fa-f4bb99a71458"
-                                    data-room-name="01"
-                                  >
-                                    {e.timeStart}
-                                  </li>
-                                </Link>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                    <div className="container">
-                      <h2>React Js group array of object by key(category)</h2>
-                      {Object.entries(groupedData).map(([category, items]) => (
-                        <div key={category}>
-                          <h3>{category}</h3>
-                          <ul>
-                            {items.map((item, index) => (
-                              <li key={index}>{item.date}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
+                          )
+                        )}
+                      </div>
+                    }
                     {/* {array.map((e, index) => {
                       return (
                         <div

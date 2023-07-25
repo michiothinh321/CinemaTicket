@@ -14,9 +14,9 @@ const theater = {
     const url = API_BASE_URL + `/theater/getId/${idTheater}`;
     return await axios.get(url);
   },
-  editTheater: async ({ ...theater }) => {
-    const url = API_BASE_URL + `/theater/${theater._id}`;
-    return await axios.put(url, theater);
+  editTheater: async ({ nameTheater, address }) => {
+    const url = API_BASE_URL + `/theater/${nameTheater}`;
+    return await axios.put(url, { nameTheater, address });
   },
   deleteTheater: async ({ nameTheater }) => {
     const url = API_BASE_URL + `/theater/${nameTheater}`;

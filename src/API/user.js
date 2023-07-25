@@ -31,6 +31,14 @@ const user = {
     const url = API_BASE_URL + `/user/${user._id}`;
     return await axios.put(url, user);
   },
+  blockUser: async ({ id }) => {
+    const url = API_BASE_URL + `/user/block/${id}`;
+    return await axios.put(url, id);
+  },
+  openUser: async ({ id }) => {
+    const url = API_BASE_URL + `/user/open/${id}`;
+    return await axios.put(url, id);
+  },
   deleteUser: async ({ email, token }) => {
     const url = API_BASE_URL + `/user/${email}`;
     return await axios.delete(url, {

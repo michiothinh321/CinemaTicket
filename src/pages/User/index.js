@@ -25,23 +25,43 @@ export default function User() {
       console.log(error);
     }
   };
-  const handleDeleteUser = async (email) => {
+  const handleBlockUser = async (id) => {
     try {
-      const result = await userAPI.deleteUser({
-        email,
-        token: user.accessToken,
+      const result = await userAPI.blockUser({
+        id,
       });
       if (result.status === 200) {
         await getUserList();
         api.open({
           type: "success",
-          message: "Delete user successfully.",
+          message: "Khóa tài khoản thành công.",
         });
       }
     } catch (error) {
       api.open({
         type: "error",
-        message: "Delete user failure.",
+        message: "Khóa tài khoản thất bại.",
+      });
+      console.log(error);
+    }
+  };
+
+  const handleOpenUser = async (id) => {
+    try {
+      const result = await userAPI.openUser({
+        id,
+      });
+      if (result.status === 200) {
+        await getUserList();
+        api.open({
+          type: "success",
+          message: "Mở tài khoản thành công.",
+        });
+      }
+    } catch (error) {
+      api.open({
+        type: "error",
+        message: "Mở tài khoản thất bại.",
       });
       console.log(error);
     }
@@ -67,39 +87,102 @@ export default function User() {
             {userList.map((user, index) => {
               return (
                 <tr key={user.email}>
-                  <td>{index + 1}</td>
-                  <td>{user.email}</td>
-                  <td>{user.name}</td>
-                  <td>{user.phone}</td>
-                  <td>
-                    {user.dateOfBirth
-                      ?.slice(0, 10)
-                      .split("-")
-                      .reverse()
-                      .join("-")}
-                  </td>
-                  <td>
-                    <Button
-                      type="primary"
-                      danger
-                      htmlType="submit"
-                      onClick={() => {
-                        handleDeleteUser(user.email);
-                      }}
-                    >
-                      Xóa
-                    </Button>
-                    <Link to={`/edituser?idUser=${user._id}`}>
-                      <Button type="primary" htmlType="submit">
-                        Sửa
-                      </Button>
-                    </Link>
-                    <Link to={`/managerTicket?idUser=${user._id}`}>
-                      <Button type="primary" htmlType="submit">
-                        Quản lý vé
-                      </Button>
-                    </Link>
-                  </td>
+                  {user.disable ? (
+                    <>
+                      <td
+                        style={{
+                          background: "grey",
+                          textDecoration: "line-through",
+                        }}
+                      >
+                        {index + 1}
+                      </td>
+                      <td
+                        style={{
+                          background: "grey",
+                          textDecoration: "line-through",
+                        }}
+                      >
+                        {user.email}
+                      </td>
+                      <td
+                        style={{
+                          background: "grey",
+                          textDecoration: "line-through",
+                        }}
+                      >
+                        {user.name}
+                      </td>
+                      <td
+                        style={{
+                          background: "grey",
+                          textDecoration: "line-through",
+                        }}
+                      >
+                        {user.phone}
+                      </td>
+                      <td
+                        style={{
+                          background: "grey",
+                          textDecoration: "line-through",
+                        }}
+                      >
+                        {user.dateOfBirth
+                          ?.slice(0, 10)
+                          .split("-")
+                          .reverse()
+                          .join("-")}
+                      </td>
+                      <td>
+                        <Button
+                          type="primary"
+                          danger
+                          htmlType="submit"
+                          onClick={() => {
+                            handleOpenUser(user._id);
+                          }}
+                        >
+                          Mở Block
+                        </Button>
+                      </td>
+                    </>
+                  ) : (
+                    <>
+                      <td>{index + 1}</td>
+                      <td>{user.email}</td>
+                      <td>{user.name}</td>
+                      <td>{user.phone}</td>
+                      <td>
+                        {user.dateOfBirth
+                          ?.slice(0, 10)
+                          .split("-")
+                          .reverse()
+                          .join("-")}
+                      </td>
+                      <td>
+                        <Button
+                          type="primary"
+                          danger
+                          htmlType="submit"
+                          onClick={() => {
+                            handleBlockUser(user._id);
+                          }}
+                        >
+                          Block
+                        </Button>
+                        <Link to={`/edituser?idUser=${user._id}`}>
+                          <Button type="primary" htmlType="submit">
+                            Sửa
+                          </Button>
+                        </Link>
+                        <Link to={`/managerTicket?idUser=${user._id}`}>
+                          <Button type="primary" htmlType="submit">
+                            Quản lý vé
+                          </Button>
+                        </Link>
+                      </td>
+                    </>
+                  )}
                 </tr>
               );
             })}

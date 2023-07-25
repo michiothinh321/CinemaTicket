@@ -10,35 +10,55 @@ import {
   chair as chairAPI,
   detailTicket as detailTicketAPI,
   paypal as paypalAPI,
+  bangoi as bangoiAPI,
 } from "../../API";
 import "./PaymentContent.scss";
+import { Radio } from "antd";
 const PaymentContent = () => {
   const keyValue = window.location.search;
   const urlParams = new URLSearchParams(keyValue);
   const idRoom = urlParams.get("idRoom");
   const idShowTime = urlParams.get("idShowTime");
   const idFilm = urlParams.get("idFilm");
+  const timeStart = urlParams.get("timeStart");
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [ticket, setTicket] = useState([]);
   const [chair, setChair] = useState([]);
   const [detail, setDetail] = useState([]);
   const [sdkReady, setSdkReady] = useState(false);
+  const [bangoi, setBaNgoi] = useState([]);
   const [seconds, setSeconds] = useState(59);
   const [minutes, setMinutes] = useState(2);
   const timer = () => setSeconds((seconds) => seconds - 1);
+  const [value, setValue] = useState(1);
+
+  const onChange = (e) => {
+    setValue(e.target.value);
+  };
 
   useEffect(() => {
-    if (ticket) {
-      (async () => {
-        await getTicket();
-      })();
+    (async () => {
+      await getBaNgoi();
+    })();
+  }, []);
+  const getBaNgoi = async () => {
+    try {
+      const result = await bangoiAPI.getBaNgoi({ timeStart });
+      setBaNgoi(result.data[0]);
+    } catch (error) {
+      console.log(error);
     }
-  }, [ticket]);
+  };
+  useEffect(() => {
+    (async () => {
+      await getTicket();
+    })();
+  }, []);
   const getTicket = async () => {
     try {
       const result = await ticketAPI.getTicket({ email: user.email });
-      const result1 = await chairAPI.getChair({ idRoom });
+      const result1 = await chairAPI.getChair({ idRoom: bangoi._id });
 
       setTicket(result.data);
       setChair(result1.data);
@@ -48,12 +68,10 @@ const PaymentContent = () => {
   };
 
   useEffect(() => {
-    if (ticket) {
-      (async () => {
-        await getDetail();
-      })();
-    }
-  }, [ticket]);
+    (async () => {
+      await getDetail();
+    })();
+  }, []);
   const getDetail = async () => {
     try {
       const result = await detailTicketAPI.getDetailTicket({
@@ -162,20 +180,6 @@ const PaymentContent = () => {
   };
   return (
     <>
-      {ticket.map((ticket) => {
-        if (!ticket.checkout) {
-          return (
-            <Link key={ticket._id} to={`/paysuccess`}>
-              <button
-                className="pay_btn_main"
-                onClick={() => handleAddBill(ticket._id)}
-              >
-                THANH TOÁN
-              </button>
-            </Link>
-          );
-        }
-      })}
       {ticket.map((ticket, index) => {
         if (!ticket.checkout) {
           return (
@@ -235,7 +239,7 @@ const PaymentContent = () => {
                 </div>
                 <div className="final-content">
                   <div className="final-confirm">
-                    <p>
+                    <p style={{ fontWeight: "boder", fontSize3: "24px" }}>
                       Cảm ơn quý khách đã đến với <strong>PQT CINEMA</strong> !
                       <br /> Xin quý khách vui lòng kiểm tra lại thông tin đặt
                       vé{" "}
@@ -272,40 +276,51 @@ const PaymentContent = () => {
                             backgroundColor: "#f2f2f2",
                           }}
                         >
-                          <tr>
-                            <th
-                              rowSpan="2"
-                              style={{
-                                border: "1px solid black",
-                                width: "150px",
-                                height: "30px",
-                              }}
-                            >
-                              Ghế
-                            </th>
-                          </tr>
-                          <tr>
-                            {detail.map((detail, index) => {
-                              if (!detail.checkout) {
-                                return (
-                                  <td
-                                    key={index}
-                                    style={{
-                                      border: "1px solid black",
-                                      display: "flex",
-                                      justifyContent: "space-between",
-                                      padding: "5px 12px",
-                                      fontWeight: "bolder",
-                                      margin: "2px 0",
-                                    }}
-                                  >
-                                    <div>{detail.detail.chair}</div>
-                                    <div>{detail.detail.price}</div>
-                                  </td>
-                                );
-                              }
-                            })}
-                          </tr>
+                          <thead>
+                            <tr>
+                              <th
+                                rowSpan="2"
+                                style={{
+                                  border: "1px solid black",
+                                  width: "150px",
+                                  height: "30px",
+                                }}
+                              >
+                                Ghế
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              {detail.map((detail, index) => {
+                                if (!detail.checkout) {
+                                  return (
+                                    <td
+                                      key={index}
+                                      style={{
+                                        border: "1px solid black",
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        padding: "5px 12px",
+                                        fontWeight: "bolder",
+                                        margin: "2px 0",
+                                      }}
+                                    >
+                                      <div>{detail.detail.chair}</div>
+                                      <div>
+                                        {parseInt(
+                                          detail.detail.price
+                                        ).toLocaleString("vi", {
+                                          style: "currency",
+                                          currency: "VND",
+                                        })}
+                                      </div>
+                                    </td>
+                                  );
+                                }
+                              })}
+                            </tr>
+                          </tbody>
                         </table>
                       </div>
                       <div className="confirm-total"></div>
@@ -315,48 +330,70 @@ const PaymentContent = () => {
                         </div>
                         <div className="confirm-value">
                           <span className="cls-coupon-total">
-                            {ticket.price}
+                            {parseInt(ticket.price).toLocaleString("vi", {
+                              style: "currency",
+                              currency: "VND",
+                            })}
                           </span>
                         </div>
                       </div>
                     </div>
                     <div className="cinema-btn">
                       <Link
-                        to={`/order?idRoom=${idRoom}&idFilm=${idFilm}&idShowTime=${idShowTime}`}
+                        to={`/order?idRoom=${idRoom}&idShowTime=${idShowTime}&idFilm=${idFilm}`}
                       >
-                        <input
-                          type="button"
-                          className={"cinema-next"}
-                          value="Quay lại"
-                          style={{ WebkitBorderRadius: "30px 30px 30px 0" }}
+                        <button
+                          className="pay_btn_main"
                           onClick={handleDeleteTicket}
-                        />
+                        >
+                          QUAY LẠI
+                        </button>
                       </Link>
                     </div>
-                  </div>
-                  <div className="final-form" style={{ marginLeft: "300px" }}>
-                    <PayPalScriptProvider options={{ clientId: "test" }}>
-                      <PayPalButtons
-                        createOrder={(data, actions) => {
-                          return actions.order.create({
-                            purchase_units: [
-                              {
-                                amount: {
-                                  value: "1.99",
-                                },
-                              },
-                            ],
-                          });
-                        }}
-                        onApprove={(data, actions) => {
-                          return actions.order.capture().then((details) => {
-                            const name = details.payer.name.given_name;
-                            handleAddBill(ticket._id);
-                            navigate("/paysuccess");
-                          });
-                        }}
-                      />
-                    </PayPalScriptProvider>
+                    <div>
+                      <Radio.Group onChange={onChange} value={value}>
+                        <Radio value={1}>Thanh toán PayPal</Radio>
+                        <Radio value={2}>Thanh toán tiền mặt</Radio>
+                      </Radio.Group>
+                    </div>
+                    {value === 1 ? (
+                      <div
+                        className="final-form"
+                        style={{ marginLeft: "100px", width: "400px" }}
+                      >
+                        <PayPalScriptProvider options={{ clientId: "test" }}>
+                          <PayPalButtons
+                            createOrder={(data, actions) => {
+                              return actions.order.create({
+                                purchase_units: [
+                                  {
+                                    amount: {
+                                      value: "1.99",
+                                    },
+                                  },
+                                ],
+                              });
+                            }}
+                            onApprove={(data, actions) => {
+                              return actions.order.capture().then((details) => {
+                                const name = details.payer.name.given_name;
+                                handleAddBill(ticket._id);
+                                navigate("/paysuccess");
+                              });
+                            }}
+                          />
+                        </PayPalScriptProvider>
+                      </div>
+                    ) : (
+                      <Link key={ticket._id} to={`/paysuccess`}>
+                        <button
+                          className="pay_btn_main"
+                          onClick={() => handleAddBill(ticket._id)}
+                        >
+                          THANH TOÁN
+                        </button>
+                      </Link>
+                    )}
                   </div>
                 </div>
               </div>

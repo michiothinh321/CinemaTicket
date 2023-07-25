@@ -6,6 +6,7 @@ import { theater as theaterAPI } from "../../API";
 
 export default function Theater() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalEdit, setIsModalEdit] = useState(false);
   const [nameTheater, setNameTheater] = useState("");
   const [address, setAddress] = useState("");
   const [theater, setTheater] = useState([]);
@@ -62,6 +63,9 @@ export default function Theater() {
   // OPEN MODAL
   const showModal = () => {
     setIsModalOpen(true);
+  };
+  const showModelEdit = () => {
+    setIsModalEdit(true);
   };
 
   const handleCancel = () => {
@@ -161,11 +165,52 @@ export default function Theater() {
 
                   <td>{theater.address}</td>
                   <td>
-                    <Link to={`/edittheater?idTheater=${theater._id}`}>
-                      <Button type="primary" htmlType="submit">
-                        Sửa Rạp
-                      </Button>
-                    </Link>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      onClick={showModelEdit}
+                    >
+                      Sửa Rạp
+                    </Button>
+                    <Modal
+                      title="Sửa Rạp"
+                      open={isModalEdit}
+                      onOk={handleCancel}
+                      onCancel={handleCancel}
+                    >
+                      <Form
+                        className="form_addfilm"
+                        labelCol={{
+                          span: 4,
+                        }}
+                        wrapperCol={{
+                          span: 14,
+                        }}
+                        layout="horizontal"
+                        style={{
+                          minWidth: 600,
+                        }}
+                      >
+                        <Form.Item label="Tên rạp">
+                          <Input
+                            placeholder="Tên rạp"
+                            id="nameTheater"
+                            name="nameTheater"
+                            value={nameTheater}
+                            onChange={handleNameTheater}
+                          />
+                        </Form.Item>
+                        <Form.Item label="Địa chỉ">
+                          <Input
+                            placeholder="Địa chỉ"
+                            id="address"
+                            name="address"
+                            value={address}
+                            onChange={handleAdress}
+                          />
+                        </Form.Item>
+                      </Form>
+                    </Modal>
                     <Popconfirm
                       title="Xóa rạp"
                       description="Bạn có muốn xóa rạp này?"

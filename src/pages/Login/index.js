@@ -132,9 +132,16 @@ export default function Login() {
     e.preventDefault();
     try {
       const result = await userAPI.login(loginInfo);
-      dispatch(userSlice.actions.setUser(result.data.user));
-      document.cookie = `token=${result.data.refreshToken}`;
-      navigate("/");
+      if (result.data.user.disable) {
+        api.open({
+          type: "error",
+          message: "Tài khỏan bạn đã bị khóa vui lòng liên hệ admin để mở!!!!",
+        });
+      } else {
+        dispatch(userSlice.actions.setUser(result.data.user));
+        document.cookie = `token=${result.data.refreshToken}`;
+        navigate("/");
+      }
     } catch (error) {
       api.open({
         type: "error",

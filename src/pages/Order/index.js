@@ -5,6 +5,7 @@ import {
   ticket as ticketAPI,
   chair as chairAPI,
   detailTicket as detailTicketAPI,
+  bangoi as bangoiAPI,
 } from "../../API";
 import React, { useEffect, useState } from "react";
 import { notification } from "antd";
@@ -45,6 +46,8 @@ const Order = () => {
   const idRoom = urlParams.get("idRoom");
   const idFilm = urlParams.get("idFilm");
   const idShowTime = urlParams.get("idShowTime");
+  const timeStart = urlParams.get("timeStart");
+
   const [film, setFilm] = useState([]);
   const [movie, setMovie] = useState({});
   const [enable, setEnable] = useState([]);
@@ -57,7 +60,9 @@ const Order = () => {
   const [seconds, setSeconds] = useState(59);
   const [minutes, setMinutes] = useState(2);
   const [detailTicket, setDetailTicket] = useState([]);
+  const [bangoi, setBaNgoi] = useState({});
   const timer = () => setSeconds((seconds) => seconds - 1);
+
   // useEffect(() => {
   //   if (seconds <= 0 && minutes > 0) {
   //     setMinutes((minutes) => minutes - 1);
@@ -71,19 +76,39 @@ const Order = () => {
   //   const id = setInterval(timer, 1000);
   //   return () => clearInterval(id);
   // }, [seconds, minutes]);
+
   useEffect(() => {
-    (async () => {
-      await getMovie();
-    })();
-  }, []);
+    if (timeStart) {
+      (async () => {
+        await getBaNgoi();
+      })();
+    }
+  }, [timeStart]);
+  const getBaNgoi = async () => {
+    try {
+      const result = await bangoiAPI.getBaNgoi({ timeStart });
+      setBaNgoi(result.data[0]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (bangoi) {
+      (async () => {
+        await getMovie();
+      })();
+    }
+  }, [bangoi]);
   const getMovie = async () => {
     try {
-      const result = await roomAPI.getId({ idRoom });
+      const result = await roomAPI.getId({ idRoom: bangoi.idRoom });
       setMovie(result.data[0]);
     } catch (error) {
       console.log(error);
     }
   };
+
   useEffect(() => {
     (async () => {
       await getShowtime();
@@ -93,6 +118,22 @@ const Order = () => {
     try {
       const result = await showtimeAPI.showTime({ idShowTime });
       setFilm(result.data[0]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (bangoi) {
+      (async () => {
+        await getChair();
+      })();
+    }
+  }, [bangoi]);
+  const getChair = async () => {
+    try {
+      const result = await chairAPI.getChair({ idRoom: bangoi._id });
+      setChair(result.data);
     } catch (error) {
       console.log(error);
     }
@@ -110,7 +151,7 @@ const Order = () => {
       });
 
       const result1 = await chairAPI.addChair({
-        idRoom,
+        idRoom: bangoi._id,
         numberChair,
       });
 
@@ -135,20 +176,6 @@ const Order = () => {
       //   message: "Ticket is exsist.",
       // });
       console.log({ error });
-    }
-  };
-
-  useEffect(() => {
-    (async () => {
-      await getChair();
-    })();
-  }, []);
-  const getChair = async () => {
-    try {
-      const result = await chairAPI.getChair({ idRoom });
-      setChair(result.data);
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -184,7 +211,7 @@ const Order = () => {
     if (!enable.includes(e.target.innerHTML)) {
       if (!chair.vip) {
         setEnable((pre) => [...pre, e.target.innerHTML]);
-        e.target.className += ` selected seat-left${movie.left} seat-right${movie.right}`;
+        e.target.className += ` selected seat-left${bangoi.left} seat-right${bangoi.right}`;
         setNumberChair((pre) => [...pre, e.target.innerHTML]);
         setPriceFilm((prev) => +film.price + prev);
         setDetailTicket((pre) => [
@@ -196,7 +223,7 @@ const Order = () => {
         ]);
       } else {
         setEnable((pre) => [...pre, e.target.innerHTML]);
-        e.target.className = `cinema-seat selected seat-left${movie.left} seat-right${movie.right}`;
+        e.target.className = `cinema-seat selected seat-left${bangoi.left} seat-right${bangoi.right}`;
         setNumberChair((pre) => [...pre, e.target.innerHTML]);
         setPriceFilm((prev) => +film.price + prev + parseInt(film.priceVip));
         setDetailTicket((pre) => [
@@ -211,7 +238,7 @@ const Order = () => {
     } else {
       if (!chair.vip) {
         setEnable(enable.filter((item) => !e.target.innerHTML.includes(item)));
-        e.target.className = `cinema-seat seat-left${movie.left} seat-right${movie.right}`;
+        e.target.className = `cinema-seat seat-left${bangoi.left} seat-right${bangoi.right}`;
         setNumberChair(
           enable.filter((item) => !e.target.innerHTML.includes(item))
         );
@@ -223,7 +250,7 @@ const Order = () => {
         );
       } else {
         setEnable(enable.filter((item) => !e.target.innerHTML.includes(item)));
-        e.target.className = `cinema-seat vip seat-left${movie.left} seat-right${movie.right}`;
+        e.target.className = `cinema-seat vip seat-left${bangoi.left} seat-right${bangoi.right}`;
         setNumberChair(
           enable.filter((item) => !e.target.innerHTML.includes(item))
         );
@@ -305,8 +332,8 @@ const Order = () => {
                             <div
                               className={
                                 chair.status
-                                  ? `cinema-seat occupied seat-left${movie.left} seat-right${movie.right} `
-                                  : `cinema-seat vip seat-left${movie.left} seat-right${movie.right} `
+                                  ? `cinema-seat occupied seat-left${bangoi.left} seat-right${bangoi.right} `
+                                  : `cinema-seat vip seat-left${bangoi.left} seat-right${bangoi.right} `
                               }
                               key={indexChair}
                               onClick={(e) => handleSetChair(e, chair)}
@@ -319,8 +346,8 @@ const Order = () => {
                             <div
                               className={
                                 chair.status
-                                  ? `cinema-seat occupied seat-left${movie.left} seat-right${movie.right}`
-                                  : `cinema-seat seat-left${movie.left} seat-right${movie.right}`
+                                  ? `cinema-seat occupied seat-left${bangoi.left} seat-right${bangoi.right}`
+                                  : `cinema-seat seat-left${bangoi.left} seat-right${bangoi.right}`
                               }
                               key={indexChair}
                               onClick={(e) => handleSetChair(e, chair)}
@@ -338,10 +365,14 @@ const Order = () => {
               {/* </div> */}
             </div>
             <ul className="cinema-note">
-              <li>1</li>
-              <li>1</li>
-              <li>1</li>
-              <li>1</li>
+              <li></li>
+              <span>Ghế thường</span>
+              <li></li>
+              <span>Ghế vip</span>
+              <li></li>
+              <span>Đang chọn</span>
+              <li></li>
+              <span>Đã bán</span>
             </ul>
             <div className="cinema-btn">
               <input
@@ -357,7 +388,7 @@ const Order = () => {
                 style={{ borderRadius: "25px 0 25px 0" }}
               /> */}
               <Link
-                to={`/payment?idRoom=${idRoom}&idFilm=${idFilm}&idShowTime=${idShowTime}`}
+                to={`/payment?timeStart=${timeStart}&idRoom=${idRoom}&idFilm=${idFilm}&idShowTime=${idShowTime}`}
               >
                 <input
                   type="button"

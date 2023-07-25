@@ -41,7 +41,6 @@ export default function DetailsFilm() {
   //   }
   // };
 
-  // console.log(film);
   // const handleDeleteCategory = async (nameCategory) => {
   //   try {
   //     const result = await categoryAPI.deleteCategory({

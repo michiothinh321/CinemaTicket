@@ -90,7 +90,7 @@ export default function Area() {
           Thêm Khu Vực
         </Button>
         <Modal
-          title="Basic Modal"
+          title="Thêm khu vực"
           open={isModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}
