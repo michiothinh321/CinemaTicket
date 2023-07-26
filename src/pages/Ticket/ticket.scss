@@ -22,10 +22,38 @@
         margin: 0 5px 12px 5px;
         display: inline-block;
         .select-header {
+          margin: 50px 0;
+          background-color: rgba(0, 0, 0, 0.7);
+          width: 100%;
+          height: auto;
+          cursor: pointer;
+          position: absolute;
+          left: 0;
+          top: 0;
+          border: 2px solid rgba(255, 255, 255, 0);
           border-radius: 0 30px 30px 30px;
-          -webkit-border-radius: 0 30px 30px 30px;
-          background-color: rgba(0, 0, 0, 1);
-          border: 2px solid rgba(104, 54, 97, 1);
+
+          select {
+            display: block;
+            padding: 14px 20px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: normal;
+            font-size: 15px;
+            width: 80%;
+            margin: 0 auto;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.02);
+            text-align: left;
+            white-space: nowrap;
+            border: none;
+            outline: none;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            text-transform: uppercase;
+            option {
+              color: black;
+            }
+          }
           h3 {
             display: block;
             padding: 0 30px 0 20px;
@@ -43,6 +71,7 @@
       }
     }
     .film-block {
+      margin-top: 100px;
       position: relative;
       width: 100%;
       display: block;
@@ -60,7 +89,7 @@
           img {
             width: 100%;
             max-width: 100%;
-            height: auto;
+            height: 400px;
             display: block;
             box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.5);
           }

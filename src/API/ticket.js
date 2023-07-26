@@ -15,7 +15,7 @@ const ticket = {
     return await axios.put(url, ticket);
   },
   deleteTicket: async ({ id }) => {
-    const url = API_BASE_URL + `/ticket/${id}`;
+    const url = API_BASE_URL + `/ticket/delete/${id}`;
     return await axios.delete(url);
   },
 };

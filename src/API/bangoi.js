@@ -6,8 +6,8 @@ const bangoi = {
     const url = API_BASE_URL + "/bangoi/addBaNgoi";
     return await axios.post(url, data);
   },
-  getBaNgoi: async ({ timeStart }) => {
-    const url = API_BASE_URL + `/bangoi/${timeStart}`;
+  getBaNgoi: async ({ timeStart, idRoom, idFilm }) => {
+    const url = API_BASE_URL + `/bangoi/${timeStart}&${idRoom}&${idFilm}`;
     return await axios.get(url);
   },
 };

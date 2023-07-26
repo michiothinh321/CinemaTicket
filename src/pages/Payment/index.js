@@ -38,23 +38,27 @@ const PaymentContent = () => {
   };
 
   useEffect(() => {
-    (async () => {
-      await getBaNgoi();
-    })();
-  }, []);
+    if (timeStart && idRoom && idFilm) {
+      (async () => {
+        await getBaNgoi();
+      })();
+    }
+  }, [timeStart, idRoom, idFilm]);
   const getBaNgoi = async () => {
     try {
-      const result = await bangoiAPI.getBaNgoi({ timeStart });
+      const result = await bangoiAPI.getBaNgoi({ timeStart, idRoom, idFilm });
       setBaNgoi(result.data[0]);
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
-    (async () => {
-      await getTicket();
-    })();
-  }, []);
+    if (bangoi._id && user.email) {
+      (async () => {
+        await getTicket();
+      })();
+    }
+  }, [bangoi._id, user.email]);
   const getTicket = async () => {
     try {
       const result = await ticketAPI.getTicket({ email: user.email });
@@ -66,12 +70,13 @@ const PaymentContent = () => {
       console.log(error);
     }
   };
-
   useEffect(() => {
-    (async () => {
-      await getDetail();
-    })();
-  }, []);
+    if (idShowTime) {
+      (async () => {
+        await getDetail();
+      })();
+    }
+  }, [idShowTime]);
   const getDetail = async () => {
     try {
       const result = await detailTicketAPI.getDetailTicket({
@@ -132,6 +137,7 @@ const PaymentContent = () => {
       console.log({ error });
     }
   };
+
   const handleDeleteTicket = async () => {
     ticket.map(async (ticket) => {
       if (!ticket.checkout) {
@@ -148,20 +154,21 @@ const PaymentContent = () => {
       }
     });
     detail.map(async (e) => {
-      ticket.map(async (value) => {
-        if (!e.checkout && !value.checkout) {
-          const resultDetail = await detailTicketAPI.deleteDetailTicket({
-            id: e._id,
-          });
-        }
-      });
+      if (!e.checkout) {
+        const resultDetail = await detailTicketAPI.deleteDetailTicket({
+          id: e._id,
+        });
+      }
     });
   };
-
   useEffect(() => {
-    (async () => {
-      await addPaypalScript();
-    })();
+    if (!window.paypal) {
+      (async () => {
+        await addPaypalScript();
+      })();
+    } else {
+      sdkReady(true);
+    }
   }, []);
   const addPaypalScript = async () => {
     try {
@@ -340,7 +347,7 @@ const PaymentContent = () => {
                     </div>
                     <div className="cinema-btn">
                       <Link
-                        to={`/order?idRoom=${idRoom}&idShowTime=${idShowTime}&idFilm=${idFilm}`}
+                        to={`/order?timeStart=${timeStart}&idRoom=${idRoom}&idShowTime=${idShowTime}&idFilm=${idFilm}`}
                       >
                         <button
                           className="pay_btn_main"
@@ -352,11 +359,11 @@ const PaymentContent = () => {
                     </div>
                     <div>
                       <Radio.Group onChange={onChange} value={value}>
-                        <Radio value={1}>Thanh toán PayPal</Radio>
-                        <Radio value={2}>Thanh toán tiền mặt</Radio>
+                        <Radio value="tm">Thanh toán tiền mặt</Radio>
+                        <Radio value="paypal">Thanh toán PayPal</Radio>
                       </Radio.Group>
                     </div>
-                    {value === 1 ? (
+                    {value === "paypal" && sdkReady ? (
                       <div
                         className="final-form"
                         style={{ marginLeft: "100px", width: "400px" }}

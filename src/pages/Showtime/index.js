@@ -20,6 +20,7 @@ import {
   showtime as showtimeAPI,
   bangoi as bangoiAPI,
 } from "../../API";
+import { DeleteOutlined } from "@ant-design/icons";
 
 export default function Showtime() {
   const [api, contextHolder] = notification.useNotification();
@@ -189,23 +190,23 @@ export default function Showtime() {
       console.log(error);
     }
   };
-  //XOA PHIM
-  const handleDeleteMovie = async (nameFilm) => {
+  //XOA Xuat
+  const handleDeleteShowtime = async (id) => {
     try {
-      const result = await movieAPI.deleteMovie({
-        nameFilm,
+      const result = await showtimeAPI.delete({
+        id,
       });
       if (result.status === 200) {
-        await getMovieList();
+        await getShowtime();
         api.open({
           type: "success",
-          message: "Xóa phim thành công.",
+          message: "Xóa suất chiếu thành công.",
         });
       }
     } catch (error) {
       api.open({
         type: "error",
-        message: "Xóa phim thất bại.",
+        message: "Xóa suất chiếu thất bại.",
       });
       console.log(error);
     }
@@ -421,7 +422,12 @@ export default function Showtime() {
                           currency: "VND",
                         })}
                       </td>
-                      <td>{index}</td>
+                      <td>
+                        <DeleteOutlined
+                          style={{ color: "red", cursor: "pointer" }}
+                          onClick={() => handleDeleteShowtime(showtime._id)}
+                        />
+                      </td>
                     </tr>
                   );
                 })}

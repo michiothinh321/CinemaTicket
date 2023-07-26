@@ -31,7 +31,6 @@ export default function Theater() {
       console.log(error);
     }
   };
-
   const handleNameTheater = (e) => {
     setNameTheater(e.target.value);
   };
@@ -59,7 +58,6 @@ export default function Theater() {
       console.log(error);
     }
   };
-
   // OPEN MODAL
   const showModal = () => {
     setIsModalOpen(true);

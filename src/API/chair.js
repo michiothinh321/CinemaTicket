@@ -11,12 +11,12 @@ const chair = {
     return await axios.get(url);
   },
   deleteChair: async ({ id }) => {
-    const url = API_BASE_URL + `/chair/${id}`;
+    const url = API_BASE_URL + `/chair/delete/${id}`;
     return await axios.delete(url);
   },
   checkoutChair: async ({ id }) => {
     const url = API_BASE_URL + `/chair/${id}`;
-    return await axios.put(url, chair);
+    return await axios.put(url, id);
   },
 };
 

@@ -11,6 +11,8 @@ const Ticket = () => {
   const [movie, setMovie] = useState({});
   const [film, setFilm] = useState([]);
   const [open, setOpen] = useState(false);
+  const [nameTheaters, setNameTheaters] = useState("");
+
   useEffect(() => {
     if (idFilm) {
       (async () => {
@@ -55,11 +57,13 @@ const Ticket = () => {
   }, {});
 
   Object.entries(groupedData).map(([nameTheater, items]) => {
-    items.map((item) => {
-      console.log(
-        parseInt(item.item.date.slice(8, 10)) < new Date().getDate() ||
-          parseInt(item.item.date.slice(5, 7)) < new Date().getMonth()
-      );
+    items.map((e) => {
+      if (
+        e.item.date.slice(5, 7) >= new Date().getMonth() + 1 ||
+        e.item.date.slice(8.1) >= new Date().getDate()
+      ) {
+        console.log(e);
+      }
     });
   });
   return (
@@ -71,14 +75,14 @@ const Ticket = () => {
           <div className="searh-block">
             <div className="select-list">
               <div className="select-header">
-                <span></span>
-                <h3>CineStar Hai Bà Trưng (TP.HCM)</h3>
-              </div>
-            </div>
-            <div className="select-list">
-              <div className="select-header">
-                <span></span>
-                <h3>CineStar Hai Bà Trưng (TP.HCM)</h3>
+                <select onChange={(e) => setNameTheaters(e.target.value)}>
+                  <option>Chọn rạp</option>
+                  {Object.entries(groupedData).map(([nameTheater, items]) => (
+                    <option value={nameTheater} key={nameTheater}>
+                      {nameTheater}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
           </div>
@@ -94,97 +98,59 @@ const Ticket = () => {
                     {
                       <div className="container">
                         {Object.entries(groupedData).map(
-                          ([nameTheater, items]) => (
-                            <div key={nameTheater}>
-                              <div
-                                className="cinema-item"
-                                cine-id="667c7727-857e-4aac-8aeb-771a8f86cd14"
-                              >
-                                <h4>Rạp chiếu phim: {nameTheater}</h4>
-                              </div>
-                              <div className="row-date"></div>
-                              <div style={{ display: "flex" }}>
-                                {items.map((item, index) =>
-                                  parseInt(item.item.date.slice(8, 10)) <
-                                    new Date().getDate() ||
-                                  parseInt(item.item.date.slice(5, 7)) <
-                                    new Date().getMonth() ? (
-                                    ""
-                                  ) : (
-                                    <div
-                                      key={index}
-                                      className="cinema-item"
-                                      cine-id="667c7727-857e-4aac-8aeb-771a8f86cd14"
-                                    >
-                                      <div className="row">
-                                        <div className="row-hour">
-                                          <ul>
-                                            <Link
-                                              to={`/order?timeStart=${item.item.timeStart}&idRoom=${item.item.idRoom}&idFilm=${item.item.idFilm}&idShowTime=${item.item._id}`}
-                                            >
-                                              <li data-id="50c8c44e-e7a6-4b8e-b1fa-f4bb99a71458">
-                                                {`${item.item.date
-                                                  .slice(0, 10)
-                                                  .split("-")
-                                                  .reverse()
-                                                  .join("/")} , ${
-                                                  item.item.timeStart
-                                                }`}
-                                              </li>
-                                            </Link>
-                                          </ul>
+                          ([nameTheater, items]) =>
+                            nameTheater === nameTheaters ? (
+                              <div key={nameTheater}>
+                                <div
+                                  className="cinema-item"
+                                  cine-id="667c7727-857e-4aac-8aeb-771a8f86cd14"
+                                >
+                                  <h4>Rạp chiếu phim: {nameTheater}</h4>
+                                </div>
+                                <div className="row-date"></div>
+                                <div style={{ display: "flex" }}>
+                                  {items.map((item, index) =>
+                                    parseInt(item.item.date.slice(5, 7)) >=
+                                      new Date().getMonth() + 1 ||
+                                    parseInt(item.item.date.slice(8, 10)) >=
+                                      new Date().getDate() ? (
+                                      <div
+                                        key={index}
+                                        className="cinema-item"
+                                        cine-id="667c7727-857e-4aac-8aeb-771a8f86cd14"
+                                      >
+                                        <div className="row">
+                                          <div className="row-hour">
+                                            <ul>
+                                              <Link
+                                                to={`/order?timeStart=${item.item.timeStart}&idRoom=${item.item.idRoom}&idFilm=${item.item.idFilm}&idShowTime=${item.item._id}`}
+                                              >
+                                                <li data-id="50c8c44e-e7a6-4b8e-b1fa-f4bb99a71458">
+                                                  {`${item.item.date
+                                                    .slice(0, 10)
+                                                    .split("-")
+                                                    .reverse()
+                                                    .join("/")} , ${
+                                                    item.item.timeStart
+                                                  }`}
+                                                </li>
+                                              </Link>
+                                            </ul>
+                                          </div>
                                         </div>
                                       </div>
-                                    </div>
-                                  )
-                                )}
+                                    ) : (
+                                      ""
+                                    )
+                                  )}
+                                </div>
                               </div>
-                            </div>
-                          )
+                            ) : (
+                              ""
+                            )
                         )}
                       </div>
                     }
-                    {/* {array.map((e, index) => {
-                      return (
-                        <div
-                          key={index}
-                          className="cinema-item"
-                          cine-id="667c7727-857e-4aac-8aeb-771a8f86cd14"
-                          cine-name={e}
-                        >
-                          <h4>Rạp chiếu phim: {e}</h4>
-
-                          <div className="row">
-                            <div className="row-date" data-date="16/07/2023">
-                              <span>
-                                12/5
-                                <br />
-                                2023
-                              </span>
-                            </div>
-
-                            <div className="row-hour">
-                              <ul>
-                                {cats[e].map((cat, index) => {
-                                  return (
-                                    <li
-                                      key={index}
-                                      data-id="50c8c44e-e7a6-4b8e-b1fa-f4bb99a71458"
-                                      data-room-name="01"
-                                      onClick={(e) => {
-                                        console.log(e);
-                                      }}
-                                    >
-                                      {cat.time}
-                                    </li>
-                                  );
-                                })}
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })} */}
                   </div>
                 </div>
               </div>

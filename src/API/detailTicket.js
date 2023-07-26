@@ -15,7 +15,7 @@ const detailTicket = {
     return await axios.get(url);
   },
   deleteDetailTicket: async ({ id }) => {
-    const url = API_BASE_URL + `/detailticket/${id}`;
+    const url = API_BASE_URL + `/detailticket/delete/${id}`;
     return await axios.delete(url);
   },
   editDetailTicket: async ({ details }) => {
