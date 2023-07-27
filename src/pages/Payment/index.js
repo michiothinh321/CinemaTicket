@@ -32,7 +32,6 @@ const PaymentContent = () => {
   const [minutes, setMinutes] = useState(2);
   const timer = () => setSeconds((seconds) => seconds - 1);
   const [value, setValue] = useState(1);
-
   const onChange = (e) => {
     setValue(e.target.value);
   };
@@ -100,10 +99,31 @@ const PaymentContent = () => {
   //   const id = setInterval(timer, 1000);
   //   return () => clearInterval(id);
   // }, [seconds, minutes]);
+
+  ticket.map(async (ticket) => {
+    if (!ticket.checkout) {
+      console.log(ticket);
+    }
+  });
   const handleAddBill = async (idTicket) => {
     try {
-      const resultTicket = await ticketAPI.checkoutTicket({
-        id: idTicket,
+      ticket.map(async (ticket) => {
+        if (!ticket.checkout) {
+          const resultTicket = await ticketAPI.checkoutTicket({
+            ve: {
+              user: user.email,
+              ghe: ticket.chair,
+              tenPhim: ticket.nameFilm,
+              tenPhong: ticket.nameRoom,
+              tenRap: ticket.nameTheater,
+              ngay: ticket.date,
+              hinhAnh: ticket.picture,
+              gia: ticket.price,
+              gioChieu: ticket.timeStart,
+            },
+            id: idTicket,
+          });
+        }
       });
       chair.map(async (chair) => {
         if (!chair.checkout) {

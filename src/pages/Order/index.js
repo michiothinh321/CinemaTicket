@@ -78,12 +78,12 @@ const Order = () => {
   // }, [seconds, minutes]);
 
   useEffect(() => {
-    if (timeStart) {
+    if (timeStart && idRoom && idFilm) {
       (async () => {
         await getBaNgoi();
       })();
     }
-  }, [timeStart]);
+  }, [timeStart, idRoom, idFilm]);
   const getBaNgoi = async () => {
     try {
       const result = await bangoiAPI.getBaNgoi({ timeStart, idRoom, idFilm });
@@ -92,14 +92,13 @@ const Order = () => {
       console.log(error);
     }
   };
-
   useEffect(() => {
-    if (bangoi.idRoom) {
+    if (bangoi) {
       (async () => {
         await getMovie();
       })();
     }
-  }, [bangoi.idRoom]);
+  }, [bangoi]);
   const getMovie = async () => {
     try {
       const result = await roomAPI.getId({ idRoom: bangoi.idRoom });

@@ -10,9 +10,9 @@ const ticket = {
     const url = API_BASE_URL + `/ticket/${email}`;
     return await axios.get(url);
   },
-  checkoutTicket: async ({ id }) => {
+  checkoutTicket: async ({ id, ve }) => {
     const url = API_BASE_URL + `/ticket/${id}`;
-    return await axios.put(url, ticket);
+    return await axios.put(url, { id, ve });
   },
   deleteTicket: async ({ id }) => {
     const url = API_BASE_URL + `/ticket/delete/${id}`;
