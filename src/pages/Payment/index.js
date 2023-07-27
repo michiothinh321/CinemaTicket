@@ -112,11 +112,11 @@ const PaymentContent = () => {
           const resultTicket = await ticketAPI.checkoutTicket({
             ve: {
               user: user.email,
-              ghe: ticket.chair,
+              ghe: ticket.chairs,
               tenPhim: ticket.nameFilm,
               tenPhong: ticket.nameRoom,
               tenRap: ticket.nameTheater,
-              ngay: ticket.date,
+              ngay: ticket.newDate,
               hinhAnh: ticket.picture,
               gia: ticket.price,
               gioChieu: ticket.timeStart,
@@ -157,7 +157,11 @@ const PaymentContent = () => {
       console.log({ error });
     }
   };
-
+  ticket.map((e) => {
+    if (!e.checkout) {
+      console.log(e);
+    }
+  });
   const handleDeleteTicket = async () => {
     ticket.map(async (ticket) => {
       if (!ticket.checkout) {
@@ -205,6 +209,7 @@ const PaymentContent = () => {
       console.log(error);
     }
   };
+  console.log(ticket);
   return (
     <>
       {ticket.map((ticket, index) => {
@@ -227,7 +232,7 @@ const PaymentContent = () => {
                       <li>
                         <p className="caption">Ngày</p>
                         <p className="value">
-                          {ticket.date
+                          {ticket.newDate
                             ?.slice(0, 10)
                             .split("-")
                             .reverse()
@@ -288,6 +293,7 @@ const PaymentContent = () => {
                                 .join("/")}
                             </strong>
                           </p>
+                          <img src="" alt=""></img>
                           <p>
                             Xuất chiếu: <strong>{ticket.timeStart}</strong>
                           </p>

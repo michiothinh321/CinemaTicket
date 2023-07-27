@@ -37,7 +37,6 @@ export default function Theater() {
   const handleAdress = (e) => {
     setAddress(e.target.value);
   };
-
   const handleDeleteTheater = async (nameTheater) => {
     try {
       const result = await theaterAPI.deleteTheater({
@@ -70,7 +69,12 @@ export default function Theater() {
     setIsModalOpen(false);
     window.location.reload(true);
   };
-  const confirm = (e) => handleDeleteTheater(e);
+  const confirm = (e) => {
+    handleDeleteTheater(e);
+  };
+  const cancel = (e) => {
+    console.log(e);
+  };
 
   const handleAddTheater = async () => {
     try {
@@ -210,15 +214,14 @@ export default function Theater() {
                       </Form>
                     </Modal>
                     <Popconfirm
-                      title="Xóa rạp"
-                      description="Bạn có muốn xóa rạp này?"
+                      title="Delete the task"
+                      description="Are you sure to delete this task?"
                       onConfirm={() => confirm(theater.nameTheater)}
+                      onCancel={cancel}
                       okText="Yes"
                       cancelText="No"
                     >
-                      <Button type="primary" danger>
-                        Xóa rạp
-                      </Button>
+                      <Button danger>Xóa rạp</Button>
                     </Popconfirm>
                     <Link
                       to={`/room?idArea=${theater.idArea}&idTheater=${theater._id}`}

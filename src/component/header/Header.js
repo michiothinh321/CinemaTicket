@@ -87,7 +87,7 @@ function Header() {
                   <Link to="/">Phim</Link>
                 </li>
                 <li>
-                  <Link to="/">Lịch chiếu</Link>
+                  <Link to="/lichchieu">Lịch chiếu</Link>
                 </li>
                 <li>
                   <Link to="/khuyenmai">Rạp giá & Khuyễn mãi</Link>

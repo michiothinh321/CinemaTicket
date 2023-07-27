@@ -46,37 +46,6 @@ const KhuyenMai = () => {
           <div className="promotion-block">
             <div className="promotion-block-pic">
               <img
-                src="	https://cinestar.com.vn/pictures/c_monday.jpg"
-                alt="pic"
-              />
-            </div>
-            <div className="promotion-block-txt">
-              <h3>C'MONDAY - ƯU ĐÃI THỨ 2</h3>
-              <p>
-                <strong style={{ fontSize: "18px", fontWeight: "normal" }}>
-                  <span>
-                    - Giá vé ưu đãi: 45.000 đ/vé 2D và 55.000 đ/vé 3D.
-                  </span>
-                </strong>
-              </p>
-              <p>
-                <strong style={{ fontSize: "18px", fontWeight: "normal" }}>
-                  <span>
-                    - Thời gian: Áp dụng cho tất cả các suất chiếu ngày Thứ Hai
-                    hàng tuần
-                  </span>
-                </strong>
-              </p>
-              <p>
-                <strong style={{ fontSize: "18px", fontWeight: "normal" }}>
-                  <span>- Lưu ý: Không áp dụng cho các ngày lễ/tết.</span>
-                </strong>
-              </p>
-            </div>
-          </div>
-          <div className="promotion-block">
-            <div className="promotion-block-pic">
-              <img
                 src="https://cinestar.com.vn/pictures/H%C3%ACnh%20n%E1%BB%81n%20CTKM/c'member.jpg"
                 alt="pic"
               />

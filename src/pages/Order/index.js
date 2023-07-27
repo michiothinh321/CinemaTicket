@@ -62,7 +62,7 @@ const Order = () => {
   const [detailTicket, setDetailTicket] = useState([]);
   const [bangoi, setBaNgoi] = useState({});
   const timer = () => setSeconds((seconds) => seconds - 1);
-
+  const thu = new Date(film.date).getDay();
   // useEffect(() => {
   //   if (seconds <= 0 && minutes > 0) {
   //     setMinutes((minutes) => minutes - 1);
@@ -78,12 +78,12 @@ const Order = () => {
   // }, [seconds, minutes]);
 
   useEffect(() => {
-    if (timeStart && idRoom && idFilm) {
+    if (timeStart) {
       (async () => {
         await getBaNgoi();
       })();
     }
-  }, [timeStart, idRoom, idFilm]);
+  }, [timeStart]);
   const getBaNgoi = async () => {
     try {
       const result = await bangoiAPI.getBaNgoi({ timeStart, idRoom, idFilm });
@@ -92,13 +92,14 @@ const Order = () => {
       console.log(error);
     }
   };
+
   useEffect(() => {
-    if (bangoi) {
+    if (bangoi.idRoom) {
       (async () => {
         await getMovie();
       })();
     }
-  }, [bangoi]);
+  }, [bangoi.idRoom]);
   const getMovie = async () => {
     try {
       const result = await roomAPI.getId({ idRoom: bangoi.idRoom });
@@ -109,10 +110,12 @@ const Order = () => {
   };
 
   useEffect(() => {
-    (async () => {
-      await getShowtime();
-    })();
-  }, []);
+    if (idShowTime) {
+      (async () => {
+        await getShowtime();
+      })();
+    }
+  }, [idShowTime]);
   const getShowtime = async () => {
     try {
       const result = await showtimeAPI.showTime({ idShowTime });
@@ -121,7 +124,7 @@ const Order = () => {
       console.log(error);
     }
   };
-
+  console.log(film);
   useEffect(() => {
     if (bangoi) {
       (async () => {
@@ -208,69 +211,134 @@ const Order = () => {
   //CHON GHE
   const handleSetChair = (e, chair) => {
     if (e.target.className.indexOf("occupied") === -1) {
-      if (!enable.includes(e.target.innerHTML)) {
-        if (!chair.vip) {
-          setEnable((pre) => [...pre, e.target.innerHTML]);
-          e.target.className += ` selected seat-left${bangoi.left} seat-right${bangoi.right}`;
-          setNumberChair((pre) => [...pre, e.target.innerHTML]);
-          setPriceFilm((prev) => +film.price + prev);
-          setDetailTicket((pre) => [
-            ...pre,
-            {
-              price: film.price,
-              chair: e.target.innerHTML,
-            },
-          ]);
+      if (thu === 1 || thu === 3) {
+        if (!enable.includes(e.target.innerHTML)) {
+          if (!chair.vip) {
+            setEnable((pre) => [...pre, e.target.innerHTML]);
+            e.target.className += ` selected seat-left${bangoi.left} seat-right${bangoi.right}`;
+            setNumberChair((pre) => [...pre, e.target.innerHTML]);
+            setPriceFilm((prev) => 45000 + prev);
+            setDetailTicket((pre) => [
+              ...pre,
+              {
+                price: film.price,
+                chair: e.target.innerHTML,
+              },
+            ]);
+          } else {
+            setEnable((pre) => [...pre, e.target.innerHTML]);
+            e.target.className = `cinema-seat selected seat-left${bangoi.left} seat-right${bangoi.right}`;
+            setNumberChair((pre) => [...pre, e.target.innerHTML]);
+            setPriceFilm((prev) => 55000 + prev);
+            setDetailTicket((pre) => [
+              ...pre,
+              {
+                price: +film.price + parseInt(film.priceVip),
+                chair: e.target.innerHTML,
+              },
+            ]);
+          }
+          setCount(count + 1);
         } else {
-          setEnable((pre) => [...pre, e.target.innerHTML]);
-          e.target.className = `cinema-seat selected seat-left${bangoi.left} seat-right${bangoi.right}`;
-          setNumberChair((pre) => [...pre, e.target.innerHTML]);
-          setPriceFilm((prev) => +film.price + prev + parseInt(film.priceVip));
-          setDetailTicket((pre) => [
-            ...pre,
-            {
-              price: +film.price + parseInt(film.priceVip),
-              chair: e.target.innerHTML,
-            },
-          ]);
+          if (!chair.vip) {
+            setEnable(
+              enable.filter((item) => !e.target.innerHTML.includes(item))
+            );
+            e.target.className = `cinema-seat seat-left${bangoi.left} seat-right${bangoi.right}`;
+            setNumberChair(
+              enable.filter((item) => !e.target.innerHTML.includes(item))
+            );
+            setPriceFilm((prev) => prev - 45000);
+            setDetailTicket(
+              detailTicket.filter(
+                (item) => !e.target.innerHTML.includes(item.chair)
+              )
+            );
+          } else {
+            setEnable(
+              enable.filter((item) => !e.target.innerHTML.includes(item))
+            );
+            e.target.className = `cinema-seat vip seat-left${bangoi.left} seat-right${bangoi.right}`;
+            setNumberChair(
+              enable.filter((item) => !e.target.innerHTML.includes(item))
+            );
+            setPriceFilm((prev) => prev - 55000);
+            setDetailTicket(
+              detailTicket.filter(
+                (item) => !e.target.innerHTML.includes(item.chair)
+              )
+            );
+          }
+          setCount(count - 1);
         }
-        setCount(count + 1);
       } else {
-        if (!chair.vip) {
-          setEnable(
-            enable.filter((item) => !e.target.innerHTML.includes(item))
-          );
-          e.target.className = `cinema-seat seat-left${bangoi.left} seat-right${bangoi.right}`;
-          setNumberChair(
-            enable.filter((item) => !e.target.innerHTML.includes(item))
-          );
-          setPriceFilm((prev) => prev - parseInt(film.price));
-          setDetailTicket(
-            detailTicket.filter(
-              (item) => !e.target.innerHTML.includes(item.chair)
-            )
-          );
+        if (!enable.includes(e.target.innerHTML)) {
+          if (!chair.vip) {
+            setEnable((pre) => [...pre, e.target.innerHTML]);
+            e.target.className += ` selected seat-left${bangoi.left} seat-right${bangoi.right}`;
+            setNumberChair((pre) => [...pre, e.target.innerHTML]);
+            setPriceFilm((prev) => +film.price + prev);
+            setDetailTicket((pre) => [
+              ...pre,
+              {
+                price: film.price,
+                chair: e.target.innerHTML,
+              },
+            ]);
+          } else {
+            setEnable((pre) => [...pre, e.target.innerHTML]);
+            e.target.className = `cinema-seat selected seat-left${bangoi.left} seat-right${bangoi.right}`;
+            setNumberChair((pre) => [...pre, e.target.innerHTML]);
+            setPriceFilm(
+              (prev) => +film.price + prev + parseInt(film.priceVip)
+            );
+            setDetailTicket((pre) => [
+              ...pre,
+              {
+                price: +film.price + parseInt(film.priceVip),
+                chair: e.target.innerHTML,
+              },
+            ]);
+          }
+          setCount(count + 1);
         } else {
-          setEnable(
-            enable.filter((item) => !e.target.innerHTML.includes(item))
-          );
-          e.target.className = `cinema-seat vip seat-left${bangoi.left} seat-right${bangoi.right}`;
-          setNumberChair(
-            enable.filter((item) => !e.target.innerHTML.includes(item))
-          );
-          setPriceFilm(
-            (prev) => prev - parseInt(film.price) - parseInt(film.priceVip)
-          );
-          setDetailTicket(
-            detailTicket.filter(
-              (item) => !e.target.innerHTML.includes(item.chair)
-            )
-          );
+          if (!chair.vip) {
+            setEnable(
+              enable.filter((item) => !e.target.innerHTML.includes(item))
+            );
+            e.target.className = `cinema-seat seat-left${bangoi.left} seat-right${bangoi.right}`;
+            setNumberChair(
+              enable.filter((item) => !e.target.innerHTML.includes(item))
+            );
+            setPriceFilm((prev) => prev - parseInt(film.price));
+            setDetailTicket(
+              detailTicket.filter(
+                (item) => !e.target.innerHTML.includes(item.chair)
+              )
+            );
+          } else {
+            setEnable(
+              enable.filter((item) => !e.target.innerHTML.includes(item))
+            );
+            e.target.className = `cinema-seat vip seat-left${bangoi.left} seat-right${bangoi.right}`;
+            setNumberChair(
+              enable.filter((item) => !e.target.innerHTML.includes(item))
+            );
+            setPriceFilm(
+              (prev) => prev - parseInt(film.price) - parseInt(film.priceVip)
+            );
+            setDetailTicket(
+              detailTicket.filter(
+                (item) => !e.target.innerHTML.includes(item.chair)
+              )
+            );
+          }
+          setCount(count - 1);
         }
-        setCount(count - 1);
       }
     }
   };
+
   return (
     <>
       <div className="section-order">

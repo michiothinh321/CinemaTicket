@@ -25,6 +25,7 @@ import {
   KhuyenMai,
   LienHe,
   Profile,
+  LichChieu,
 } from "../pages";
 import { DefaultLayout, AdminLayout } from "../layouts";
 const PrivateRoutes = ({ children }) => {
@@ -125,6 +126,11 @@ const publicRoutes = [
     path: "/login",
     layout: DefaultLayout,
     component: Login,
+  },
+  {
+    path: "/lichchieu",
+    layout: DefaultLayout,
+    component: LichChieu,
   },
   {
     path: "/addfilm",

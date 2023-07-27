@@ -24,3 +24,4 @@ export { default as Showtime } from "./Showtime";
 export { default as KhuyenMai } from "./KhuyenMai";
 export { default as LienHe } from "./LienHe";
 export { default as Profile } from "./Profile";
+export { default as LichChieu } from "./LichChieu";

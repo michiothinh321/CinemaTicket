@@ -1,0 +1,212 @@
+.schedule-detail-content {
+  position: relative;
+  width: 100%;
+  height: auto;
+  padding: 0;
+  padding-top: 40px;
+  .schedule-detail-wrap {
+    position: relative;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    .searh-block {
+      position: relative;
+      width: 100%;
+      display: block;
+      margin-bottom: 30px;
+      text-align: center;
+      .select-list {
+        position: relative;
+        height: 20px;
+        width: 280px;
+        margin: 0 5px 12px 5px;
+        display: inline-block;
+        .select-header {
+          margin: 50px 0;
+          background-color: rgba(0, 0, 0, 0.7);
+          width: 100%;
+          height: auto;
+          cursor: pointer;
+          position: absolute;
+          left: 0;
+          top: 0;
+          border: 2px solid rgba(255, 255, 255, 0);
+          border-radius: 0 30px 30px 30px;
+
+          select {
+            display: block;
+            padding: 14px 20px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: normal;
+            font-size: 15px;
+            width: 80%;
+            margin: 0 auto;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.02);
+            text-align: left;
+            white-space: nowrap;
+            border: none;
+            outline: none;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            text-transform: uppercase;
+            option {
+              color: black;
+            }
+          }
+          h3 {
+            display: block;
+            padding: 0 30px 0 20px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: normal;
+            font-size: 15px;
+            color: #fff;
+            text-align: left;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            text-transform: uppercase;
+          }
+        }
+      }
+    }
+    .film-block {
+      margin-top: 100px;
+      position: relative;
+      width: 100%;
+      display: block;
+      .film-item {
+        width: 100%;
+        height: auto;
+        background-color: #f37520;
+        padding: 30px;
+        box-shadow: 10px 10px 10px 0 rgba(0, 0, 0, 0.3),
+          0 0 50px 0 rgba(0, 0, 0, 0.4) inset;
+        overflow: hidden;
+        .film-item-pic {
+          float: left;
+          width: 300px;
+          img {
+            width: 100%;
+            max-width: 100%;
+            height: 300px;
+            display: block;
+            box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.5);
+          }
+        }
+        .film-item-txt {
+          display: block;
+          width: auto;
+          margin-left: 320px;
+          h3 {
+            font-family: "Futurab";
+            font-weight: normal;
+            font-size: 28px;
+            text-transform: uppercase;
+            line-height: 30px;
+            color: #fff;
+            text-align: left;
+            margin-bottom: 10px;
+          }
+          .schedule-block {
+            position: relative;
+            display: block;
+            width: 100%;
+            height: auto;
+            .schedule-block-load {
+              display: block;
+              width: 100%;
+              height: auto;
+              .cinema-item {
+                position: relative;
+                margin-right: 10px;
+                height: auto;
+                overflow: hidden;
+                margin-bottom: 5px;
+                h4 {
+                  font-family: "Futurab";
+                  font-weight: normal;
+                  font-size: 24px;
+                  text-transform: uppercase;
+                  line-height: 30px;
+                  color: #fff;
+                  padding: 10px 25px 10px 20px;
+                  background: #f5c549;
+                  width: auto;
+                  display: inline-block;
+                  color: #000;
+                  position: relative;
+                  margin-bottom: 0;
+                }
+                .row {
+                  /* height: 81px; */
+                  margin-bottom: 1px;
+                  position: relative;
+                  .row-date {
+                    float: left;
+                    width: 106px;
+                    background: #f5c549;
+                    color: #000;
+                    font-family: "Futurab";
+                    font-weight: normal;
+                    font-size: 18px;
+                    line-height: 81px;
+                    transform: skewX(-10deg);
+                    -webkit-transform: skewX(-10deg);
+                    text-align: center;
+                    margin-left: -20px;
+                    padding-left: 20px;
+                    position: absolute;
+                    left: -10px;
+                    top: 0;
+                    span {
+                      transform: skewX(10deg);
+                      -webkit-transform: skewX(10deg);
+                      line-height: 18px;
+                      display: inline-block;
+                      vertical-align: middle;
+                      margin-top: -7px;
+                      font-size: 18px;
+                    }
+                  }
+                  .row-hour {
+                    height: 100%;
+                    padding: 10px 0;
+                    min-height: 81px;
+                    ul {
+                      height: 100%;
+                      line-height: 55px;
+                      list-style: none;
+                      display: flex;
+                      padding: 0;
+                      margin: 0;
+                      li {
+                        display: inline-block;
+                        width: auto;
+                        color: #fff;
+                        height: 100%;
+                        font-family: "Futurab";
+                        font-weight: normal;
+                        font-size: 16px;
+                        padding: 0 15px;
+                        cursor: pointer;
+                        transition: all 0.3s ease-in-out;
+                        -webkit-transition: all 0.3s ease-in-out;
+                        &:nth-child(odd) {
+                          background: #7c2665;
+                        }
+                        &:nth-child(even) {
+                          background: #ba3469;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

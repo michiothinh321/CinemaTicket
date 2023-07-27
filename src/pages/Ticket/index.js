@@ -55,14 +55,21 @@ const Ticket = () => {
 
     return groups;
   }, {});
-
   Object.entries(groupedData).map(([nameTheater, items]) => {
-    items.map((e) => {
+    items.map((item) => {
       if (
-        e.item.date.slice(5, 7) >= new Date().getMonth() + 1 ||
-        e.item.date.slice(8.1) >= new Date().getDate()
+        parseInt(item.item.date.slice(5, 7)) === new Date().getMonth() + 1 &&
+        parseInt(item.item.date.slice(8, 10)) === new Date().getDate()
       ) {
-        console.log(e);
+        if (
+          parseInt(item.item.timeStart.slice(0, 2)) === new Date().getHours() &&
+          parseInt(item.item.timeStart.slice(3, 5)) - new Date().getMinutes() >
+            20
+        ) {
+          console.log(item.item);
+        }
+      } else {
+        console.log("b");
       }
     });
   });
@@ -125,15 +132,50 @@ const Ticket = () => {
                                               <Link
                                                 to={`/order?timeStart=${item.item.timeStart}&idRoom=${item.item.idRoom}&idFilm=${item.item.idFilm}&idShowTime=${item.item._id}`}
                                               >
-                                                <li data-id="50c8c44e-e7a6-4b8e-b1fa-f4bb99a71458">
-                                                  {`${item.item.date
-                                                    .slice(0, 10)
+                                                {parseInt(
+                                                  item.item.date.slice(5, 7)
+                                                ) ===
+                                                  new Date().getMonth() + 1 &&
+                                                parseInt(
+                                                  item.item.date.slice(8, 10)
+                                                ) === new Date().getDate() ? (
+                                                  parseInt(
+                                                    item.item.timeStart.slice(
+                                                      0,
+                                                      2
+                                                    )
+                                                  ) === new Date().getHours() &&
+                                                  parseInt(
+                                                    item.item.timeStart.slice(
+                                                      3,
+                                                      5
+                                                    )
+                                                  ) -
+                                                    new Date().getMinutes() >
+                                                    20 ? (
+                                                    <li>{`${
+                                                      item.item.timeStart
+                                                    } - ${item.item.date
+                                                      .slice(5, 10)
+                                                      .split("-")
+                                                      .reverse()
+                                                      .join("/")} (${
+                                                      item.item.animation
+                                                    })`}</li>
+                                                  ) : (
+                                                    ""
+                                                  )
+                                                ) : (
+                                                  <li>{`${
+                                                    item.item.timeStart
+                                                  } - ${item.item.date
+                                                    .slice(5, 10)
                                                     .split("-")
                                                     .reverse()
-                                                    .join("/")} , ${
-                                                    item.item.timeStart
-                                                  }`}
-                                                </li>
+                                                    .join("/")} (${
+                                                    item.item.animation
+                                                  })`}</li>
+                                                )}
                                               </Link>
                                             </ul>
                                           </div>
