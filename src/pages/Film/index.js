@@ -260,7 +260,7 @@ export default function Film() {
                       </td>
                       <td>{film.time}</td>
                       <td>{film.content}</td>
-                      <td>{film.genres.join(" , ")}</td>
+                      <td>{film.genres.join(", ")}</td>
                       <td>{film.animation.join(" , ")}</td>
                       <td>
                         <Link to={`/editfilm?idFilm=${film._id}`}>
@@ -300,7 +300,7 @@ export default function Film() {
                       </td>
                       <td>{film.time}</td>
                       <td>{film.content}</td>
-                      <td>{film.genres}</td>
+                      <td>{film.genres.join(", ")}</td>
 
                       <td>{film.animation.join(" , ")}</td>
                       <td>

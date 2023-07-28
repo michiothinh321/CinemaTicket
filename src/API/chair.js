@@ -10,13 +10,13 @@ const chair = {
     const url = API_BASE_URL + `/chair/${idRoom}`;
     return await axios.get(url);
   },
-  deleteChair: async ({ id }) => {
-    const url = API_BASE_URL + `/chair/delete/${id}`;
+  deleteChair: async ({ idTicket }) => {
+    const url = API_BASE_URL + `/chair/delete/${idTicket}`;
     return await axios.delete(url);
   },
-  checkoutChair: async ({ id }) => {
-    const url = API_BASE_URL + `/chair/${id}`;
-    return await axios.put(url, id);
+  checkoutChair: async ({ details }) => {
+    const url = API_BASE_URL + `/chair/${details.id}`;
+    return await axios.put(url, details);
   },
 };
 

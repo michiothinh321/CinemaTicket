@@ -7,6 +7,7 @@ import {
   movie as movieAPI,
   showtime as showtimeAPI,
   ticket as ticketAPI,
+  chair as chairAPI,
   detailTicket as detailTicketAPI,
 } from "../../API/index";
 const ManagerTicket = () => {
@@ -24,7 +25,6 @@ const ManagerTicket = () => {
     setIdTicket(e);
     setIsModalOpen(true);
   };
-
   const handleOk = () => {
     setIsModalOpen(false);
   };
@@ -61,11 +61,18 @@ const ManagerTicket = () => {
       console.log(error);
     }
   };
-  const handleDeleteTicket = async (id) => {
+
+  const handleDeleteTicket = async (e) => {
     try {
-      console.log({ id });
       const result = await ticketAPI.deleteTicket({
-        id,
+        id: e,
+      });
+
+      const result1 = await chairAPI.deleteChair({
+        idTicket: e,
+      });
+      const result2 = await detailTicketAPI.deleteDetailTicket({
+        idTicket: e,
       });
       if (result.status === 200) {
         await getTicket();
@@ -112,7 +119,11 @@ const ManagerTicket = () => {
                     <td>{ticket.nameFilm}</td>
                     <td>{ticket.nameRoom}</td>
                     <td>
-                      {ticket.date?.slice(0, 10).split("-").reverse().join("-")}
+                      {ticket.newDate
+                        ?.slice(0, 10)
+                        .split("-")
+                        .reverse()
+                        .join("-")}
                     </td>
                     <td>{ticket.timeStart}</td>
                     <td>{ticket.chairs.join(", ")}</td>
@@ -138,15 +149,17 @@ const ManagerTicket = () => {
                       >
                         <table border={{ border: "1px solid black" }}>
                           <thead>
-                            <th>Email</th>
-                            <th>Rạp Phim</th>
-                            <th>Phim</th>
-                            <th>Phòng</th>
-                            <th>Ngày Chiếu</th>
-                            <th>Giờ Chiếu</th>
-                            <th>Ghế</th>
-                            <th>Tiền</th>
-                            <th>QR</th>
+                            <tr>
+                              <th>Email</th>
+                              <th>Rạp Phim</th>
+                              <th>Phim</th>
+                              <th>Phòng</th>
+                              <th>Ngày Chiếu</th>
+                              <th>Giờ Chiếu</th>
+                              <th>Ghế</th>
+                              <th>Tiền</th>
+                              <th>QR</th>
+                            </tr>
                           </thead>
                           <tbody>
                             {bill.map((e) => {
@@ -157,7 +170,7 @@ const ManagerTicket = () => {
                                     <td>{e.nameTheater}</td>
                                     <td>{e.nameFilm}</td>
                                     <td>{e.nameRoom}</td>
-                                    <td>{e.date}</td>
+                                    <td>{e.newDate}</td>
                                     <td>{e.timeStart}</td>
                                     <td>{e.detail.chair}</td>
                                     <td>{e.detail.price}</td>

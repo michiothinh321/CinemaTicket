@@ -73,6 +73,7 @@ const Ticket = () => {
       }
     });
   });
+  console.log(film);
   return (
     <>
       <Slide />

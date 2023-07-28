@@ -25,6 +25,7 @@ export default function User() {
       console.log(error);
     }
   };
+
   const handleBlockUser = async (id) => {
     try {
       const result = await userAPI.blockUser({

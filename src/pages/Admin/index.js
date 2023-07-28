@@ -5,9 +5,24 @@ import { Card, Col, Row } from "antd";
 import { user as userAPI } from "../../API";
 import { useSelector } from "react-redux";
 
+import {
+  movie as movieAPI,
+  area as areaAPI,
+  theater as theaterAPI,
+  room as roomAPI,
+  showtime as showtimeAPI,
+  ticket as ticketAPI,
+} from "../../API";
+
 export default function PageAdmin() {
   const user = useSelector((state) => state.user);
   const [userList, setUserList] = useState([]);
+  const [film, setFilm] = useState([]);
+  const [ticket, setTicket] = useState([]);
+  const [price, setPrice] = useState("");
+  const [isUser, setIsUser] = useState(false);
+  const [isMovie, setIsMovie] = useState(false);
+  const [isTicket, setIsTicket] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -23,7 +38,52 @@ export default function PageAdmin() {
       console.log(error);
     }
   };
-  const price = 200000;
+
+  useEffect(() => {
+    (async () => {
+      await getMovieList();
+    })();
+  }, []);
+  const getMovieList = async () => {
+    try {
+      const result = await movieAPI.getMovieList();
+      setFilm(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      await getTicketList();
+    })();
+  }, []);
+  const getTicketList = async () => {
+    try {
+      const result = await ticketAPI.getList();
+      setTicket(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleIsUser = () => {
+    setIsUser(true);
+    setIsMovie(false);
+    setIsTicket(false);
+  };
+
+  const handleIsMovie = () => {
+    setIsUser(false);
+    setIsMovie(true);
+    setIsTicket(false);
+  };
+  const handleIsTicket = () => {
+    setIsUser(false);
+    setIsMovie(false);
+    setIsTicket(true);
+  };
+
+  console.log({ isUser, isMovie, isTicket });
   return (
     <>
       <div>
@@ -31,25 +91,35 @@ export default function PageAdmin() {
         <Row gutter={16} style={{ margin: "0 10px" }}>
           <Col span={6}>
             <Card
+              onClick={handleIsUser}
+              style={{ cursor: "pointer" }}
               className="card title1"
               title="Tổng thành viên"
               bordered={false}
             >
-              Số lượng: 2
-            </Card>
-          </Col>
-          <Col span={6}>
-            <Card className="card title2" title="Tổng phim" bordered={false}>
-              Số lượng: 2
+              Số lượng: {`${userList.length}`}
             </Card>
           </Col>
           <Col span={6}>
             <Card
+              className="card title2"
+              title="Tổng phim"
+              bordered={false}
+              onClick={handleIsMovie}
+              style={{ cursor: "pointer" }}
+            >
+              Số lượng: {`${film.length}`}
+            </Card>
+          </Col>
+          <Col span={6}>
+            <Card
+              onClick={handleIsTicket}
               className="card title3"
               title="Tổng vé đã bán"
               bordered={false}
+              style={{ cursor: "pointer" }}
             >
-              Số lượng: 2
+              Số lượng: {`${ticket.length}`}
             </Card>
           </Col>
           <Col span={6}>
@@ -59,13 +129,18 @@ export default function PageAdmin() {
               bordered={false}
             >
               Tổng:{" "}
-              {price.toLocaleString("vi", {
+              {/* {price.toLocaleString("vi", {
                 style: "currency",
                 currency: "VND",
-              })}
+              })} */}
             </Card>
           </Col>
         </Row>
+        <div>
+          <p>
+            {isUser ? "user" : isMovie ? "movie" : isTicket ? "ticket" : ""}
+          </p>
+        </div>
         {/* <div style={{ display: "flex" }}>
           <Card
             title="TỔNG THÀNH VIÊN"

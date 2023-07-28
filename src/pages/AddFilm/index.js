@@ -5,6 +5,7 @@ import {
   movie as movieAPI,
   animation as animationAPI,
   category as categoryAPI,
+  user as userAPI,
 } from "../../API/index";
 
 import "./PageAdmin.scss";

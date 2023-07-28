@@ -127,8 +127,12 @@ const PaymentContent = () => {
       });
       chair.map(async (chair) => {
         if (!chair.checkout) {
-          const resultChair = await chairAPI.checkoutChair({
+          const details = {
+            idTicket: idTicket,
             id: chair._id,
+          };
+          const resultChair = await chairAPI.checkoutChair({
+            details,
           });
         }
       });
